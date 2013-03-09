@@ -1,0 +1,3 @@
+[submodule "hoard"]
+	path = hoard
+	url = https://github.com/emeryberger/Hoard
