@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <atomic>
+#include <string>
+#include <unistd.h>
 #include "sconst.h"
 #include "sprot.h"
 

@@ -3,7 +3,7 @@ DFLAG = -g
 WFLAG = -Wall
 C11FLAG = -std=c++0x
 THREADFLAG = -pthread
-HOARD = -Lhoard/src -lhoard
+HOARD = #-Lhoard/src -lhoard
 
 SRCF = PracticalSocket.cpp\
 			 smain.cpp\
@@ -31,6 +31,7 @@ hoard: hoard/src/libhoard.so
 
 hoard/src/libhoard.so:
 	make -C hoard/src $(ENVIRON)
+	cp hoard/src/libhoard.so .
 
 memstashed: $(OBJ)
 	$(CREATEDIR)

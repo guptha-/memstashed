@@ -53,10 +53,10 @@ static TimestampType getExpiryFromMap (KeyToValueType::iterator it)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static TimestampType getTimestampFromMap (KeyToValueType::iterator it)
+/*static TimestampType getTimestampFromMap (KeyToValueType::iterator it)
 {
   return (get<1>((it->second)));
-}		/* -----  end of function getTimestampFromMap  ----- */
+}	*/	/* -----  end of function getTimestampFromMap  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  dbInsertElement
@@ -71,27 +71,6 @@ int dbInsertElement (string key, string value, unsigned long int expiry) {
   time(&curSystemTime);
 
   gKeyToValueMutex.lock();
-  KeyToValueType::iterator it;
-  if ((it = gKeyToValueHashMap.find(key)) != 
-                      gKeyToValueHashMap.end()) 
-  {
-    // Value already exists
-    if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
-    {
-      // Value is still valid
-      gKeyToValueMutex.unlock();
-      return EXIT_FAILURE;
-    }
-    gKeyToValueHashMap.erase(it);
-    gKeyToValueMutex.unlock();
-    gTimestampToKeyMutex.lock();
-    TimestampToKeyStruct tempTimeStampKey;
-    tempTimeStampKey.key.assign(key);
-    tempTimeStampKey.timestamp = getTimestampFromMap(it);
-    gTimestampToKeySet.erase(tempTimeStampKey);
-    gTimestampToKeyMutex.unlock();
-    gKeyToValueMutex.lock();
-  }
 
   ValueStruct valueStr;
   TimestampType timestamp = gTimestamp++;
@@ -116,17 +95,43 @@ int dbInsertElement (string key, string value, unsigned long int expiry) {
     gKeyToValueMutex.unlock();
     gTimestampToKeyMutex.lock();
     // In sorted order, so can just get begin
+    if (gTimestampToKeySet.size() <= 0)
+    {
+      cout<<"Not enough memory to store even a single element"<<endl;
+      exit(0);
+    }
     TimestampToKeyStruct tempTimeStampKey = *(gTimestampToKeySet.begin());
-
 
     gTimestampToKeySet.erase(tempTimeStampKey);
     gTimestampToKeyMutex.unlock();
     gKeyToValueMutex.lock();
     gKeyToValueHashMap.erase(key);
+    cout<<"Removed element"<<endl;
+    gStoredSize -= 2 * key.size() + 2 * sizeof(timestamp) +
+      sizeof(valueStr.expiry) + value.size();
   }
 
-  gKeyToValueHashMap.insert({{key, pair<ValueStruct, TimestampType>
-                                     (valueStr, timestamp)}});
+  pair<KeyToValueType::iterator, bool> alreadyExists;
+  alreadyExists = gKeyToValueHashMap.emplace(
+              key, pair<ValueStruct, TimestampType> (valueStr, timestamp));
+
+  if (get<1>(alreadyExists) != true)
+  {
+    if (getExpiryFromMap(get<0>(alreadyExists)) > (TimestampType) curSystemTime)
+    {
+      // The entry already exists and is not expired
+      gKeyToValueMutex.unlock();
+      return EXIT_FAILURE;
+    }
+      // Expired
+      get<0>((get<0>(alreadyExists))->second).expiry = curSystemTime + expiry;
+  }
+  else
+  {
+    // New element was created
+    gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) +
+      sizeof(valueStr.expiry) + value.size();
+  }
 
   gKeyToValueMutex.unlock();
   gTimestampToKeyMutex.lock();
@@ -134,3 +139,38 @@ int dbInsertElement (string key, string value, unsigned long int expiry) {
   gTimestampToKeyMutex.unlock();
   return EXIT_SUCCESS;
 }		/* -----  end of function dbInsertElement  ----- */
+
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  dbDeleteElement
+ *  Description:  This function invalidates the entry in the database based on
+ *                the expiry supplied
+ * =============================================================================
+ */
+int dbDeleteElement (string key, unsigned long int expiry)
+{
+  time_t curSystemTime;
+  time(&curSystemTime);
+
+  gKeyToValueMutex.lock();
+  KeyToValueType::iterator it;
+  if ((it = gKeyToValueHashMap.find(key)) != gKeyToValueHashMap.end()) 
+  {
+    // Value exists
+    if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
+    {
+      // Already deleted
+      gKeyToValueMutex.unlock();
+      return EXIT_FAILURE;
+    }
+    // Value has not already expired. Set new expiry
+    (get<0>(it->second)).expiry = curSystemTime + expiry;
+  }
+  else
+  {
+    gKeyToValueMutex.unlock();
+    return EXIT_FAILURE;
+  }
+  gKeyToValueMutex.unlock();
+  return EXIT_SUCCESS;
+}		/* -----  end of function dbDeleteElement  ----- */
