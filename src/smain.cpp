@@ -10,22 +10,12 @@
 #include "../inc/sinc.h"
 
 // GLOBALS
-atomic<int> gServMemLimit;
-atomic<int> gServListPort;
-atomic<int> gServWorkerThreads;
+atomic<unsigned int> gServMemLimit;
+atomic<unsigned int> gServListPort;
+atomic<unsigned int> gServWorkerThreads;
 // GLOBALS END
 
 
-/* ===  FUNCTION  ==============================================================
- *         Name:  formDataStructures
- *  Description:  This function sets up and initializes the data structures used
- *                by the server.
- * =============================================================================
- */
-int formDataStructures ()
-{
-  return EXIT_SUCCESS;
-}		/* -----  end of function formDataStructures  ----- */
 /* ===  FUNCTION  ==============================================================
  *         Name:  main
  *  Description:  The command line parameters are parsed and the server is 
@@ -77,12 +67,6 @@ int main (int argc, char *argv[])
   }
 
   // All optional parameters have been parsed. Time to set up the server.
-  
-  // Forming the required datastructures
-  if (formDataStructures() == EXIT_FAILURE) {
-    return EXIT_FAILURE;
-  }
-
 
   return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */

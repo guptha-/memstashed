@@ -5,9 +5,10 @@
 #include <string>
 #include <atomic>
 #include "sconst.h"
+#include "sprot.h"
+
 using namespace std;
-extern atomic<int> gServMemLimit;
-extern atomic<int> gServListPort;
-extern atomic<string> gServDefAddress;
-extern atomic<int> gServWorkerThreads;
+extern atomic<unsigned int> gServMemLimit;
+extern atomic<unsigned int> gServListPort;
+extern atomic<unsigned int> gServWorkerThreads;
 #endif

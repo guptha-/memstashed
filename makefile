@@ -1,13 +1,18 @@
+ENVIRON = linux-gcc-x86
 DFLAG = -g
 WFLAG = -Wall
 C11FLAG = -std=c++0x
 THREADFLAG = -pthread
+HOARD = -Lhoard/src -lhoard
 
-SRCF = PracticalSocket.cc
+SRCF = PracticalSocket.cpp\
+			 smain.cpp\
+			 dblru.cpp
 INCF = sinc.h\
 			 sconst.h\
+			 dblru.h\
 			 PracticalSocket.h
-OBJF = $(SRCF:.cc=.o)
+OBJF = $(SRCF:.cpp=.o)
 
 SRCDIR = src
 OBJDIR = obj
@@ -20,19 +25,28 @@ INC = $(patsubst %,$(INCDIR)/%,$(INCF))
 
 CREATEDIR = mkdir -p obj bin
 
-all: memstashed
+all: hoard memstashed
 
-memstashed: $(OBJ) obj/smain.o
-	$(CREATEDIR)
-	g++ -o bin/memstashed $(WFLAG) $(OBJ) obj/smain.o -lm $(THREADFLAG)
+hoard: hoard/src/libhoard.so
 
-obj/PracticalSocket.o: src/PracticalSocket.cc $(INC)
+hoard/src/libhoard.so:
+	make -C hoard/src $(ENVIRON)
+
+memstashed: $(OBJ)
 	$(CREATEDIR)
-	g++ -c src/PracticalSocket.cc -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/PracticalSocket.o
+	g++ -o bin/memstashed $(WFLAG) $(OBJ) -lm $(THREADFLAG) $(HOARD)
+
+obj/PracticalSocket.o: src/PracticalSocket.cpp $(INC)
+	$(CREATEDIR)
+	g++ -c src/PracticalSocket.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/PracticalSocket.o
 
 obj/smain.o: src/smain.cpp $(INC)
 	$(CREATEDIR)
 	g++ -c src/smain.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/smain.o
+
+obj/dblru.o: src/dblru.cpp $(INC)
+	$(CREATEDIR)
+	g++ -c src/dblru.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/dblru.o
 
 clean:
 	rm -rf bin/*
