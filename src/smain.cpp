@@ -67,34 +67,5 @@ int main (int argc, char *argv[])
   }
 
   // All optional parameters have been parsed. Time to set up the server.
-  
-  string key;
-  key.assign("hey");
-  string value;
-  value.assign("dei");
-  
-  if ( dbDeleteElement(key, 10) == EXIT_FAILURE)
-  {
-    cout<<"Error4"<<endl;
-  }
-  if ( dbInsertElement(key, value, 0) == EXIT_FAILURE)
-  {
-    cout<<"Error1"<<endl;
-  }
-
-  sleep(1);
-  if ( dbInsertElement(key, value, 2) == EXIT_FAILURE)
-  {
-    cout<<"Error2"<<endl;
-  }
-  sleep(3);
-
-
-  if ( dbInsertElement(key, value, 10) == EXIT_FAILURE)
-  {
-    cout<<"Error3"<<endl;
-  }
-
-
-  return EXIT_SUCCESS;
+   return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */
