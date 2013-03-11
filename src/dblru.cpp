@@ -33,10 +33,10 @@ static atomic<unsigned long int> gStoredSize(0);
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-/*static valueType getValueFromMap (KeyToValueType::iterator it)
+static ValueType getValueFromMap (KeyToValueType::iterator it)
 {
   return (get<0>((it->second))).value;
-}	*/	/* -----  end of function getValueFromMap  ----- */
+}		/* -----  end of function getValueFromMap  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  getExpiryFromMap
@@ -53,10 +53,40 @@ static TimestampType getExpiryFromMap (KeyToValueType::iterator it)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-/*static TimestampType getTimestampFromMap (KeyToValueType::iterator it)
+static TimestampType getTimestampFromMap (KeyToValueType::iterator it)
 {
   return (get<1>((it->second)));
-}	*/	/* -----  end of function getTimestampFromMap  ----- */
+}		/* -----  end of function getTimestampFromMap  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  setValueToMap
+ *  Description:  Returns the value from the iterator
+ * =============================================================================
+ */
+static void setValueToMap (KeyToValueType::iterator it, ValueType value)
+{
+  (get<0>((it->second))).value.assign (value);
+}		/* -----  end of function setValueToMap  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  setExpiryToMap
+ *  Description:  Returns the value from the iterator
+ * =============================================================================
+ */
+static void setExpiryToMap (KeyToValueType::iterator it, TimestampType exp)
+{
+  (get<0>((it->second))).expiry = exp;
+}		/* -----  end of function setExpiryToMap  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  setTimestampToMap
+ *  Description:  Returns the value from the iterator
+ * =============================================================================
+ */
+static void setTimestampToMap (KeyToValueType::iterator it, TimestampType time)
+{
+  (get<1>((it->second))) = time;
+}		/* -----  end of function setTimestampToMap  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  dbInsertElement
@@ -123,17 +153,21 @@ int dbInsertElement (string key, string value, unsigned long int expiry) {
       gKeyToValueMutex.unlock();
       return EXIT_FAILURE;
     }
-      // Expired
-      get<0>((get<0>(alreadyExists))->second).expiry = curSystemTime + expiry;
+    // Expired
+    get<0>((get<0>(alreadyExists))->second).expiry = curSystemTime + expiry;
+    gKeyToValueMutex.unlock();
+    gTimestampToKeyMutex.lock();
+    gTimestampToKeySet.erase(timestampToKeyDS);
+    gTimestampToKeyMutex.unlock();
   }
   else
   {
     // New element was created
     gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) +
       sizeof(valueStr.expiry) + value.size();
+    gKeyToValueMutex.unlock();
   }
 
-  gKeyToValueMutex.unlock();
   gTimestampToKeyMutex.lock();
   gTimestampToKeySet.insert(timestampToKeyDS);
   gTimestampToKeyMutex.unlock();
@@ -165,12 +199,56 @@ int dbDeleteElement (string key, unsigned long int expiry)
     }
     // Value has not already expired. Set new expiry
     (get<0>(it->second)).expiry = curSystemTime + expiry;
-  }
-  else
-  {
     gKeyToValueMutex.unlock();
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
   }
+  // Trying to delete a missing entry
   gKeyToValueMutex.unlock();
-  return EXIT_SUCCESS;
+  return EXIT_FAILURE;
 }		/* -----  end of function dbDeleteElement  ----- */
+
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  dbGetElement
+ *  Description:  This function gets the element from the map if it exists.
+ * =============================================================================
+ */
+int dbGetElement (string key, string &value)
+{
+  time_t curSystemTime;
+  time(&curSystemTime);
+
+  TimestampType timestamp = gTimestamp++;
+  TimestampToKeyStruct timestampToKeyDS;
+  timestampToKeyDS.key.assign(key);
+
+  gKeyToValueMutex.lock();
+  KeyToValueType::iterator it;
+  if ((it = gKeyToValueHashMap.find(key)) != gKeyToValueHashMap.end()) 
+  {
+    // Value exists
+    if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
+    {
+      // Value expired
+      gKeyToValueMutex.unlock();
+      return EXIT_FAILURE;
+    }
+    value.assign(getValueFromMap(it));
+    gKeyToValueMutex.unlock();
+    // Updating the timestamp so that the cache entry doesn't become stale soon
+    gTimestampToKeyMutex.lock();
+    timestampToKeyDS.timestamp = getTimestampFromMap(it);
+    gTimestampToKeySet.erase(timestampToKeyDS);
+    timestampToKeyDS.timestamp = timestamp;
+    gTimestampToKeySet.insert(timestampToKeyDS);
+    gTimestampToKeyMutex.unlock();
+    gKeyToValueMutex.lock();
+    // Updating new timestamp in map
+    setTimestampToMap (it, timestamp);
+    gKeyToValueMutex.unlock();
+    return EXIT_SUCCESS;
+  }
+  // Value does not exist
+  gKeyToValueMutex.unlock();
+  return EXIT_FAILURE;
+}		/* -----  end of function dbGetElement  ----- */
