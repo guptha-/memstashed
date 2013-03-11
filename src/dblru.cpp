@@ -27,6 +27,54 @@ static mutex gKeyToValueMutex;
 static atomic<unsigned long int> gTimestamp(0);
 static atomic<unsigned long int> gStoredSize(0);
 
+/* ===  FUNCTION  ==============================================================
+ *         Name:  getIntFromString
+ *  Description:  Returns the integer value from the string representation
+ * =============================================================================
+ */
+static int getIntFromString(string &str, unsigned long long &integer)
+{
+  integer = 0;
+  for (string::const_iterator it = str.begin(); it != str.end(); ++it)
+  {
+    if ((*it != '0') && (*it != '1'))
+    {
+      return EXIT_FAILURE;
+    }
+    integer = (integer << 1) + (*it - '0');
+  }
+  return EXIT_SUCCESS;
+}		/* -----  end of function getIntegerFromString  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  getIntFromString
+ *  Description:  Returns the integer value from the string representation
+ * =============================================================================
+ */
+
+static int getStringFromInt(const unsigned long long int integer,
+                            string &str)
+{
+  bool foundFirstOne = false;
+
+  for (int curBit = 63; curBit >= 0; curBit--)
+  {
+    if ((integer & (1ULL << curBit)) != 0)
+    {
+      if (!foundFirstOne)
+      {
+        foundFirstOne = true;
+      }
+      str += '1';
+    }
+    else
+    {
+      if (foundFirstOne)
+        str += '0';
+    }
+  }
+  return EXIT_SUCCESS;
+}		/* -----  end of function getValueFromMap  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  getValueFromMap
@@ -94,7 +142,7 @@ static void setTimestampToMap (KeyToValueType::iterator it, TimestampType time)
  *                Expiry should be in seconds.
  * =============================================================================
  */
-int dbInsertElement (string key, string value, unsigned long int expiry) {
+int dbInsertElement (string &key, string &value, unsigned long int expiry) {
 
   // For expiry time
   time_t curSystemTime;
@@ -181,7 +229,7 @@ int dbInsertElement (string key, string value, unsigned long int expiry) {
  *                the expiry supplied
  * =============================================================================
  */
-int dbDeleteElement (string key, unsigned long int expiry)
+int dbDeleteElement (string &key, unsigned long int expiry)
 {
   time_t curSystemTime;
   time(&curSystemTime);
@@ -213,7 +261,7 @@ int dbDeleteElement (string key, unsigned long int expiry)
  *  Description:  This function gets the element from the map if it exists.
  * =============================================================================
  */
-int dbGetElement (string key, string &value)
+int dbGetElement (string &key, string &value)
 {
   time_t curSystemTime;
   time(&curSystemTime);
