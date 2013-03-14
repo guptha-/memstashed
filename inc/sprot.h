@@ -4,7 +4,9 @@
 #include "sinc.h"
 using namespace std;
 
-int dbInsertElement (string key, string value, unsigned long int expiry);
-int dbDeleteElement (string key, unsigned long int expiry);
+int dbInsertElement (string &key, string &value, unsigned long int expiry);
+int dbDeleteElement (string &key, unsigned long int expiry);
+int dbGetElement (string &key, string &value);
+void socketMain ();
 
 #endif

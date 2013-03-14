@@ -50,7 +50,7 @@ int main (int argc, char *argv[])
           optionIndex++;
           gServListPort = atoi(argv[optionIndex]);
           if ((optionIndex >= argc) || (argv[optionIndex][0] == '-')) {
-            cout<<"Option to -t missing"<<endl;
+            cout<<"Option to -p missing"<<endl;
             return EXIT_FAILURE;
           }
           gServListPort = atoi(argv[optionIndex]);
@@ -66,6 +66,24 @@ int main (int argc, char *argv[])
     }
   }
 
+  string str;
+  string key("hey");
+  string value("there");
+  if (EXIT_FAILURE == dbInsertElement (key, value, 1))
+  {
+    cout<<"error1"<<endl;
+  }
+  sleep (2);
+
+  if (EXIT_FAILURE == dbGetElement (key, str))
+  {
+    cout<<"error1"<<endl;
+  }
+  cout<<str<<endl;
+
+
   // All optional parameters have been parsed. Time to set up the server.
-   return EXIT_SUCCESS;
+  // This function will not return
+  socketMain();
+  return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */

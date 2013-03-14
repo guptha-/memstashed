@@ -6,6 +6,20 @@
 #include <atomic>
 #include <string>
 #include <unistd.h>
+#include <mutex>
+#include <condition_variable>
+#include <chrono>
+#include <thread>
+#include <vector>
+
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <cerrno>
+
 #include "sconst.h"
 #include "sprot.h"
 

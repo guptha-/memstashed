@@ -8,7 +8,24 @@
  * =============================================================================
  */
 
+#include "../inc/sconst.h"
 #include "../inc/dblru.h"
+
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  getHashTblNbrFromKey
+ *  Description:  
+ * =============================================================================
+ */
+void getHashTblNbrFromKey (string &key, int &tableNbr)
+{
+  tableNbr = 0;
+  for (unsigned int i = 0; i < key.size(); i++) {
+    tableNbr += key[i];
+  }
+  tableNbr %= DB_MAX_HASH_TABLES;
+  return;
+}		/* -----  end of function getHashTblNbrFromKey  ----- */
 
 // Compare function for timestampToKey
 static bool timestampToKeyCompare (TimestampToKeyStruct first,
@@ -142,8 +159,8 @@ static void setTimestampToMap (KeyToValueType::iterator it, TimestampType time)
  *                Expiry should be in seconds.
  * =============================================================================
  */
-int dbInsertElement (string &key, string &value, unsigned long int expiry) {
-
+int dbInsertElement (string &key, string &value, unsigned long int expiry) 
+{
   // For expiry time
   time_t curSystemTime;
   time(&curSystemTime);
