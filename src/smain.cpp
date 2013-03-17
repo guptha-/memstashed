@@ -66,7 +66,7 @@ int main (int argc, char *argv[])
     }
   }
 
-  string str;
+/* string str;
   string key("hey");
   string value("there");
   if (EXIT_FAILURE == dbInsertElement (key, value, 1))
@@ -80,7 +80,7 @@ int main (int argc, char *argv[])
     cout<<"error1"<<endl;
   }
   cout<<str<<endl;
-
+*/
 
   // All optional parameters have been parsed. Time to set up the server.
   // This function will not return

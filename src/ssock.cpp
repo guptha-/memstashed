@@ -78,7 +78,6 @@ void sockHandleIncomingConn (int sockFd)
      * is complete, send to handler. */
 
   } while (TRUE);
-  cout<<"Control reaches close"<<endl;
   /*************************************************/
   /* If the close_conn flag was turned on, we need */
   /* to clean up this active connection.  This     */
@@ -106,24 +105,30 @@ void socketThread ()
 
   while (true)
   {
-    threadNotify.wait_for(l,  chrono::milliseconds(SERV_MAX_LATENCY), 
-                  []() { return sockDescServiceList.size() != 0; });
+    threadNotify.wait(l, [](){ return sockDescServiceList.size() != 0;} );
+
+    /* The main thread has notified, and there is an element in the 
+     * sockDescServiceList */
+    sockDescMutex.lock();
+    cout<<"Sock desc size: "<<sockDescServiceList.size();
+    if (sockDescServiceList.size() == 0)
     {
-      /* If size == 0, timed out but sockDescList has not got an element */
       continue;
     }
-
-    cout<<"Element in sockDesc"<<endl;
-    /* Flow reaches here only if sockDescServiceList is not empty */
-    sockDescMutex.lock();
     vector<int>::iterator it = sockDescServiceList.begin();
     int sockFd = *it;
     sockDescServiceList.erase(it);
     sockDescMutex.unlock();
 
+    // Now, we can unlock for the other threads
+    l.unlock();
+
+    numberActiveThreads++;
+    cout<<this_thread::get_id()<<": Entering handle incoming"<<endl;
     sockHandleIncomingConn (sockFd);
     // We are going to wait again
     numberActiveThreads--;
+    l.lock();
   }
 
   return;
@@ -148,9 +153,10 @@ void socketMain ()
   unsigned int numberThreads = 0;
 
   /* Spawning the thread pool */
-  while (numberThreads++ < gServWorkerThreads)
+  while (numberThreads < gServWorkerThreads)
   {
     threadList.push_back(thread(socketThread));
+    numberThreads++;
   }
 
   /*************************************************************/
@@ -344,16 +350,16 @@ void socketMain ()
               max_sd -= 1;
           }
           masterMutex.unlock();
-          /* We are notifying one member of the thread pool */
-          numberActiveThreads++;
           if (numberActiveThreads >= gServWorkerThreads)
           {
-            numberActiveThreads--;
-            cout<<"Too many connections"<<endl;
+            cout<<"Too many connections: Cannot read from more"<<endl;
             close(i);
+            continue;
           }
-          threadNotify.notify_all();
-          threadNotify.notify_all();
+
+         /* We are notifying one member of the thread pool */
+          cout<<"Notifying"<<endl;
+          threadNotify.notify_one();
 
         } /* End of existing connection is readable */
       } /* End of if (FD_ISSET(i, &working_set)) */
