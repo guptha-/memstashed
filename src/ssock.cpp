@@ -21,6 +21,7 @@ static atomic<unsigned int> numberActiveThreads;
 static mutex sockDescMutex;
 static mutex threadNotifyMutex;
 
+
 /* ===  FUNCTION  ==============================================================
  *         Name:  sockHandleIncomingConn
  *  Description:  This function receives the incoming message and hands it off
@@ -32,6 +33,9 @@ void sockHandleIncomingConn (int sockFd)
   char   buffer[80];
   int close_conn = FALSE;
   int len = 0;
+  int readMore = 0;
+  string data;
+  string output;
   /*************************************************/
   /* Receive all incoming data on this socket      */
   /* before we loop back and call select again.    */
@@ -68,15 +72,40 @@ void sockHandleIncomingConn (int sockFd)
     }
 
     /**********************************************/
-    /* Data was recevied                          */
+    /* Data was received                          */
     /**********************************************/
     len = rc;
     printf("  %d bytes received\n", len);
 
-    /* Do something here to make sure the data received is proper and
-     * not incomplete. Have to distinguish between different packets. When it
-     * is complete, send to handler. */
+    data.append(buffer, rc);
+    readMore -= rc; // If readMore was initially 0, it will now be -ve
+    if (readMore > 0)
+    {
+      // We have to receive more information
+      continue;
+    }
 
+    // Both text lines as well as unstructured data end with \r\n
+    // We optimistically assume a single text line initially and call
+    // cmdProcessCommand. If it requires more data, it returns a positive 
+    // readMore. Once a readMore is set, we get the exact amount of data 
+    // requested. If the client doesn't supply the full data soon, the 
+    // connection remains hanging till the client goes away. One solution is to
+    // use setsockopt to specify a timeout for recv
+    if ((buffer[rc - 2] == '\r') && (buffer[rc - 1] == '\n'))
+    {
+      // End of command string
+      
+      if ((readMore = cmdProcessCommand(data, output)) != 0)
+      {
+        // The only reason this would not be 0 is if the input is incomplete.
+        // So, we should read till size more bytes
+        continue;
+      }
+      // Done processing this command
+      break;
+    }
+    // If the read string doesn't end with a \r\n, continue looking for i/p
   } while (TRUE);
   /*************************************************/
   /* If the close_conn flag was turned on, we need */
@@ -311,6 +340,13 @@ void socketMain ()
               break;
             }
 
+            if (numberActiveThreads >= gServWorkerThreads)
+            {
+              cout<<"Too many connections: Cannot read from more"<<endl;
+              close (new_sd);
+              continue;
+            }
+
             /**********************************************/
             /* Add the new incoming connection to the     */
             /* master read set                            */
@@ -350,13 +386,6 @@ void socketMain ()
               max_sd -= 1;
           }
           masterMutex.unlock();
-          if (numberActiveThreads >= gServWorkerThreads)
-          {
-            cout<<"Too many connections: Cannot read from more"<<endl;
-            close(i);
-            continue;
-          }
-
          /* We are notifying one member of the thread pool */
           cout<<"Notifying"<<endl;
           threadNotify.notify_one();

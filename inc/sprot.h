@@ -8,5 +8,6 @@ int dbInsertElement (string &key, string &value, unsigned long int expiry);
 int dbDeleteElement (string &key, unsigned long int expiry);
 int dbGetElement (string &key, string &value);
 void socketMain ();
+int cmdProcessCommand (string &input, string &output);
 
 #endif

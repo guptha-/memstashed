@@ -8,7 +8,8 @@ HOARD = #-Lhoard/src -lhoard
 SRCF = PracticalSocket.cpp\
 			 smain.cpp\
 			 dblru.cpp\
-			 ssock.cpp
+			 ssock.cpp\
+			 cmd.cpp
 INCF = sinc.h\
 			 sconst.h\
 			 dblru.h\
@@ -53,6 +54,10 @@ obj/dblru.o: src/dblru.cpp $(INC)
 obj/ssock.o: src/ssock.cpp $(INC)
 	$(CREATEDIR)
 	g++ -c src/ssock.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/ssock.o
+
+obj/cmd.o: src/cmd.cpp $(INC)
+	$(CREATEDIR)
+	g++ -c src/cmd.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/cmd.o
 
 clean:
 	rm -rf bin/*
