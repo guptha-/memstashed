@@ -9,7 +9,7 @@ SRCF = PracticalSocket.cpp\
 			 smain.cpp\
 			 dblru.cpp\
 			 ssock.cpp\
-			 cmd.cpp
+			 scmd.cpp
 INCF = sinc.h\
 			 sconst.h\
 			 dblru.h\
@@ -55,9 +55,9 @@ obj/ssock.o: src/ssock.cpp $(INC)
 	$(CREATEDIR)
 	g++ -c src/ssock.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/ssock.o
 
-obj/cmd.o: src/cmd.cpp $(INC)
+obj/scmd.o: src/scmd.cpp $(INC)
 	$(CREATEDIR)
-	g++ -c src/cmd.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/cmd.o
+	g++ -c src/scmd.cpp -I inc $(C11FLAG) $(WFLAG) $(DFLAG) -o obj/scmd.o
 
 clean:
 	rm -rf bin/*

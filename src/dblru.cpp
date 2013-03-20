@@ -17,7 +17,7 @@
  *  Description:  
  * =============================================================================
  */
-void getHashTblNbrFromKey (string &key, int &tableNbr)
+void getHashTblNbrFromKey (const string &key, int &tableNbr)
 {
   tableNbr = 0;
   for (unsigned int i = 0; i < key.size(); i++) {
@@ -33,7 +33,7 @@ static bool timestampToKeyCompare (TimestampToKeyStruct first,
   return (first.timestamp < second.timestamp);
 }
 static bool (*timestampToKeyComparePtr)(TimestampToKeyStruct, 
-                             TimestampToKeyStruct) = timestampToKeyCompare;
+                                 TimestampToKeyStruct) = timestampToKeyCompare;
 
 // The data structures for the set and the map
 static TimestampToKeyType gTimestampToKeySet (timestampToKeyComparePtr);
@@ -49,7 +49,7 @@ static atomic<unsigned long int> gStoredSize(0);
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static ValueType getValueFromMap (KeyToValueType::iterator it)
+static ValueType getValueFromMap (const KeyToValueType::iterator &it)
 {
   return (get<0>((it->second))).value;
 }		/* -----  end of function getValueFromMap  ----- */
@@ -59,7 +59,7 @@ static ValueType getValueFromMap (KeyToValueType::iterator it)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static TimestampType getExpiryFromMap (KeyToValueType::iterator it)
+static TimestampType getExpiryFromMap (const KeyToValueType::iterator &it)
 {
   return (get<0>((it->second))).expiry;
 }		/* -----  end of function getExpiryFromMap  ----- */
@@ -69,7 +69,7 @@ static TimestampType getExpiryFromMap (KeyToValueType::iterator it)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static TimestampType getTimestampFromMap (KeyToValueType::iterator it)
+static TimestampType getTimestampFromMap (const KeyToValueType::iterator &it)
 {
   return (get<1>((it->second)));
 }		/* -----  end of function getTimestampFromMap  ----- */
@@ -79,7 +79,8 @@ static TimestampType getTimestampFromMap (KeyToValueType::iterator it)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static void setValueToMap (KeyToValueType::iterator it, ValueType value)
+static void setValueToMap (const KeyToValueType::iterator &it, 
+    const ValueType &value)
 {
   (get<0>((it->second))).value.assign (value);
 }		/* -----  end of function setValueToMap  ----- */
@@ -89,7 +90,8 @@ static void setValueToMap (KeyToValueType::iterator it, ValueType value)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static void setExpiryToMap (KeyToValueType::iterator it, TimestampType exp)
+static void setExpiryToMap (const KeyToValueType::iterator &it, 
+    const TimestampType &exp)
 {
   (get<0>((it->second))).expiry = exp;
 }		/* -----  end of function setExpiryToMap  ----- */
@@ -99,7 +101,8 @@ static void setExpiryToMap (KeyToValueType::iterator it, TimestampType exp)
  *  Description:  Returns the value from the iterator
  * =============================================================================
  */
-static void setTimestampToMap (KeyToValueType::iterator it, TimestampType time)
+static void setTimestampToMap (const KeyToValueType::iterator &it, 
+    const TimestampType &time)
 {
   (get<1>((it->second))) = time;
 }		/* -----  end of function setTimestampToMap  ----- */
@@ -110,7 +113,8 @@ static void setTimestampToMap (KeyToValueType::iterator it, TimestampType time)
  *                Expiry should be in seconds.
  * =============================================================================
  */
-int dbInsertElement (string &key, string &value, unsigned long int expiry) 
+int dbInsertElement (const string &key, const string &value, 
+    const unsigned long int &expiry)
 {
   // For expiry time
   time_t curSystemTime;
@@ -197,7 +201,7 @@ int dbInsertElement (string &key, string &value, unsigned long int expiry)
  *                the expiry supplied
  * =============================================================================
  */
-int dbDeleteElement (string &key, unsigned long int expiry)
+int dbDeleteElement (const string &key, const unsigned long int &expiry)
 {
   time_t curSystemTime;
   time(&curSystemTime);
@@ -229,7 +233,7 @@ int dbDeleteElement (string &key, unsigned long int expiry)
  *  Description:  This function gets the element from the map if it exists.
  * =============================================================================
  */
-int dbGetElement (string &key, string &value)
+int dbGetElement (const string &key, string &value)
 {
   time_t curSystemTime;
   time(&curSystemTime);

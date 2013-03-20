@@ -9,27 +9,27 @@
  */
 
 #include "../inc/sinc.h"
+#include "../inc/scmd.h"
 
 /* ===  FUNCTION  ==============================================================
- *         Name:  cmdProcessSet
- *  Description:  This function processes the given command
+ *         Name:  cmdProcessCommon
+ *  Description:  This function does the common processing
  * =============================================================================
  */
-int cmdProcessSet (string &input, string &output)
+int cmdProcessCommon (const string &input, string &output, bool isCas, 
+    StorageStruct &store)
 {
   int nextSpace = input.find(' ');
   int tempSpace;
   int nextEndl = input.find("\r\n");
   int retVal = -1;
-  bool noreply;
-  bool errFlag = false;
   if (((size_t)nextSpace == string::npos) || (nextSpace > nextEndl))
   {
     output.assign ("CLIENT_ERROR key not found\r\n");
-    errFlag = true;
+    return 0;
   }
   nextSpace++;
-  string key = input.substr(nextSpace,
+  store.key = input.substr(nextSpace,
       (tempSpace = input.find(' ', nextSpace)));
 
   nextSpace = tempSpace;
@@ -38,11 +38,11 @@ int cmdProcessSet (string &input, string &output)
     if (retVal != 0)
     {
       output.assign ("CLIENT_ERROR flags not found\r\n");
-      errFlag = true;
+      return 0;
     }
   }
   nextSpace++;
-  string flags = input.substr(nextSpace, 
+  store.flags = input.substr(nextSpace, 
       (tempSpace = input.find(' ', nextSpace)));
 
   nextSpace = tempSpace;
@@ -51,23 +51,22 @@ int cmdProcessSet (string &input, string &output)
     if (retVal != 0)
     {
       output.assign ("CLIENT_ERROR expiry time not found\r\n");
-      errFlag = true;
+      return 0;
     }
   }
   nextSpace++;
   string expTimeStr = input.substr(nextSpace, 
       (tempSpace = input.find(' ', nextSpace)));
-  int expTime;
   try
   {
-    expTime = stoul(expTimeStr);
+    store.expTime = stoul(expTimeStr);
   }
   catch (const invalid_argument& ia)
   {
     if (retVal != 0)
     {
       output.assign ("CLIENT_ERROR invalid expiry time\r\n");
-      errFlag = true;
+      return 0;
     }
   }
 
@@ -77,28 +76,51 @@ int cmdProcessSet (string &input, string &output)
     if (retVal != 0)
     {
       output.assign ("CLIENT_ERROR bytes not found\r\n");
-      errFlag = true;
+      return 0;
     }
   }
   nextSpace++;
   string bytesStr = input.substr(nextSpace, 
       (tempSpace = input.find(' ', nextSpace)));
+  if (isCas == true)
+  {
+    nextSpace = tempSpace;
+    if (((size_t)nextSpace == string::npos) || (nextSpace > nextEndl))
+    {
+      if (retVal != 0)
+      {
+        output.assign ("CLIENT_ERROR cas string not found\r\n");
+        return 0;
+      }
+    }
+    nextSpace++;
+    store.casStr= input.substr(nextSpace, 
+        (tempSpace = input.find(' ', nextSpace)));
+  }
   if (nextSpace > nextEndl)
   {
     // noreply is not there and there is no space between <bytes> and \r\n
-    bytesStr = input.substr(nextSpace, 
-        (tempSpace = input.find("\r\n", nextSpace)));
+    // or <cas unique> and \r\n
+    if (isCas == true)
+    {
+      store.casStr= input.substr(nextSpace, 
+          (tempSpace = input.find("\r\n", nextSpace)));
+    }
+    else
+    {
+      bytesStr = input.substr(nextSpace, 
+          (tempSpace = input.find("\r\n", nextSpace)));
+    }
   }
   else
   {
     // noreply could be there or just a space between <bytes> and \r\n
-    
     nextSpace = tempSpace;
     nextSpace++;
     if (nextSpace == nextEndl)
     {
       // No noreply found
-      noreply = false;
+      store.noreply = false;
     }
     else
     {
@@ -109,23 +131,22 @@ int cmdProcessSet (string &input, string &output)
         if (retVal != 0)
         {
           output.assign ("CLIENT_ERROR junk found instead of \"noreply\"\r\n");
-          errFlag = true;
+          return 0;
         }
       }
-      noreply = true;
+      store.noreply = true;
     }
   }
-  int bytes;
   try
   {
-    bytes = stoul(bytesStr);
+    store.bytes = stoul(bytesStr);
   }
   catch (const invalid_argument& ia)
   {
     if (retVal != 0)
     {
       output.assign ("CLIENT_ERROR invalid number of bytes\r\n");
-      errFlag = true;
+      return 0;
     }
   }
 
@@ -133,19 +154,43 @@ int cmdProcessSet (string &input, string &output)
   if (input.size() < (size_t)nextSpace)
   {
     // Nothing else is there to read in the string
-    if (bytes != 0)
+    if (store.bytes != 0)
     {
       // We will try to read 'bytes + 2' bytes from the socket
-      return (bytes + 2);
+      return (store.bytes + 2);
     }
   }
-  string data = input.substr (nextSpace, string::npos);
-  if (data.size() < (size_t)(bytes + 2))
+  store.data = input.substr (nextSpace, string::npos);
+  if (store.data.size() < (size_t)(store.bytes + 2))
   {
     // We still need to fetch more data
-    return (bytes + 2 - data.size());
+    return (store.bytes + 2 - store.data.size());
   }
   // We have all the data we need. Do processing
+  return 0;
+}		/* -----  end of function cmdProcessCommon  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  cmdProcessSet
+ *  Description:  This function processes the given command
+ * =============================================================================
+ */
+int cmdProcessSet (const string &input, string &output)
+{
+  StorageStruct store;
+  int ret = cmdProcessCommon (input, output, false, store);
+  if (output.size() > 0)
+  {
+    // Some error in input
+    return 0;
+  }
+  if (ret > 0)
+  {
+    // More data needed to process
+    return ret;
+  }
+
+  // We have everything to do the actual processing.
   return 0;
 }		/* -----  end of function cmdProcessSet  ----- */
 
@@ -154,7 +199,7 @@ int cmdProcessSet (string &input, string &output)
  *  Description:  This function processes the given command
  * =============================================================================
  */
-int cmdProcessAdd (string &input, string &output)
+int cmdProcessAdd (const string &input, string &output)
 {
   return 0;
 }		/* -----  end of function cmdProcessAdd  ----- */
