@@ -103,6 +103,11 @@ void sockHandleIncomingConn (int sockFd)
         continue;
       }
       // Done processing this command
+      cout<<"Done processing this command"<<endl;
+      data.clear();
+      output.append("\r\n");
+      char *sendbuf = (char *)output.c_str();
+      int sd = send(sockFd, sendbuf, output.length(), 0);
       break;
     }
     // If the read string doesn't end with a \r\n, continue looking for i/p
