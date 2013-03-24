@@ -260,7 +260,8 @@ static void removeLRUElement (unsigned int hashTblNum)
 /* ===  FUNCTION  ==============================================================
  *         Name:  dbInsertElement
  *  Description:  This function inserts an element into the data structures.
- *                Expiry should be in seconds.
+ *                Expiry should be in seconds. Flags and casUniq have to be 
+ *                filled if they exist
  * =============================================================================
  */
 int dbInsertElement (const string &key, const string &flags, 
@@ -276,22 +277,22 @@ int dbInsertElement (const string &key, const string &flags,
   TimestampType timestamp = gTimestamp++;
   valueStr.value.assign(value);
   valueStr.expiry = curSystemTime + expiry;
-  if (!casUniq.empty())
+  bool casCheck = true;
+  if (casUniq.empty())
   {
-    valueStr.casUniq.assign(casUniq);
+    unsigned seed = curSystemTime;
+    casCheck = false;
+
+    mt19937_64 generator (seed);// mt19937_64 is a mersenne_twister_engine
+    valueStr.casUniq.assign (to_string(generator()));
   }
-  if (!flags.empty())
-  {
-    valueStr.flags.assign(casUniq);
-  }
-  TimestampToKeyStruct timestampToKeyDS;
-  timestampToKeyDS.timestamp = timestamp;
-  timestampToKeyDS.key.assign(key);
+  valueStr.flags.assign(flags);
   
   while (true) 
   {
-    if ((gStoredSize + 2 * key.size() + 2 * sizeof(timestamp) + 
-          sizeof(valueStr.expiry) + value.size()) < gServMemLimit) 
+    if ((gStoredSize + 2 * key.size() + 2 * sizeof(timestamp) + flags.size() +
+          valueStr.casUniq.size() + sizeof(valueStr.expiry) + value.size()) 
+        < gServMemLimit) 
     {
       break;
     }
@@ -299,7 +300,6 @@ int dbInsertElement (const string &key, const string &flags,
     // new element
     
     gTimestampToKeyMutex[hashTblNum].lock();
-    // In sorted order, so can just get begin
     if (gTimestampToKeySet[hashTblNum].size() <= 0)
     {
       gTimestampToKeyMutex[hashTblNum].unlock();
@@ -314,7 +314,7 @@ int dbInsertElement (const string &key, const string &flags,
       if (origHashTblNum == hashTblNum)
       {
         cout<<"Not enough memory to store even one element"<<endl;
-        exit(0);
+        return MEMORY_FULL;
       }
     }
     else
@@ -335,39 +335,61 @@ int dbInsertElement (const string &key, const string &flags,
   }
   catch (const bad_alloc& ba)
   {
-    return FAILURE;
+    return MEMORY_FULL;
   }
 
+  TimestampToKeyStruct timestampToKeyDS;
+  timestampToKeyDS.key.assign(key);
   if (get<1>(notAlreadyExists) != true)
   {
     // The entry already exists
+    timestampToKeyDS.timestamp = getTimestampFromMap(get<0>(notAlreadyExists));
     int sizeDiff = sizeof(getExpiryFromMap(get<0>(notAlreadyExists))) - 
       sizeof(expiry) + getCasFromMap(get<0>(notAlreadyExists)).size() -
-      casUniq.size() + getFlagsFromMap(get<0>(notAlreadyExists)).size() -
+      valueStr.casUniq.size() + getFlagsFromMap(get<0>(notAlreadyExists)).size() -
       flags.size() + getValueFromMap(get<0>(notAlreadyExists)).size() -
       value.size();
+    if (casCheck == true)
+    {
+      if ((getCasFromMap(get<0>(notAlreadyExists)).compare(valueStr.casUniq) 
+            != 0))
+      {
+        gKeyToValueMutex[hashTblNum].unlock();
+        return EXIST;
+      }
+    }
     setExpiryToMap((get<0>(notAlreadyExists)), curSystemTime + expiry);
-    setCasToMap((get<0>(notAlreadyExists)), casUniq);
+    setCasToMap((get<0>(notAlreadyExists)), valueStr.casUniq);
     setValueToMap((get<0>(notAlreadyExists)), value);
     setFlagsToMap((get<0>(notAlreadyExists)), flags);
     gKeyToValueMutex[hashTblNum].unlock();
     gTimestampToKeyMutex[hashTblNum].lock();
     gTimestampToKeySet[hashTblNum].erase(timestampToKeyDS);
     gTimestampToKeyMutex[hashTblNum].unlock();
+    timestampToKeyDS.timestamp = getTimestampFromMap(get<0>(notAlreadyExists));
     gStoredSize -= sizeDiff;
   }
   else
   {
     // New element was created
+    if (casCheck == true)
+    {
+      // Element should not have been created
+      gKeyToValueHashMap[hashTblNum].erase(key);
+      gKeyToValueMutex[hashTblNum].unlock();
+      return NOT_EXIST;
+    }
     gKeyToValueMutex[hashTblNum].unlock();
-    gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) +
+    gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) + 
+      valueStr.casUniq.size() + valueStr.flags.size() + 
       sizeof(valueStr.expiry) + value.size();
   }
 
+  timestampToKeyDS.timestamp = timestamp;
   gTimestampToKeyMutex[hashTblNum].lock();
   gTimestampToKeySet[hashTblNum].insert(timestampToKeyDS);
   gTimestampToKeyMutex[hashTblNum].unlock();
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }		/* -----  end of function dbInsertElement  ----- */
 
 /* ===  FUNCTION  ==============================================================
@@ -383,17 +405,18 @@ int dbAddElement (const string &key, const string &flags, const string &casUniq,
   time_t curSystemTime;
   time(&curSystemTime);
   unsigned int hashTblNum = getHashTblNbrFromKey(key);
-
-  gKeyToValueMutex[hashTblNum].lock();
+  unsigned int origHashTblNum = hashTblNum;
 
   ValueStruct valueStr;
   TimestampType timestamp = gTimestamp++;
   valueStr.value.assign(value);
   valueStr.expiry = curSystemTime + expiry;
-  TimestampToKeyStruct timestampToKeyDS;
-  timestampToKeyDS.timestamp = timestamp;
-  timestampToKeyDS.key.assign(key);
-  
+  unsigned seed = curSystemTime;
+
+  mt19937_64 generator (seed);// mt19937_64 is a mersenne_twister_engine
+  valueStr.casUniq.assign (to_string(generator()));
+  valueStr.flags.assign(flags);
+
   while (true) 
   {
     if ((gStoredSize + 2 * key.size() + 2 * sizeof(timestamp) + 
@@ -404,60 +427,67 @@ int dbAddElement (const string &key, const string &flags, const string &casUniq,
     // If heap is used to maximum capacity, delete elements till we can fit in
     // new element
     
-    // Extra overhead, but can't be helped. Some other thread may be holding 
-    // these locks in a different order.
-    gKeyToValueMutex[hashTblNum].unlock();
     gTimestampToKeyMutex[hashTblNum].lock();
-    // In sorted order, so can just get begin
     if (gTimestampToKeySet[hashTblNum].size() <= 0)
     {
-      cout<<"Not enough memory to store even a single element"<<endl;
-      exit(0);
+      gTimestampToKeyMutex[hashTblNum].unlock();
+      if (hashTblNum != DB_MAX_HASH_TABLES - 1)
+      {
+        hashTblNum++;
+      }
+      else
+      {
+        hashTblNum = 0;
+      }
+      if (origHashTblNum == hashTblNum)
+      {
+        cout<<"Not enough memory to store even one element"<<endl;
+        return MEMORY_FULL;
+      }
     }
-    TimestampToKeyStruct tempTimestampKey = *(gTimestampToKeySet[hashTblNum].begin());
+    else
+    {
+      gTimestampToKeyMutex[hashTblNum].unlock();
+    }
 
-    gTimestampToKeySet[hashTblNum].erase(tempTimestampKey);
-    gTimestampToKeyMutex[hashTblNum].unlock();
-    gKeyToValueMutex[hashTblNum].lock();
-    gKeyToValueHashMap[hashTblNum].erase(key);
-    cout<<"Removed element"<<endl;
-    // gStoredSize could have been updated already in another thread, but that's
-    // OK.
-    gStoredSize -= 2 * key.size() + 2 * sizeof(timestamp) +
-      sizeof(valueStr.expiry) + value.size();
+    removeLRUElement(hashTblNum);
+  }
+  hashTblNum = origHashTblNum;
+
+  gKeyToValueMutex[hashTblNum].lock();
+  pair<KeyToValueType::iterator, bool> notAlreadyExists;
+  try
+  {
+    notAlreadyExists = gKeyToValueHashMap[hashTblNum].emplace(
+        key, pair<ValueStruct, TimestampType> (valueStr, timestamp));
+  }
+  catch (const bad_alloc& ba)
+  {
+    return MEMORY_FULL;
   }
 
-  pair<KeyToValueType::iterator, bool> alreadyExists;
-  alreadyExists = gKeyToValueHashMap[hashTblNum].emplace(
-              key, pair<ValueStruct, TimestampType> (valueStr, timestamp));
-
-  if (get<1>(alreadyExists) != true)
+  if (get<1>(notAlreadyExists) != true)
   {
-    if (getExpiryFromMap(get<0>(alreadyExists)) > (TimestampType) curSystemTime)
-    {
-      // The entry already exists and is not expired
-      gKeyToValueMutex[hashTblNum].unlock();
-      return EXIT_FAILURE;
-    }
-    // Expired
-    setExpiryToMap(get<0>(alreadyExists), curSystemTime + expiry);
+    // The entry already exists
     gKeyToValueMutex[hashTblNum].unlock();
-    gTimestampToKeyMutex[hashTblNum].lock();
-    gTimestampToKeySet[hashTblNum].erase(timestampToKeyDS);
-    gTimestampToKeyMutex[hashTblNum].unlock();
+    return EXIST;
   }
   else
   {
     // New element was created
-    gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) +
-      sizeof(valueStr.expiry) + value.size();
     gKeyToValueMutex[hashTblNum].unlock();
+    gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) + 
+      valueStr.casUniq.size() + valueStr.flags.size() + 
+      sizeof(valueStr.expiry) + value.size();
   }
 
+  TimestampToKeyStruct timestampToKeyDS;
+  timestampToKeyDS.key.assign(key);
+  timestampToKeyDS.timestamp = timestamp;
   gTimestampToKeyMutex[hashTblNum].lock();
   gTimestampToKeySet[hashTblNum].insert(timestampToKeyDS);
   gTimestampToKeyMutex[hashTblNum].unlock();
-  return EXIT_SUCCESS;
+  return SUCCESS;
 }		/* -----  end of function dbInsertElement  ----- */
 
 /* ===  FUNCTION  ==============================================================
@@ -474,23 +504,32 @@ int dbDeleteElement (const string &key, const unsigned long int &expiry)
 
   gKeyToValueMutex[hashTblNum].lock();
   KeyToValueType::iterator it;
-  if ((it = gKeyToValueHashMap[hashTblNum].find(key)) != gKeyToValueHashMap[hashTblNum].end()) 
+  if ((it = gKeyToValueHashMap[hashTblNum].find(key)) != 
+      gKeyToValueHashMap[hashTblNum].end()) 
   {
     // Value exists
     if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
     {
       // Already deleted
       gKeyToValueMutex[hashTblNum].unlock();
-      return EXIT_FAILURE;
+      return NOT_EXIST;
     }
     // Value has not already expired. Set new expiry
+    if (expiry == 0)
+    {
+      // We delete only from this list. The timestamptokey entry will be 
+      // deleted when inserting
+      gKeyToValueHashMap[hashTblNum].erase(key);
+      gKeyToValueMutex[hashTblNum].unlock();
+      return SUCCESS;
+    }
     setExpiryToMap(it, curSystemTime + expiry);
     gKeyToValueMutex[hashTblNum].unlock();
-    return EXIT_SUCCESS;
+    return SUCCESS;
   }
   // Trying to delete a missing entry
   gKeyToValueMutex[hashTblNum].unlock();
-  return EXIT_FAILURE;
+  return NOT_EXIST;
 }		/* -----  end of function dbDeleteElement  ----- */
 
 
@@ -499,7 +538,7 @@ int dbDeleteElement (const string &key, const unsigned long int &expiry)
  *  Description:  This function gets the element from the map if it exists.
  * =============================================================================
  */
-int dbGetElement (const string &key, string &value)
+int dbGetElement (const string &key, string &flags, string &cas, string &value)
 {
   time_t curSystemTime;
   time(&curSystemTime);
@@ -511,16 +550,22 @@ int dbGetElement (const string &key, string &value)
 
   gKeyToValueMutex[hashTblNum].lock();
   KeyToValueType::iterator it;
-  if ((it = gKeyToValueHashMap[hashTblNum].find(key)) != gKeyToValueHashMap[hashTblNum].end()) 
+  if ((it = gKeyToValueHashMap[hashTblNum].find(key)) != 
+      gKeyToValueHashMap[hashTblNum].end()) 
   {
     // Value exists
     if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
     {
       // Value expired
+      gKeyToValueHashMap[hashTblNum].erase(key);
       gKeyToValueMutex[hashTblNum].unlock();
-      return EXIT_FAILURE;
+      return NOT_EXIST;
     }
     value.assign(getValueFromMap(it));
+    flags.assign(getFlagsFromMap(it));
+    cas.assign(getCasFromMap(it));
+    // Updating new timestamp in map
+    setTimestampToMap (it, timestamp);
     gKeyToValueMutex[hashTblNum].unlock();
     // Updating the timestamp so that the cache entry doesn't become stale soon
     gTimestampToKeyMutex[hashTblNum].lock();
@@ -529,13 +574,9 @@ int dbGetElement (const string &key, string &value)
     timestampToKeyDS.timestamp = timestamp;
     gTimestampToKeySet[hashTblNum].insert(timestampToKeyDS);
     gTimestampToKeyMutex[hashTblNum].unlock();
-    gKeyToValueMutex[hashTblNum].lock();
-    // Updating new timestamp in map
-    setTimestampToMap (it, timestamp);
-    gKeyToValueMutex[hashTblNum].unlock();
-    return EXIT_SUCCESS;
+    return SUCCESS;
   }
   // Value does not exist
   gKeyToValueMutex[hashTblNum].unlock();
-  return EXIT_FAILURE;
+  return NOT_EXIST;
 }		/* -----  end of function dbGetElement  ----- */

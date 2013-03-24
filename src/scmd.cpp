@@ -57,6 +57,17 @@ int cmdProcessCommon (const string &input, string &output, bool isCas,
     try
     {
       store.expTime = stoul(expTimeStr);
+      if (store.expTime > EXPIRY_THRESHOLD)
+      {
+        time_t curSystemTime;
+        time(&curSystemTime);
+        store.expTime -= curSystemTime;
+        if (store.expTime < 0)
+        {
+          output.assign ("CLIENT_ERROR invalid expiry time\r\n");
+          return 0;
+        }
+      }
     }
     catch (const invalid_argument& ia)
     {
@@ -179,15 +190,12 @@ int cmdProcessSet (const string &input, string &output)
     return ret;
   }
 
-  // We have everything to do the actual processing.
-  dbDeleteElement(store.key, 0);
-
   if (dbInsertElement(store.key, store.flags, store.casStr, store.data, 
-        store.expTime) == EXIT_FAILURE)
+        store.expTime) == MEMORY_FULL)
   {
     cout<<"Could not set element"<<endl;
     output.assign("SERVER_ERROR not enough memory to store even single element"
-        " in this slot\r\n");
+        "\r\n");
     return 0;
   }
   output.assign("STORED\r\n");
@@ -216,8 +224,24 @@ int cmdProcessAdd (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  ret = dbAddElement(store.key, store.flags, store.casStr, store.data, 
+        store.expTime);
+  if (ret == MEMORY_FULL)
+  {
+    cout<<"Could not add element"<<endl;
+    output.assign("SERVER_ERROR not enough memory to store even single element"
+        "\r\n");
+    return 0;
+  }
+  else if (ret == EXIST)
+  {
+    cout<<"Could not add element"<<endl;
+    output.assign("NOT_STORED\r\n");
+    return 0;
+  }
+  output.assign("STORED\r\n");
   return 0;
-}		/* -----  end of function cmdProcessAdd  ----- */
+ }		/* -----  end of function cmdProcessAdd  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  cmdProcessReplace
@@ -238,8 +262,26 @@ int cmdProcessReplace (const string &input, string &output)
     // More data needed to process
     return ret;
   }
-
+  
   // We have everything to do the actual processing.
+  string flags, cas, value;
+  if (dbGetElement(store.key, flags, cas, value) != SUCCESS)
+  {
+    // Data is not already present
+    cout<<"Could not replace element"<<endl;
+    output.assign("NOT_STORED\r\n");
+    return 0;
+  }
+
+  if (dbInsertElement(store.key, store.flags, store.casStr, store.data, 
+        store.expTime) == MEMORY_FULL)
+  {
+    cout<<"Could not replace element"<<endl;
+    output.assign("SERVER_ERROR not enough memory to store even single element"
+        "\r\n");
+    return 0;
+  }
+  output.assign("STORED\r\n");
   return 0;
 }		/* -----  end of function cmdProcessReplace  ----- */
 
@@ -270,6 +312,26 @@ int cmdProcessAppend (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  string cas, flags, value;
+  if (dbGetElement(store.key, flags, cas, value) != SUCCESS)
+  {
+    // Data is not already present
+    cout<<"Could not append element"<<endl;
+    output.assign("NOT_STORED\r\n");
+    return 0;
+  }
+
+  value.append(store.data);
+
+  if (dbInsertElement(store.key, flags, cas, value, 
+        store.expTime) == MEMORY_FULL)
+  {
+    cout<<"Could not append element"<<endl;
+    output.assign("SERVER_ERROR not enough memory to store even single element"
+        "\r\n");
+    return 0;
+  }
+  output.assign("STORED\r\n");
   return 0;
 }		/* -----  end of function cmdProcessAppend  ----- */
 
@@ -300,6 +362,26 @@ int cmdProcessPrepend (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  string cas, flags, value;
+  if (dbGetElement(store.key, flags, cas, value) != SUCCESS)
+  {
+    // Data is not already present
+    cout<<"Could not prepend element"<<endl;
+    output.assign("NOT_STORED\r\n");
+    return 0;
+  }
+
+  store.data.append(value);
+
+  if (dbInsertElement(store.key, flags, cas, store.data, 
+        store.expTime) == MEMORY_FULL)
+  {
+    cout<<"Could not prepend element"<<endl;
+    output.assign("SERVER_ERROR not enough memory to store even single element"
+        "\r\n");
+    return 0;
+  }
+  output.assign("STORED\r\n");
   return 0;
 }		/* -----  end of function cmdProcessPrepend  ----- */
 
@@ -324,6 +406,28 @@ int cmdProcessCas (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  ret = dbInsertElement(store.key, store.flags, store.casStr, store.data, 
+        store.expTime);
+  if (ret == MEMORY_FULL)
+  {
+    cout<<"Could not cas element"<<endl;
+    output.assign("SERVER_ERROR not enough memory to store even single element"
+        "\r\n");
+    return 0;
+  }
+  else if (ret == EXIST)
+  {
+    cout<<"Could not cas element"<<endl;
+    output.assign("EXISTS\r\n");
+    return 0;
+  }
+  else if (ret == NOT_EXIST)
+  {
+    cout<<"Could not cas element"<<endl;
+    output.assign("NOT_FOUND\r\n");
+    return 0;
+  }
+  output.assign("STORED\r\n");
   return 0;
 }		/* -----  end of function cmdProcessCas  ----- */
 
@@ -360,6 +464,26 @@ int cmdProcessGet (const string &input, string &output)
   keys.push_back (input.substr(nextSpace, nextEndl - nextSpace));
 
   // Do processing now
+  for (auto &key: keys)
+  {
+    string cas, flags, value;
+    if (dbGetElement(key, flags, cas, value) != SUCCESS)
+    {
+      // Data is not present
+      continue;
+    }
+    output.append("VALUE ");
+    output.append(key);
+    output.append(" ");
+    output.append(flags);
+    output.append(" ");
+    output.append(to_string(value.length()));
+    output.append("\r\n");
+    output.append(value);
+    output.append("\r\n");
+  }
+  output.append("END\r\n");
+
   return 0;
 }		/* -----  end of function cmdProcessGet  ----- */
 
@@ -396,6 +520,28 @@ int cmdProcessGets (const string &input, string &output)
   keys.push_back (input.substr(nextSpace, nextEndl - nextSpace));
 
   // Do processing now
+  for (auto &key: keys)
+  {
+    string cas, flags, value;
+    if (dbGetElement(key, flags, cas, value) != SUCCESS)
+    {
+      // Data is not present
+      continue;
+    }
+    output.append("VALUE ");
+    output.append(key);
+    output.append(" ");
+    output.append(flags);
+    output.append(" ");
+    output.append(to_string(value.length()));
+    output.append(" ");
+    output.append(cas);
+    output.append("\r\n");
+    output.append(value);
+    output.append("\r\n");
+  }
+  output.append("END\r\n");
+
   return 0;
 }		/* -----  end of function cmdProcessGets  ----- */
 
@@ -437,7 +583,16 @@ int cmdProcessDelete (const string &input, string &output)
     }
   }
 
+  unsigned long int expiry = 0;
   // We have everything to do the actual processing.
+  if (dbDeleteElement(key, expiry) == NOT_EXIST)
+  {
+    output.assign("NOT_FOUND\r\n");
+  }
+  else
+  {
+    output.assign("DELETED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessDelete  ----- */
 

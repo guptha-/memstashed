@@ -8,7 +8,7 @@
 #define SERV_DEF_WORKER_THREADS 2
 #define SERV_MAX_LATENCY 1000
 #define DB_MAX_HASH_TABLES 4
-#define DB_REPLACEMENT_LOOKAHEAD 3
+#define EXPIRY_THRESHOLD 60*60*24*30
 #define TRUE             1
 #define FALSE            0
 
