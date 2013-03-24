@@ -96,11 +96,17 @@ void sockHandleIncomingConn (int sockFd)
     {
       // End of command string
       
-      if ((readMore = cmdProcessCommand(data, output)) != 0)
+      if ((readMore = cmdProcessCommand(data, output)) > 0)
       {
-        // The only reason this would not be 0 is if the input is incomplete.
+        // The only reason this would be > 0 is if the input is incomplete.
         // So, we should read till size more bytes
         continue;
+      }
+      else if (readMore < 0)
+      {
+        // Received a quit
+        close_conn = true;
+        break;
       }
       // Done processing this command
       cout<<"Done processing this command"<<endl;
@@ -108,7 +114,7 @@ void sockHandleIncomingConn (int sockFd)
       output.append("\r\n");
       char *sendbuf = (char *)output.c_str();
       int sd = send(sockFd, sendbuf, output.length(), 0);
-      break;
+      output.clear();
     }
     // If the read string doesn't end with a \r\n, continue looking for i/p
   } while (TRUE);
@@ -123,6 +129,7 @@ void sockHandleIncomingConn (int sockFd)
   /*************************************************/
   if (close_conn)
   {
+    cout<<"Closing connection"<<endl;
     close(sockFd);
   }
 }		/* -----  end of function sockHandleIncomingConn  ----- */
@@ -160,6 +167,7 @@ void socketThread ()
     numberActiveThreads++;
     cout<<this_thread::get_id()<<": Entering handle incoming"<<endl;
     sockHandleIncomingConn (sockFd);
+    
     // We are going to wait again
     numberActiveThreads--;
     l.lock();
@@ -359,9 +367,9 @@ void socketMain ()
             printf("  New incoming connection - %d\n", new_sd);
             masterMutex.lock();
             FD_SET(new_sd, &master_set);
-            masterMutex.unlock();
             if (new_sd > max_sd)
               max_sd = new_sd;
+            masterMutex.unlock();
 
             /**********************************************/
             /* Loop back up and accept another incoming   */
@@ -382,7 +390,7 @@ void socketMain ()
           sockDescServiceList.push_back(i);;
           cout<<"sockDescSize: "<<sockDescServiceList.size()<<endl;
           sockDescMutex.unlock();
-          // Clearing from select till the next accept is reached
+          // Clearing from select for now
           masterMutex.lock();
           FD_CLR(i, &master_set);
           if (i == max_sd)
@@ -391,7 +399,7 @@ void socketMain ()
               max_sd -= 1;
           }
           masterMutex.unlock();
-         /* We are notifying one member of the thread pool */
+          /* We are notifying one member of the thread pool */
           cout<<"Notifying"<<endl;
           threadNotify.notify_one();
 

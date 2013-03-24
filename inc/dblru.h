@@ -9,19 +9,21 @@
 #include <mutex>
 #include <atomic>
 #include <string>
+#include <vector>
 
 using namespace std;
 
 extern atomic<unsigned int> gServMemLimit;
 
 typedef string KeyType;
-typedef string ValueType;
 typedef unsigned long int TimestampType;
 
 typedef struct 
 {
     TimestampType expiry;
     string value;
+    string flags;
+    string casUniq;
 } ValueStruct;
 
 typedef struct 
