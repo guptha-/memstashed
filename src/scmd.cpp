@@ -959,38 +959,41 @@ int cmdProcessFlushAll (const string &input, string &output)
   string expTimeStr;
   bool noreply = true;
 
-  if ((nextSpace == string::npos) || (nextSpace > nextEndl))
+  if ((nextSpace != string::npos) && (nextSpace <= nextEndl))
   {
-    output.assign ("CLIENT_ERROR exp time not found\r\n");
-    return 0;
-  }
-  nextSpace++;
+    nextSpace++;
 
-  tempSpace = input.find(' ', nextSpace);
-  if ((tempSpace == string::npos) || (tempSpace > nextEndl))
-  {
-    noreply = false;
-    tempSpace = nextEndl;
-  }
-  expTimeStr = input.substr(nextSpace, tempSpace - nextSpace);
-  nextSpace = tempSpace + 1;
-  try
-  {
-    expTime = stoul(expTimeStr);
-  }
-  catch (const invalid_argument& ia)
-  {
-    output.assign ("CLIENT_ERROR invalid expiry time\r\n");
-    return 0;
-  }
-
-  if (noreply == true)
-  {
-    string noReplyStr = input.substr(nextSpace, nextEndl - nextSpace);
-    if (noReplyStr.compare("noreply") != 0)
+    tempSpace = input.find(' ', nextSpace);
+    if ((tempSpace == string::npos) || (tempSpace > nextEndl))
     {
       noreply = false;
+      tempSpace = nextEndl;
     }
+    expTimeStr = input.substr(nextSpace, tempSpace - nextSpace);
+    nextSpace = tempSpace + 1;
+    try
+    {
+      expTime = stoul(expTimeStr);
+    }
+    catch (const invalid_argument& ia)
+    {
+      output.assign ("CLIENT_ERROR invalid expiry time\r\n");
+      return 0;
+    }
+
+    if (noreply == true)
+    {
+      string noReplyStr = input.substr(nextSpace, nextEndl - nextSpace);
+      if (noReplyStr.compare("noreply") != 0)
+      {
+        noreply = false;
+      }
+    }
+  }
+  else
+  {
+    noreply = false;
+    expTime = 0;
   }
 
   // We have everything to do the actual processing.
