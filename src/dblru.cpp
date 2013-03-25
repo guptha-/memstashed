@@ -320,7 +320,14 @@ int dbInsertElement (const string &key, const string &flags,
   ValueStruct valueStr;
   TimestampType timestamp = gTimestamp++;
   valueStr.value.assign(value);
-  valueStr.expiry = curSystemTime + expiry;
+  if (expiry != 0)
+  {
+    valueStr.expiry = curSystemTime + expiry;
+  }
+  else
+  {
+    valueStr.expiry = ULONG_MAX;
+  }
   bool casCheck = true;
   if (casUniq.empty())
   {
@@ -453,7 +460,14 @@ int dbAddElement (const string &key, const string &flags, const string &casUniq,
   ValueStruct valueStr;
   TimestampType timestamp = gTimestamp++;
   valueStr.value.assign(value);
-  valueStr.expiry = curSystemTime + expiry;
+  if (expiry != 0)
+  {
+    valueStr.expiry = curSystemTime + expiry;
+  }
+  else
+  {
+    valueStr.expiry = ULONG_MAX;
+  }
   unsigned seed = curSystemTime;
 
   mt19937_64 generator (seed);// mt19937_64 is a mersenne_twister_engine
@@ -555,7 +569,7 @@ int dbAddElement (const string &key, const string &flags, const string &casUniq,
  *                the expiry supplied
  * =============================================================================
  */
-int dbDeleteElement (const string &key, const unsigned long int &expiry)
+int dbDeleteElement (const string &key, const unsigned long int expiry)
 {
   time_t curSystemTime;
   time(&curSystemTime);

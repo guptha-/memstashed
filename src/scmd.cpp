@@ -651,13 +651,16 @@ int cmdProcessDelete (const string &input, string &output)
 
   unsigned long int expiry = 0;
   // We have everything to do the actual processing.
-  if (noreply == false)
+  if (dbDeleteElement(key, expiry) == NOT_EXIST)
   {
-    if (dbDeleteElement(key, expiry) == NOT_EXIST)
+    if (noreply == false)
     {
       output.assign("NOT_FOUND\r\n");
     }
-    else
+  }
+  else
+  {
+    if (noreply == false)
     {
       output.assign("DELETED\r\n");
     }

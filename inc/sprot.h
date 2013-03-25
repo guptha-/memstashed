@@ -10,7 +10,7 @@ int dbInsertElement (const string &key, const string &flags,
 int dbAddElement (const string &key, const string &flags, 
     const string &casUniq, const string &value, 
     const unsigned long int &expiry);
-int dbDeleteElement (const string &key, const unsigned long int &expiry);
+int dbDeleteElement (const string &key, unsigned long int expiry);
 int dbGetElement (const string &key, string &flags, string &cas, string &value,
     unsigned long int &expiry);
 void socketMain ();
