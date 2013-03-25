@@ -236,8 +236,11 @@ int cmdProcessAdd (const string &input, string &output)
   if (ret == MEMORY_FULL)
   {
     cout<<"Could not add element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single "
-        "element\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element\r\n");
+    }
     return 0;
   }
   else if (ret == EXIST)
@@ -254,7 +257,7 @@ int cmdProcessAdd (const string &input, string &output)
     output.assign("STORED\r\n");
   }
   return 0;
- }		/* -----  end of function cmdProcessAdd  ----- */
+}		/* -----  end of function cmdProcessAdd  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  cmdProcessReplace
@@ -640,7 +643,9 @@ int cmdProcessDelete (const string &input, string &output)
     noReplyStr = input.substr(nextSpace, nextEndl - nextSpace);
     if (noReplyStr.compare("noreply") != 0)
     {
-      noreply = false;
+      // There should be no junk after the key and before noreply
+      output.assign ("CLIENT_ERROR junk found after key\r\n");
+      return 0;
     }
   }
 
@@ -955,22 +960,32 @@ int cmdProcessFlushAll (const string &input, string &output)
   unsigned int nextSpace = input.find(' ');
   unsigned int nextEndl = input.find("\r\n");
   unsigned int tempSpace;
-  unsigned int expTime;
+  unsigned int expTime = 0;
   string expTimeStr;
   bool noreply = true;
 
-  if ((nextSpace != string::npos) && (nextSpace <= nextEndl))
+  if ((nextSpace == string::npos) || (nextSpace > nextEndl))
   {
-    nextSpace++;
+    // There are no options to the flush_all
+    dbSetFlushAll(expTime);
+    output.assign("OK\r\n");
+    return 0;
+  }
 
-    tempSpace = input.find(' ', nextSpace);
-    if ((tempSpace == string::npos) || (tempSpace > nextEndl))
+  nextSpace++;
+
+  tempSpace = input.find(' ', nextSpace);
+  if ((tempSpace == string::npos) || (tempSpace > nextEndl))
+  {
+    // We know there is only 1 additional parameter, but we don't know if it is 
+    // no reply or the expiry
+    expTimeStr = input.substr(nextSpace, nextEndl - nextSpace);
+    if (expTimeStr.compare("noreply") == 0)
     {
-      noreply = false;
-      tempSpace = nextEndl;
+      // No expiry time, and no reply is set
+      dbSetFlushAll(expTime);
+      return 0;
     }
-    expTimeStr = input.substr(nextSpace, tempSpace - nextSpace);
-    nextSpace = tempSpace + 1;
     try
     {
       expTime = stoul(expTimeStr);
@@ -980,20 +995,29 @@ int cmdProcessFlushAll (const string &input, string &output)
       output.assign ("CLIENT_ERROR invalid expiry time\r\n");
       return 0;
     }
-
-    if (noreply == true)
-    {
-      string noReplyStr = input.substr(nextSpace, nextEndl - nextSpace);
-      if (noReplyStr.compare("noreply") != 0)
-      {
-        noreply = false;
-      }
-    }
+    // We now have the exp time, and there is no noreply
+    dbSetFlushAll(expTime);
+    output.assign("OK\r\n");
+    return 0;
   }
-  else
+  // There are 2 parameters
+  expTimeStr = input.substr(nextSpace, tempSpace - nextSpace);
+  nextSpace = tempSpace + 1;
+  try
   {
-    noreply = false;
-    expTime = 0;
+    expTime = stoul(expTimeStr);
+  }
+  catch (const invalid_argument& ia)
+  {
+    output.assign ("CLIENT_ERROR invalid expiry time\r\n");
+    return 0;
+  }
+
+  string noReplyStr = input.substr(nextSpace, nextEndl - nextSpace);
+  if (noReplyStr.compare("noreply") != 0)
+  {
+    output.assign ("CLIENT_ERROR invalid noreply field\r\n");
+    return 0;
   }
 
   // We have everything to do the actual processing.

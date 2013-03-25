@@ -82,7 +82,7 @@ void dbHandleFlushAll ()
 inline unsigned int getHashTblNbrFromKey (const string &key)
 {
   unsigned int maxLen = key.size();
-  unsigned int tableNbr;
+  unsigned int tableNbr = 0;
   unsigned int i;
   if (maxLen < 5)
   {
