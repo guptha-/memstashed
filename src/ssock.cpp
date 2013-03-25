@@ -32,7 +32,6 @@ void sockHandleIncomingConn (int sockFd)
 {
   char   buffer[80];
   int close_conn = FALSE;
-  int len = 0;
   int readMore = 0;
   string data;
   string output;
@@ -48,7 +47,6 @@ void sockHandleIncomingConn (int sockFd)
     /* failure occurs, we will close the          */
     /* connection.                                */
     /**********************************************/
-    cout<<"On recv"<<endl;
     int rc = recv(sockFd, buffer, sizeof(buffer), 0);
     if (rc < 0)
     {
@@ -66,7 +64,6 @@ void sockHandleIncomingConn (int sockFd)
     /**********************************************/
     if (rc == 0)
     {
-      printf("  Connection closed\n");
       close_conn = TRUE;
       break;
     }
@@ -74,8 +71,6 @@ void sockHandleIncomingConn (int sockFd)
     /**********************************************/
     /* Data was received                          */
     /**********************************************/
-    len = rc;
-    printf("  %d bytes received\n", len);
 
     data.append(buffer, rc);
     readMore -= rc; // If readMore was initially 0, it will now be -ve
@@ -109,7 +104,6 @@ void sockHandleIncomingConn (int sockFd)
         break;
       }
       // Done processing this command
-      cout<<"Done processing this command"<<endl;
       data.clear();
       char *sendbuf = (char *)output.c_str();
       int sd = send(sockFd, sendbuf, output.length(), 0);
@@ -128,7 +122,6 @@ void sockHandleIncomingConn (int sockFd)
   /*************************************************/
   if (close_conn)
   {
-    cout<<"Closing connection"<<endl;
     close(sockFd);
   }
 }		/* -----  end of function sockHandleIncomingConn  ----- */
@@ -150,7 +143,6 @@ void socketThread ()
     /* The main thread has notified, and there is an element in the 
      * sockDescServiceList */
     sockDescMutex.lock();
-    cout<<"Sock desc size: "<<sockDescServiceList.size();
     if (sockDescServiceList.size() == 0)
     {
       continue;
@@ -164,7 +156,6 @@ void socketThread ()
     l.unlock();
 
     numberActiveThreads++;
-    cout<<this_thread::get_id()<<": Entering handle incoming"<<endl;
     sockHandleIncomingConn (sockFd);
     
     // We are going to wait again
@@ -288,7 +279,6 @@ void socketMain ()
     /**********************************************************/
     /* Call select()                                          */
     /**********************************************************/
-    printf("Waiting on select()...\n");
     rc = select(max_sd + 1, &working_set, NULL, NULL, NULL);
 
     /**********************************************************/
@@ -326,7 +316,6 @@ void socketMain ()
         /****************************************************/
         if (i == listen_sd)
         {
-          printf("  Listening socket is readable\n");
           /*************************************************/
           /* Accept all incoming connections that are      */
           /* queued up on the listening socket before we   */
@@ -363,7 +352,6 @@ void socketMain ()
             /* Add the new incoming connection to the     */
             /* master read set                            */
             /**********************************************/
-            printf("  New incoming connection - %d\n", new_sd);
             masterMutex.lock();
             FD_SET(new_sd, &master_set);
             if (new_sd > max_sd)
@@ -383,11 +371,8 @@ void socketMain ()
         /****************************************************/
         else
         {
-          printf("  Descriptor %d is readable\n", i);
-          
           sockDescMutex.lock();
           sockDescServiceList.push_back(i);;
-          cout<<"sockDescSize: "<<sockDescServiceList.size()<<endl;
           sockDescMutex.unlock();
           // Clearing from select for now
           masterMutex.lock();
@@ -399,7 +384,6 @@ void socketMain ()
           }
           masterMutex.unlock();
           /* We are notifying one member of the thread pool */
-          cout<<"Notifying"<<endl;
           threadNotify.notify_one();
 
         } /* End of existing connection is readable */

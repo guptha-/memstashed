@@ -236,11 +236,8 @@ int cmdProcessAdd (const string &input, string &output)
   if (ret == MEMORY_FULL)
   {
     cout<<"Could not add element"<<endl;
-    if (store.noreply == false)
-    {
-      output.assign("SERVER_ERROR not enough memory to store even single "
-          "element\r\n");
-    }
+    output.assign("SERVER_ERROR not enough memory to store even single "
+        "element\r\n");
     return 0;
   }
   else if (ret == EXIST)
@@ -1102,6 +1099,12 @@ int cmdProcessQuit (const string &input, string &output)
 int cmdProcessStats (const string &input, string &output)
 {
   // We have everything to do the actual processing.
+  if (input.size() > 7)
+  {
+    output.assign("CLIENT_ERROR quit has no options\r\n");
+    return 0;
+  }
+  output.assign("END\r\n");
   return 0;
 }		/* -----  end of function cmdProcessStats  ----- */
 
