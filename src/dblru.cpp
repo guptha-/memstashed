@@ -25,8 +25,51 @@ static KeyToValueType gKeyToValueHashMap[DB_MAX_HASH_TABLES];
 
 static mutex gTimestampToKeyMutex[DB_MAX_HASH_TABLES];
 static mutex gKeyToValueMutex[DB_MAX_HASH_TABLES];
-static atomic<unsigned long int> gTimestamp(0);
 static atomic<unsigned long int> gStoredSize(0);
+static atomic<unsigned long int> gTimestamp(0);
+static atomic <unsigned long int> gFlushAllTimestamp(0);
+static atomic <unsigned long int> gFlushAllTime(0);
+static atomic<bool> gIsFlushAllSet(false);
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  dbSetFlushAll
+ *         Desc:  This function sets up flush all when the request comes in from
+ *                the client
+ * =============================================================================
+ */
+void dbSetFlushAll (unsigned long int expiry)
+{
+  gIsFlushAllSet = true;
+  time_t curSystemTime;
+  time(&curSystemTime);
+
+  gFlushAllTime = curSystemTime + expiry;
+}		/* -----  end of function dbSetFlushAll  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  dbHandleFlushAll
+ *         Desc:  This function is called each time any request comes in. It
+ *                checks if it is time for flushing all data
+ * =============================================================================
+ */
+void dbHandleFlushAll ()
+{
+  if (!gIsFlushAllSet)
+  {
+    return;
+  }
+
+  time_t curSystemTime;
+  time(&curSystemTime);
+
+  if (gFlushAllTime <= (unsigned long int)curSystemTime)
+  {
+    // Time to do a flush all
+    unsigned long int tempTimestamp = ++gTimestamp;
+    gFlushAllTimestamp = tempTimestamp;
+    gIsFlushAllSet = false;
+  }
+}		/* -----  end of function dbHandleFlushAll  ----- */
 
 /* ===  FUNCTION  ==============================================================
  *         Name:  getHashTblNbrFromKey
@@ -194,7 +237,8 @@ static void removeLRUElement (unsigned int hashTblNum)
       gTimestampToKeyMutex[hashTblNum].unlock();
       return;
     }
-    if (getExpiryFromMap(valueIter) < (TimestampType)curSystemTime)
+    if ((getExpiryFromMap(valueIter) < (TimestampType)curSystemTime) ||
+        (getTimestampFromMap(valueIter) < gFlushAllTimestamp))
     {
       // value has expired. Can be deleted
       TimestampToKeyType::iterator tempTimestampKeyIter = timestampKeyIter;
@@ -366,7 +410,6 @@ int dbInsertElement (const string &key, const string &flags,
     gTimestampToKeyMutex[hashTblNum].lock();
     gTimestampToKeySet[hashTblNum].erase(timestampToKeyDS);
     gTimestampToKeyMutex[hashTblNum].unlock();
-    timestampToKeyDS.timestamp = getTimestampFromMap(get<0>(notAlreadyExists));
     gStoredSize -= sizeDiff;
   }
   else
@@ -466,23 +509,39 @@ int dbAddElement (const string &key, const string &flags, const string &casUniq,
     return MEMORY_FULL;
   }
 
+  TimestampToKeyStruct timestampToKeyDS;
+  timestampToKeyDS.key.assign(key);
   if (get<1>(notAlreadyExists) != true)
   {
     // The entry already exists
+    timestampToKeyDS.timestamp = getTimestampFromMap(get<0>(notAlreadyExists));
+    if ((getExpiryFromMap(get<0>(notAlreadyExists)) 
+          < (TimestampType)curSystemTime) ||
+        (getTimestampFromMap(get<0>(notAlreadyExists)) < gFlushAllTimestamp))
+    {
+      // Expired
+      setExpiryToMap((get<0>(notAlreadyExists)), curSystemTime + expiry);
+      setCasToMap((get<0>(notAlreadyExists)), valueStr.casUniq);
+      setValueToMap((get<0>(notAlreadyExists)), value);
+      setFlagsToMap((get<0>(notAlreadyExists)), flags);
+      gKeyToValueMutex[hashTblNum].unlock();
+      gTimestampToKeyMutex[hashTblNum].lock();
+      gTimestampToKeySet[hashTblNum].erase(timestampToKeyDS);
+      timestampToKeyDS.timestamp = timestamp;
+      gTimestampToKeySet[hashTblNum].insert(timestampToKeyDS);
+      gTimestampToKeyMutex[hashTblNum].unlock();
+      return SUCCESS;
+    }
     gKeyToValueMutex[hashTblNum].unlock();
     return EXIST;
   }
-  else
-  {
-    // New element was created
-    gKeyToValueMutex[hashTblNum].unlock();
-    gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) + 
-      valueStr.casUniq.size() + valueStr.flags.size() + 
-      sizeof(valueStr.expiry) + value.size();
-  }
+  
+  // New element was created
+  gKeyToValueMutex[hashTblNum].unlock();
+  gStoredSize += 2 * key.size() + 2 * sizeof(timestamp) + 
+    valueStr.casUniq.size() + valueStr.flags.size() + 
+    sizeof(valueStr.expiry) + value.size();
 
-  TimestampToKeyStruct timestampToKeyDS;
-  timestampToKeyDS.key.assign(key);
   timestampToKeyDS.timestamp = timestamp;
   gTimestampToKeyMutex[hashTblNum].lock();
   gTimestampToKeySet[hashTblNum].insert(timestampToKeyDS);
@@ -508,9 +567,10 @@ int dbDeleteElement (const string &key, const unsigned long int &expiry)
       gKeyToValueHashMap[hashTblNum].end()) 
   {
     // Value exists
-    if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
+    if ((getExpiryFromMap(it) < (TimestampType)curSystemTime) ||
+        (getTimestampFromMap(it) < gFlushAllTimestamp))
     {
-      // Already deleted
+      // Already deleted or expired
       gKeyToValueMutex[hashTblNum].unlock();
       return NOT_EXIST;
     }
@@ -538,7 +598,8 @@ int dbDeleteElement (const string &key, const unsigned long int &expiry)
  *  Description:  This function gets the element from the map if it exists.
  * =============================================================================
  */
-int dbGetElement (const string &key, string &flags, string &cas, string &value)
+int dbGetElement (const string &key, string &flags, string &cas, string &value,
+    unsigned long int &expiry)
 {
   time_t curSystemTime;
   time(&curSystemTime);
@@ -554,22 +615,24 @@ int dbGetElement (const string &key, string &flags, string &cas, string &value)
       gKeyToValueHashMap[hashTblNum].end()) 
   {
     // Value exists
-    if (getExpiryFromMap(it) < (TimestampType)curSystemTime) 
+    if ((getExpiryFromMap(it) < (TimestampType)curSystemTime) ||
+        (getTimestampFromMap(it) < gFlushAllTimestamp))
     {
       // Value expired
       gKeyToValueHashMap[hashTblNum].erase(key);
       gKeyToValueMutex[hashTblNum].unlock();
       return NOT_EXIST;
     }
+    timestampToKeyDS.timestamp = getTimestampFromMap(it);
     value.assign(getValueFromMap(it));
     flags.assign(getFlagsFromMap(it));
     cas.assign(getCasFromMap(it));
+    expiry = getExpiryFromMap(it) - (TimestampType)curSystemTime;
     // Updating new timestamp in map
     setTimestampToMap (it, timestamp);
     gKeyToValueMutex[hashTblNum].unlock();
     // Updating the timestamp so that the cache entry doesn't become stale soon
     gTimestampToKeyMutex[hashTblNum].lock();
-    timestampToKeyDS.timestamp = getTimestampFromMap(it);
     gTimestampToKeySet[hashTblNum].erase(timestampToKeyDS);
     timestampToKeyDS.timestamp = timestamp;
     gTimestampToKeySet[hashTblNum].insert(timestampToKeyDS);

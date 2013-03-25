@@ -11,6 +11,7 @@
 #include "../inc/sinc.h"
 #include "../inc/scmd.h"
 
+
 /* ===  FUNCTION  ==============================================================
  *         Name:  cmdProcessCommon
  *  Description:  This function does the common processing
@@ -194,11 +195,17 @@ int cmdProcessSet (const string &input, string &output)
         store.expTime) == MEMORY_FULL)
   {
     cout<<"Could not set element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single element"
-        "\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element\r\n");
+    }
     return 0;
   }
-  output.assign("STORED\r\n");
+  if (store.noreply == false)
+  {
+    output.assign("STORED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessSet  ----- */
 
@@ -229,17 +236,26 @@ int cmdProcessAdd (const string &input, string &output)
   if (ret == MEMORY_FULL)
   {
     cout<<"Could not add element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single element"
-        "\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element\r\n");
+    }
     return 0;
   }
   else if (ret == EXIST)
   {
     cout<<"Could not add element"<<endl;
-    output.assign("NOT_STORED\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("NOT_STORED\r\n");
+    }
     return 0;
   }
-  output.assign("STORED\r\n");
+  if (store.noreply == false)
+  {
+    output.assign("STORED\r\n");
+  }
   return 0;
  }		/* -----  end of function cmdProcessAdd  ----- */
 
@@ -265,11 +281,15 @@ int cmdProcessReplace (const string &input, string &output)
   
   // We have everything to do the actual processing.
   string flags, cas, value;
-  if (dbGetElement(store.key, flags, cas, value) != SUCCESS)
+  unsigned long int expiry;
+  if (dbGetElement(store.key, flags, cas, value, expiry) != SUCCESS)
   {
     // Data is not already present
     cout<<"Could not replace element"<<endl;
-    output.assign("NOT_STORED\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("NOT_STORED\r\n");
+    }
     return 0;
   }
 
@@ -277,11 +297,17 @@ int cmdProcessReplace (const string &input, string &output)
         store.expTime) == MEMORY_FULL)
   {
     cout<<"Could not replace element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single element"
-        "\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
     return 0;
   }
-  output.assign("STORED\r\n");
+  if (store.noreply == false)
+  {
+    output.assign("STORED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessReplace  ----- */
 
@@ -312,26 +338,38 @@ int cmdProcessAppend (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
-  string cas, flags, value;
-  if (dbGetElement(store.key, flags, cas, value) != SUCCESS)
+  string value;
+  if (dbGetElement(store.key, store.flags, store.casStr, value, store.expTime)
+      != SUCCESS)
   {
     // Data is not already present
     cout<<"Could not append element"<<endl;
-    output.assign("NOT_STORED\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("NOT_STORED\r\n");
+    }
     return 0;
   }
 
   value.append(store.data);
+  // This makes sure dbInsertElement generates a new cas value
+  store.casStr.clear();
 
-  if (dbInsertElement(store.key, flags, cas, value, 
+  if (dbInsertElement(store.key, store.flags, store.casStr, value, 
         store.expTime) == MEMORY_FULL)
   {
     cout<<"Could not append element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single element"
-        "\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
     return 0;
   }
-  output.assign("STORED\r\n");
+  if (store.noreply == false)
+  {
+    output.assign("STORED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessAppend  ----- */
 
@@ -362,26 +400,38 @@ int cmdProcessPrepend (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
-  string cas, flags, value;
-  if (dbGetElement(store.key, flags, cas, value) != SUCCESS)
+  string value;
+  if (dbGetElement(store.key, store.flags, store.casStr, value, store.expTime)
+      != SUCCESS)
   {
     // Data is not already present
     cout<<"Could not prepend element"<<endl;
-    output.assign("NOT_STORED\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("NOT_STORED\r\n");
+    }
     return 0;
   }
 
   store.data.append(value);
+  // This makes sure dbInsertElement generates a new cas value
+  store.casStr.clear();
 
-  if (dbInsertElement(store.key, flags, cas, store.data, 
+  if (dbInsertElement(store.key, store.flags, store.casStr, store.data, 
         store.expTime) == MEMORY_FULL)
   {
     cout<<"Could not prepend element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single element"
-        "\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
     return 0;
   }
-  output.assign("STORED\r\n");
+  if (store.noreply == false)
+  {
+    output.assign("STORED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessPrepend  ----- */
 
@@ -407,27 +457,39 @@ int cmdProcessCas (const string &input, string &output)
 
   // We have everything to do the actual processing.
   ret = dbInsertElement(store.key, store.flags, store.casStr, store.data, 
-        store.expTime);
+      store.expTime);
   if (ret == MEMORY_FULL)
   {
     cout<<"Could not cas element"<<endl;
-    output.assign("SERVER_ERROR not enough memory to store even single element"
-        "\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
     return 0;
   }
   else if (ret == EXIST)
   {
     cout<<"Could not cas element"<<endl;
-    output.assign("EXISTS\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("EXISTS\r\n");
+    }
     return 0;
   }
   else if (ret == NOT_EXIST)
   {
     cout<<"Could not cas element"<<endl;
-    output.assign("NOT_FOUND\r\n");
+    if (store.noreply == false)
+    {
+      output.assign("NOT_FOUND\r\n");
+    }
     return 0;
   }
-  output.assign("STORED\r\n");
+  if (store.noreply == false)
+  {
+    output.assign("STORED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessCas  ----- */
 
@@ -467,7 +529,8 @@ int cmdProcessGet (const string &input, string &output)
   for (auto &key: keys)
   {
     string cas, flags, value;
-    if (dbGetElement(key, flags, cas, value) != SUCCESS)
+    unsigned long int expTime;
+    if (dbGetElement(key, flags, cas, value, expTime) != SUCCESS)
     {
       // Data is not present
       continue;
@@ -523,7 +586,8 @@ int cmdProcessGets (const string &input, string &output)
   for (auto &key: keys)
   {
     string cas, flags, value;
-    if (dbGetElement(key, flags, cas, value) != SUCCESS)
+    unsigned long int expTime;
+    if (dbGetElement(key, flags, cas, value, expTime) != SUCCESS)
     {
       // Data is not present
       continue;
@@ -585,13 +649,16 @@ int cmdProcessDelete (const string &input, string &output)
 
   unsigned long int expiry = 0;
   // We have everything to do the actual processing.
-  if (dbDeleteElement(key, expiry) == NOT_EXIST)
+  if (noreply == false)
   {
-    output.assign("NOT_FOUND\r\n");
-  }
-  else
-  {
-    output.assign("DELETED\r\n");
+    if (dbDeleteElement(key, expiry) == NOT_EXIST)
+    {
+      output.assign("NOT_FOUND\r\n");
+    }
+    else
+    {
+      output.assign("DELETED\r\n");
+    }
   }
   return 0;
 }		/* -----  end of function cmdProcessDelete  ----- */
@@ -643,6 +710,52 @@ int cmdProcessIncr (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  string storedValue, flags, cas;
+  unsigned long int expTime;
+  if (dbGetElement(key, flags, cas, storedValue, expTime)
+      != SUCCESS)
+  {
+    // Data is not already present
+    cout<<"Could not incr element"<<endl;
+    if (noreply == false)
+    {
+      output.assign("NOT_FOUND\r\n");
+    }
+    return 0;
+  }
+
+  unsigned long int inputValue = stoul(value, nullptr, 10);
+  unsigned long int oldValue = stoul(storedValue, nullptr, 10);
+  if (inputValue == 0)
+  {
+    if (noreply == false)
+    {
+      output.assign("CLIENT_ERROR invalid format for value\r\n");
+      return 0;
+    }
+  }
+  inputValue += oldValue;
+  storedValue.assign(to_string(inputValue));
+  // This makes sure dbInsertElement generates a new cas value
+  cas.clear();
+
+  if (dbInsertElement(key, flags, cas, storedValue, expTime) 
+      == MEMORY_FULL)
+  {
+    cout<<"Could not incr element"<<endl;
+    if (noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
+    return 0;
+  }
+
+  if (noreply == false)
+  {
+    output.assign(storedValue);
+    output.append("\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessIncr  ----- */
 
@@ -693,6 +806,58 @@ int cmdProcessDecr (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  string storedValue, flags, cas;
+  unsigned long int expTime;
+  if (dbGetElement(key, flags, cas, storedValue, expTime)
+      != SUCCESS)
+  {
+    // Data is not already present
+    cout<<"Could not decr element"<<endl;
+    if (noreply == false)
+    {
+      output.assign("NOT_FOUND\r\n");
+    }
+    return 0;
+  }
+
+  unsigned long int inputValue = stoul(value, nullptr, 10);
+  unsigned long int oldValue = stoul(storedValue, nullptr, 10);
+  if (inputValue == 0)
+  {
+    if (noreply == false)
+    {
+      output.assign("CLIENT_ERROR invalid format for value\r\n");
+      return 0;
+    }
+  }
+  if (oldValue <= inputValue)
+  {
+    inputValue = 0;
+  }
+  else
+  {
+    inputValue = oldValue - inputValue;
+  }
+  storedValue.assign(to_string(inputValue));
+  // This makes sure dbInsertElement generates a new cas value
+  cas.clear();
+
+  if (dbInsertElement(key, flags, cas, storedValue, expTime) 
+      == MEMORY_FULL)
+  {
+    cout<<"Could not decr element"<<endl;
+    if (noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
+    return 0;
+  }
+  if (noreply == false)
+  {
+    output.assign(storedValue);
+    output.append("\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessDecr  ----- */
 
@@ -752,6 +917,34 @@ int cmdProcessTouch (const string &input, string &output)
     }
   }
   // We have everything to do the actual processing.
+  string cas, flags, value;
+  unsigned long int expiry;
+  if (dbGetElement(key, flags, cas, value, expiry) != SUCCESS)
+  {
+    // Data is not already present
+    cout<<"Could not touch element"<<endl;
+    if (noreply == false)
+    {
+      output.assign("NOT_FOUND\r\n");
+    }
+    return 0;
+  }
+
+  // Cas is not updated, but just checked against the prev value
+  if (dbInsertElement(key, flags, cas, value, expTime) == MEMORY_FULL)
+  {
+    cout<<"Could not touch element"<<endl;
+    if (noreply == false)
+    {
+      output.assign("SERVER_ERROR not enough memory to store even single "
+          "element" "\r\n");
+    }
+    return 0;
+  }
+  if (noreply == false)
+  {
+    output.assign("TOUCHED\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessTouch  ----- */
 
@@ -804,6 +997,11 @@ int cmdProcessFlushAll (const string &input, string &output)
   }
 
   // We have everything to do the actual processing.
+  dbSetFlushAll(expTime);
+  if (noreply == false)
+  {
+    output.assign("OK\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessFlushAll  ----- */
 
@@ -815,7 +1013,69 @@ int cmdProcessFlushAll (const string &input, string &output)
 int cmdProcessVersion (const string &input, string &output)
 {
   // We have everything to do the actual processing.
+  if (input.size() > 9)
+  {
+    output.assign("CLIENT_ERROR version does not accept options\r\n");
+    return 0;
+  }
   output.assign(VERSION_STRING);
+  return 0;
+}		/* -----  end of function cmdProcessVersion  ----- */
+
+/* ===  FUNCTION  ==============================================================
+ *         Name:  cmdProcessVerbosity
+ *  Description:  This function processes the given command
+ * =============================================================================
+ */
+int cmdProcessVerbosity (const string &input, string &output)
+{
+  unsigned int nextSpace = input.find(' ');
+  unsigned int nextEndl = input.find("\r\n");
+  unsigned int tempSpace;
+  unsigned int verb;
+  string verbStr;
+  bool noreply = true;
+
+  if ((nextSpace == string::npos) || (nextSpace > nextEndl))
+  {
+    output.assign ("CLIENT_ERROR exp time not found\r\n");
+    return 0;
+  }
+  nextSpace++;
+
+  tempSpace = input.find(' ', nextSpace);
+  if ((tempSpace == string::npos) || (tempSpace > nextEndl))
+  {
+    noreply = false;
+    tempSpace = nextEndl;
+  }
+  verbStr = input.substr(nextSpace, tempSpace - nextSpace);
+  nextSpace = tempSpace + 1;
+  try
+  {
+    verb = stoul(verbStr);
+  }
+  catch (const invalid_argument& ia)
+  {
+    output.assign ("CLIENT_ERROR invalid expiry time\r\n");
+    return 0;
+  }
+
+  if (noreply == true)
+  {
+    string noReplyStr = input.substr(nextSpace, nextEndl - nextSpace);
+    if (noReplyStr.compare("noreply") != 0)
+    {
+      noreply = false;
+    }
+  }
+
+  // We have everything to do the actual processing.
+  // We don't actually have anything for verbosity. Just a mockup
+  if (noreply == false)
+  {
+    output.assign("OK\r\n");
+  }
   return 0;
 }		/* -----  end of function cmdProcessVersion  ----- */
 
@@ -826,6 +1086,11 @@ int cmdProcessVersion (const string &input, string &output)
  */
 int cmdProcessQuit (const string &input, string &output)
 {
+  if (input.size() > 6)
+  {
+    output.assign("CLIENT_ERROR quit has no options\r\n");
+    return 0;
+  }
   return -1;
 }		/* -----  end of function cmdProcessQuit  ----- */
 
@@ -858,6 +1123,10 @@ int cmdProcessCommand (string &input, string &output)
   }
   string command = input.substr(0, nextSpace);
 
+  // This just sees if it is time for a flush all
+  dbHandleFlushAll();
+
+  output.clear();
   if (command.compare("set") == 0)
   {
     return cmdProcessSet (input, output);
@@ -917,6 +1186,10 @@ int cmdProcessCommand (string &input, string &output)
   else if (command.compare("version") == 0)
   {
     return cmdProcessVersion (input, output);
+  }
+  else if (command.compare("verbosity") == 0)
+  {
+    return cmdProcessVerbosity (input, output);
   }
   else if (command.compare("quit") == 0)
   {
