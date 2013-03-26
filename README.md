@@ -25,11 +25,21 @@ The memcapable suite from libmemcached is used for verifying correctness. All th
 
 For scalability, I built a simple application. It basically sets and gets in a loop. The loop can be run a variable number of times. This application can have many instances to simulate multiple clients. As the application waits for a response from the server each time, it can be used to see how fast the server is. Some of the results are as follows (all results from a virtual machine, and with other applications running, so the results are not perfectly indicative of performance):
 
+4 buckets:
+
 10 instances, 1000 get/set pairs: 1.227s, 1.371s, 1.169s, 1.265s, 1.359s
 
 15 instances 1000 get/set pairs: 1.972s, 1.999s, 1.963s, 1.927s, 2.143s
 
 10 instances 2000 get/set pairs: 2.489s, 2.495s, 2.247s, 2.350s, 2.597s
+
+10 buckets:
+
+10 instances 1000 get/set pairs: 1.140s, 1.218s, 1.184s, 1.170s, 1.170s
+
+15 instances 1000 get/set pairs: 1.844s, 1.935s, 1.856s, 1.849s, 1.863s
+
+10 instances 2000 get/set pairs: 2.354s, 2.310s, 2.258s, 2.532s, 2.424s
 
 
 Instructions for Use
