@@ -35,6 +35,7 @@ hoard/src/libhoard.so:
 
 test:
 	./libmem.sh
+	g++ -o tests/cli tests/genclient.cpp
 
 memstashed: $(OBJ)
 	$(CREATEDIR)
