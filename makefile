@@ -27,13 +27,16 @@ INC = $(patsubst %,$(INCDIR)/%,$(INCF))
 
 CREATEDIR = mkdir -p obj bin
 
-all: hoard memstashed
+all: hoard memstashed test
 
 hoard: hoard/src/libhoard.so
 
 hoard/src/libhoard.so:
 	make -C hoard/src $(ENVIRON)
 	cp hoard/src/libhoard.so .
+
+test:
+	./libmem.sh
 
 memstashed: $(OBJ)
 	$(CREATEDIR)
