@@ -1,0 +1,60 @@
+<testsuites name="testhashkit">
+	<testsuite name="allocation"  classname="" package="">
+		<testcase name="init" time="0">
+		</testcase>
+		<testcase name="create and free" time="0">
+		</testcase>
+		<testcase name="clone" time="0">
+		</testcase>
+	</testsuite>
+	<testsuite name="hashkit_st_functions"  classname="" package="">
+		<testcase name="hashkit_digest" time="0">
+		</testcase>
+		<testcase name="hashkit_set_function" time="0">
+		 <skipped/>
+		</testcase>
+		<testcase name="hashkit_set_custom_function" time="0">
+		</testcase>
+		<testcase name="hashkit_get_function" time="0">
+		</testcase>
+		<testcase name="hashkit_set_distribution_function" time="0">
+		</testcase>
+		<testcase name="hashkit_set_custom_distribution_function" time="0">
+		</testcase>
+		<testcase name="hashkit_compare" time="0">
+		</testcase>
+	</testsuite>
+	<testsuite name="library_functions"  classname="" package="">
+		<testcase name="libhashkit_digest" time="0">
+		</testcase>
+	</testsuite>
+	<testsuite name="hashing"  classname="" package="">
+		<testcase name="one_at_a_time" time="0">
+		</testcase>
+		<testcase name="md5" time="0">
+		</testcase>
+		<testcase name="crc" time="0">
+		</testcase>
+		<testcase name="fnv1_64" time="0">
+		 <skipped/>
+		</testcase>
+		<testcase name="fnv1a_64" time="0">
+		 <skipped/>
+		</testcase>
+		<testcase name="fnv1_32" time="0">
+		</testcase>
+		<testcase name="fnv1a_32" time="0">
+		</testcase>
+		<testcase name="hsieh" time="0">
+		 <skipped/>
+		</testcase>
+		<testcase name="murmur" time="0">
+		</testcase>
+		<testcase name="murmur3" time="0">
+		</testcase>
+		<testcase name="jenkis" time="0">
+		</testcase>
+	</testsuite>
+	<testsuite name="regression"  classname="" package="">
+	</testsuite>
+</testsuites>

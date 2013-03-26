@@ -1,0 +1,20 @@
+<testsuites name="hash_plus">
+	<testsuite name="basic"  classname="" package="">
+		<testcase name="exists" time="0">
+		</testcase>
+		<testcase name="new" time="0">
+		</testcase>
+		<testcase name="copy" time="0">
+		</testcase>
+		<testcase name="assign" time="0">
+		</testcase>
+		<testcase name="digest" time="0">
+		</testcase>
+		<testcase name="set_function" time="0">
+		</testcase>
+		<testcase name="set_distribution_function" time="0">
+		</testcase>
+		<testcase name="compare" time="0">
+		</testcase>
+	</testsuite>
+</testsuites>

@@ -1,0 +1,1002 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+memcached_help_text_st	client_options.h	/^typedef struct memcached_help_text_st memcached_help_text_st;$/;"	t	typeref:struct:memcached_help_text_st
+memcached_options	client_options.h	/^enum memcached_options {$/;"	g
+OPT_SERVERS	client_options.h	/^  OPT_SERVERS= 's',$/;"	e	enum:memcached_options
+OPT_VERSION	client_options.h	/^  OPT_VERSION= 'V',$/;"	e	enum:memcached_options
+OPT_HELP	client_options.h	/^  OPT_HELP= 'h',$/;"	e	enum:memcached_options
+OPT_VERBOSE	client_options.h	/^  OPT_VERBOSE= 'v',$/;"	e	enum:memcached_options
+OPT_DEBUG	client_options.h	/^  OPT_DEBUG= 'd',$/;"	e	enum:memcached_options
+OPT_ANALYZE	client_options.h	/^  OPT_ANALYZE= 'a',$/;"	e	enum:memcached_options
+OPT_FLAG	client_options.h	/^  OPT_FLAG= 257,$/;"	e	enum:memcached_options
+OPT_EXPIRE	client_options.h	/^  OPT_EXPIRE,$/;"	e	enum:memcached_options
+OPT_SET	client_options.h	/^  OPT_SET,$/;"	e	enum:memcached_options
+OPT_REPLACE	client_options.h	/^  OPT_REPLACE,$/;"	e	enum:memcached_options
+OPT_ADD	client_options.h	/^  OPT_ADD,$/;"	e	enum:memcached_options
+OPT_SLAP_EXECUTE_NUMBER	client_options.h	/^  OPT_SLAP_EXECUTE_NUMBER,$/;"	e	enum:memcached_options
+OPT_SLAP_INITIAL_LOAD	client_options.h	/^  OPT_SLAP_INITIAL_LOAD,$/;"	e	enum:memcached_options
+OPT_SLAP_TEST	client_options.h	/^  OPT_SLAP_TEST,$/;"	e	enum:memcached_options
+OPT_SLAP_CONCURRENCY	client_options.h	/^  OPT_SLAP_CONCURRENCY,$/;"	e	enum:memcached_options
+OPT_SLAP_NON_BLOCK	client_options.h	/^  OPT_SLAP_NON_BLOCK,$/;"	e	enum:memcached_options
+OPT_SLAP_TCP_NODELAY	client_options.h	/^  OPT_SLAP_TCP_NODELAY,$/;"	e	enum:memcached_options
+OPT_FLUSH	client_options.h	/^  OPT_FLUSH,$/;"	e	enum:memcached_options
+OPT_HASH	client_options.h	/^  OPT_HASH,$/;"	e	enum:memcached_options
+OPT_BINARY	client_options.h	/^  OPT_BINARY,$/;"	e	enum:memcached_options
+OPT_UDP	client_options.h	/^  OPT_UDP,$/;"	e	enum:memcached_options
+OPT_BUFFER	client_options.h	/^  OPT_BUFFER,$/;"	e	enum:memcached_options
+OPT_USERNAME	client_options.h	/^  OPT_USERNAME,$/;"	e	enum:memcached_options
+OPT_PASSWD	client_options.h	/^  OPT_PASSWD,$/;"	e	enum:memcached_options
+OPT_STAT_ARGS	client_options.h	/^  OPT_STAT_ARGS,$/;"	e	enum:memcached_options
+OPT_SERVER_VERSION	client_options.h	/^  OPT_SERVER_VERSION,$/;"	e	enum:memcached_options
+OPT_QUIET	client_options.h	/^  OPT_QUIET,$/;"	e	enum:memcached_options
+OPT_FILE	client_options.h	/^  OPT_FILE= 'f'$/;"	e	enum:memcached_options
+execute_set	execute.cc	/^unsigned int execute_set(memcached_st *memc, pairs_st *pairs, unsigned int number_of)$/;"	f
+execute_get	execute.cc	/^unsigned int execute_get(memcached_st *memc, pairs_st *pairs, unsigned int number_of)$/;"	f
+callback_counter	execute.cc	/^static memcached_return_t callback_counter(const memcached_st *ptr,$/;"	f	file:
+execute_mget	execute.cc	/^unsigned int execute_mget(memcached_st *memc,$/;"	f
+ALPHANUMERICS	generator.cc	/^static const char ALPHANUMERICS[]=$/;"	v	file:
+ALPHANUMERICS_SIZE	generator.cc	29;"	d	file:
+get_alpha_num	generator.cc	/^static size_t get_alpha_num(void)$/;"	f	file:
+get_random_string	generator.cc	/^void get_random_string(char *buffer, size_t size)$/;"	f
+pairs_free	generator.cc	/^void pairs_free(pairs_st *pairs)$/;"	f
+pairs_generate	generator.cc	/^pairs_st *pairs_generate(uint64_t number_of, size_t value_length)$/;"	f
+pairs_st	generator.h	/^typedef struct pairs_st pairs_st;$/;"	t	typeref:struct:pairs_st
+pairs_st	generator.h	/^struct pairs_st {$/;"	s
+key	generator.h	/^  char *key;$/;"	m	struct:pairs_st
+key_length	generator.h	/^  size_t key_length;$/;"	m	struct:pairs_st
+value	generator.h	/^  char *value;$/;"	m	struct:pairs_st
+value_length	generator.h	/^  size_t value_length;$/;"	m	struct:pairs_st
+PROGRAM_NAME	memaslap.c	35;"	d	file:
+PROGRAM_DESCRIPTION	memaslap.c	36;"	d	file:
+OPTIONSTRING	memaslap.c	43;"	d	file:
+OPTIONSTRING	memaslap.c	45;"	d	file:
+long_options	memaslap.c	/^static struct option long_options[]=$/;"	v	typeref:struct:option	file:
+ms_help_command	memaslap.c	/^static __attribute__((noreturn)) void ms_help_command(const char *command_name, const char *description)$/;"	f	file:
+ms_sync_lock_init	memaslap.c	/^static void ms_sync_lock_init()$/;"	f	file:
+ms_sync_lock_destroy	memaslap.c	/^static void ms_sync_lock_destroy()$/;"	f	file:
+ms_global_struct_init	memaslap.c	/^static void ms_global_struct_init()$/;"	f	file:
+ms_global_struct_destroy	memaslap.c	/^static void ms_global_struct_destroy()$/;"	f	file:
+ms_version_command	memaslap.c	/^static void ms_version_command(const char *command_name)$/;"	f	file:
+ms_lookup_help	memaslap.c	/^static const char *ms_lookup_help(ms_options_t option)$/;"	f	file:
+ms_parse_time	memaslap.c	/^static int64_t ms_parse_time()$/;"	f	file:
+ms_parse_size	memaslap.c	/^static int64_t ms_parse_size()$/;"	f	file:
+ms_options_parse	memaslap.c	/^static void ms_options_parse(int argc, char *argv[])$/;"	f	file:
+ms_check_para	memaslap.c	/^static int ms_check_para()$/;"	f	file:
+ms_statistic_init	memaslap.c	/^static void ms_statistic_init()$/;"	f	file:
+ms_stats_init	memaslap.c	/^static void ms_stats_init()$/;"	f	file:
+ms_print_statistics	memaslap.c	/^static void ms_print_statistics(int in_time)$/;"	f	file:
+ms_print_memslap_stats	memaslap.c	/^static void ms_print_memslap_stats(struct timeval *start_time,$/;"	f	file:
+ms_monitor_slap_mode	memaslap.c	/^static void ms_monitor_slap_mode()$/;"	f	file:
+main	memaslap.c	/^int main(int argc, char *argv[])$/;"	f
+func_fallback_echo	memcapable	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memcapable	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memcapable	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memcapable	/^func_exec_program_core ()$/;"	f
+func_exec_program	memcapable	/^func_exec_program ()$/;"	f
+NDEBUG	memcapable.cc	14;"	d	file:
+ntohs	memcapable.cc	52;"	d	file:
+ntohl	memcapable.cc	53;"	d	file:
+do_core	memcapable.cc	/^static bool do_core= false;$/;"	v	file:
+sock	memcapable.cc	/^static memcached_socket_t sock;$/;"	v	file:
+verbose	memcapable.cc	/^static bool verbose= false;$/;"	v	file:
+timeout	memcapable.cc	/^static int timeout= 2;$/;"	v	file:
+plain	memcapable.cc	/^  protocol_binary_request_no_extras plain;$/;"	m	union:__anon1	file:
+flush	memcapable.cc	/^  protocol_binary_request_flush flush;$/;"	m	union:__anon1	file:
+incr	memcapable.cc	/^  protocol_binary_request_incr incr;$/;"	m	union:__anon1	file:
+set	memcapable.cc	/^  protocol_binary_request_set set;$/;"	m	union:__anon1	file:
+bytes	memcapable.cc	/^  char bytes[1024];$/;"	m	union:__anon1	file:
+command	memcapable.cc	/^} command;$/;"	t	typeref:union:__anon1	file:
+plain	memcapable.cc	/^  protocol_binary_response_no_extras plain;$/;"	m	union:__anon2	file:
+incr	memcapable.cc	/^  protocol_binary_response_incr incr;$/;"	m	union:__anon2	file:
+decr	memcapable.cc	/^  protocol_binary_response_decr decr;$/;"	m	union:__anon2	file:
+bytes	memcapable.cc	/^  char bytes[1024];$/;"	m	union:__anon2	file:
+response	memcapable.cc	/^} response;$/;"	t	typeref:union:__anon2	file:
+test_return	memcapable.cc	/^enum test_return$/;"	g	file:
+TEST_SKIP	memcapable.cc	/^  TEST_SKIP, TEST_PASS, TEST_PASS_RECONNECT, TEST_FAIL$/;"	e	enum:test_return	file:
+TEST_PASS	memcapable.cc	/^  TEST_SKIP, TEST_PASS, TEST_PASS_RECONNECT, TEST_FAIL$/;"	e	enum:test_return	file:
+TEST_PASS_RECONNECT	memcapable.cc	/^  TEST_SKIP, TEST_PASS, TEST_PASS_RECONNECT, TEST_FAIL$/;"	e	enum:test_return	file:
+TEST_FAIL	memcapable.cc	/^  TEST_SKIP, TEST_PASS, TEST_PASS_RECONNECT, TEST_FAIL$/;"	e	enum:test_return	file:
+lookuphost	memcapable.cc	/^static struct addrinfo *lookuphost(const char *hostname, const char *port)$/;"	f	file:
+set_noblock	memcapable.cc	/^static memcached_socket_t set_noblock(void)$/;"	f	file:
+connect_server	memcapable.cc	/^static memcached_socket_t connect_server(const char *hostname, const char *port)$/;"	f	file:
+timeout_io_op	memcapable.cc	/^static ssize_t timeout_io_op(memcached_socket_t fd, short direction, void *buf, size_t len)$/;"	f	file:
+ensure	memcapable.cc	/^static enum test_return ensure(bool val, const char *expression, const char *file, int line)$/;"	f	file:
+verify	memcapable.cc	266;"	d	file:
+execute	memcapable.cc	267;"	d	file:
+retry_write	memcapable.cc	/^static enum test_return retry_write(const void* buf, size_t len)$/;"	f	file:
+resend_packet	memcapable.cc	/^static enum test_return resend_packet(command *cmd)$/;"	f	file:
+send_packet	memcapable.cc	/^static enum test_return send_packet(command *cmd)$/;"	f	file:
+retry_read	memcapable.cc	/^static enum test_return retry_read(void *buf, size_t len)$/;"	f	file:
+recv_packet	memcapable.cc	/^static enum test_return recv_packet(response *rsp)$/;"	f	file:
+storage_command	memcapable.cc	/^static void storage_command(command *cmd,$/;"	f	file:
+raw_command	memcapable.cc	/^static void raw_command(command *cmd,$/;"	f	file:
+flush_command	memcapable.cc	/^static void flush_command(command *cmd,$/;"	f	file:
+arithmetic_command	memcapable.cc	/^static void arithmetic_command(command *cmd,$/;"	f	file:
+do_validate_response_header	memcapable.cc	/^static enum test_return do_validate_response_header(response *rsp,$/;"	f	file:
+validate_response_header	memcapable.cc	617;"	d	file:
+send_binary_noop	memcapable.cc	/^static enum test_return send_binary_noop(void)$/;"	f	file:
+receive_binary_noop	memcapable.cc	/^static enum test_return receive_binary_noop(void)$/;"	f	file:
+test_binary_noop	memcapable.cc	/^static enum test_return test_binary_noop(void)$/;"	f	file:
+test_binary_quit_impl	memcapable.cc	/^static enum test_return test_binary_quit_impl(uint8_t cc)$/;"	f	file:
+test_binary_quit	memcapable.cc	/^static enum test_return test_binary_quit(void)$/;"	f	file:
+test_binary_quitq	memcapable.cc	/^static enum test_return test_binary_quitq(void)$/;"	f	file:
+test_binary_set_impl	memcapable.cc	/^static enum test_return test_binary_set_impl(const char* key, uint8_t cc)$/;"	f	file:
+test_binary_set	memcapable.cc	/^static enum test_return test_binary_set(void)$/;"	f	file:
+test_binary_setq	memcapable.cc	/^static enum test_return test_binary_setq(void)$/;"	f	file:
+test_binary_add_impl	memcapable.cc	/^static enum test_return test_binary_add_impl(const char* key, uint8_t cc)$/;"	f	file:
+test_binary_add	memcapable.cc	/^static enum test_return test_binary_add(void)$/;"	f	file:
+test_binary_addq	memcapable.cc	/^static enum test_return test_binary_addq(void)$/;"	f	file:
+binary_set_item	memcapable.cc	/^static enum test_return binary_set_item(const char *key, const char *value)$/;"	f	file:
+test_binary_replace_impl	memcapable.cc	/^static enum test_return test_binary_replace_impl(const char* key, uint8_t cc)$/;"	f	file:
+test_binary_replace	memcapable.cc	/^static enum test_return test_binary_replace(void)$/;"	f	file:
+test_binary_replaceq	memcapable.cc	/^static enum test_return test_binary_replaceq(void)$/;"	f	file:
+test_binary_delete_impl	memcapable.cc	/^static enum test_return test_binary_delete_impl(const char *key, uint8_t cc)$/;"	f	file:
+test_binary_delete	memcapable.cc	/^static enum test_return test_binary_delete(void)$/;"	f	file:
+test_binary_deleteq	memcapable.cc	/^static enum test_return test_binary_deleteq(void)$/;"	f	file:
+test_binary_get_impl	memcapable.cc	/^static enum test_return test_binary_get_impl(const char *key, uint8_t cc)$/;"	f	file:
+test_binary_get	memcapable.cc	/^static enum test_return test_binary_get(void)$/;"	f	file:
+test_binary_getk	memcapable.cc	/^static enum test_return test_binary_getk(void)$/;"	f	file:
+test_binary_getq	memcapable.cc	/^static enum test_return test_binary_getq(void)$/;"	f	file:
+test_binary_getkq	memcapable.cc	/^static enum test_return test_binary_getkq(void)$/;"	f	file:
+test_binary_incr_impl	memcapable.cc	/^static enum test_return test_binary_incr_impl(const char* key, uint8_t cc)$/;"	f	file:
+test_binary_incr	memcapable.cc	/^static enum test_return test_binary_incr(void)$/;"	f	file:
+test_binary_incrq	memcapable.cc	/^static enum test_return test_binary_incrq(void)$/;"	f	file:
+test_binary_decr_impl	memcapable.cc	/^static enum test_return test_binary_decr_impl(const char* key, uint8_t cc)$/;"	f	file:
+test_binary_decr	memcapable.cc	/^static enum test_return test_binary_decr(void)$/;"	f	file:
+test_binary_decrq	memcapable.cc	/^static enum test_return test_binary_decrq(void)$/;"	f	file:
+test_binary_version	memcapable.cc	/^static enum test_return test_binary_version(void)$/;"	f	file:
+test_binary_flush_impl	memcapable.cc	/^static enum test_return test_binary_flush_impl(const char *key, uint8_t cc)$/;"	f	file:
+test_binary_flush	memcapable.cc	/^static enum test_return test_binary_flush(void)$/;"	f	file:
+test_binary_flushq	memcapable.cc	/^static enum test_return test_binary_flushq(void)$/;"	f	file:
+test_binary_concat_impl	memcapable.cc	/^static enum test_return test_binary_concat_impl(const char *key, uint8_t cc)$/;"	f	file:
+test_binary_append	memcapable.cc	/^static enum test_return test_binary_append(void)$/;"	f	file:
+test_binary_prepend	memcapable.cc	/^static enum test_return test_binary_prepend(void)$/;"	f	file:
+test_binary_appendq	memcapable.cc	/^static enum test_return test_binary_appendq(void)$/;"	f	file:
+test_binary_prependq	memcapable.cc	/^static enum test_return test_binary_prependq(void)$/;"	f	file:
+test_binary_stat	memcapable.cc	/^static enum test_return test_binary_stat(void)$/;"	f	file:
+send_string	memcapable.cc	/^static enum test_return send_string(const char *cmd)$/;"	f	file:
+receive_line	memcapable.cc	/^static enum test_return receive_line(char *buffer, size_t size)$/;"	f	file:
+receive_response	memcapable.cc	/^static enum test_return receive_response(const char *msg) {$/;"	f	file:
+receive_error_response	memcapable.cc	/^static enum test_return receive_error_response(void)$/;"	f	file:
+test_ascii_quit	memcapable.cc	/^static enum test_return test_ascii_quit(void)$/;"	f	file:
+test_ascii_version	memcapable.cc	/^static enum test_return test_ascii_version(void)$/;"	f	file:
+test_ascii_verbosity	memcapable.cc	/^static enum test_return test_ascii_verbosity(void)$/;"	f	file:
+test_ascii_set_impl	memcapable.cc	/^static enum test_return test_ascii_set_impl(const char* key, bool noreply)$/;"	f	file:
+test_ascii_set	memcapable.cc	/^static enum test_return test_ascii_set(void)$/;"	f	file:
+test_ascii_set_noreply	memcapable.cc	/^static enum test_return test_ascii_set_noreply(void)$/;"	f	file:
+test_ascii_add_impl	memcapable.cc	/^static enum test_return test_ascii_add_impl(const char* key, bool noreply)$/;"	f	file:
+test_ascii_add	memcapable.cc	/^static enum test_return test_ascii_add(void)$/;"	f	file:
+test_ascii_add_noreply	memcapable.cc	/^static enum test_return test_ascii_add_noreply(void)$/;"	f	file:
+ascii_get_unknown_value	memcapable.cc	/^static enum test_return ascii_get_unknown_value(char **key, char **value, ssize_t *ndata)$/;"	f	file:
+ascii_get_value	memcapable.cc	/^static enum test_return ascii_get_value(const char *key, const char *value)$/;"	f	file:
+ascii_get_item	memcapable.cc	/^static enum test_return ascii_get_item(const char *key, const char *value,$/;"	f	file:
+ascii_gets_value	memcapable.cc	/^static enum test_return ascii_gets_value(const char *key, const char *value,$/;"	f	file:
+ascii_gets_item	memcapable.cc	/^static enum test_return ascii_gets_item(const char *key, const char *value,$/;"	f	file:
+ascii_set_item	memcapable.cc	/^static enum test_return ascii_set_item(const char *key, const char *value)$/;"	f	file:
+test_ascii_replace_impl	memcapable.cc	/^static enum test_return test_ascii_replace_impl(const char* key, bool noreply)$/;"	f	file:
+test_ascii_replace	memcapable.cc	/^static enum test_return test_ascii_replace(void)$/;"	f	file:
+test_ascii_replace_noreply	memcapable.cc	/^static enum test_return test_ascii_replace_noreply(void)$/;"	f	file:
+test_ascii_cas_impl	memcapable.cc	/^static enum test_return test_ascii_cas_impl(const char* key, bool noreply)$/;"	f	file:
+test_ascii_cas	memcapable.cc	/^static enum test_return test_ascii_cas(void)$/;"	f	file:
+test_ascii_cas_noreply	memcapable.cc	/^static enum test_return test_ascii_cas_noreply(void)$/;"	f	file:
+test_ascii_delete_impl	memcapable.cc	/^static enum test_return test_ascii_delete_impl(const char *key, bool noreply)$/;"	f	file:
+test_ascii_delete	memcapable.cc	/^static enum test_return test_ascii_delete(void)$/;"	f	file:
+test_ascii_delete_noreply	memcapable.cc	/^static enum test_return test_ascii_delete_noreply(void)$/;"	f	file:
+test_ascii_get	memcapable.cc	/^static enum test_return test_ascii_get(void)$/;"	f	file:
+test_ascii_gets	memcapable.cc	/^static enum test_return test_ascii_gets(void)$/;"	f	file:
+test_ascii_mget	memcapable.cc	/^static enum test_return test_ascii_mget(void)$/;"	f	file:
+test_ascii_incr_impl	memcapable.cc	/^static enum test_return test_ascii_incr_impl(const char* key, bool noreply)$/;"	f	file:
+test_ascii_incr	memcapable.cc	/^static enum test_return test_ascii_incr(void)$/;"	f	file:
+test_ascii_incr_noreply	memcapable.cc	/^static enum test_return test_ascii_incr_noreply(void)$/;"	f	file:
+test_ascii_decr_impl	memcapable.cc	/^static enum test_return test_ascii_decr_impl(const char* key, bool noreply)$/;"	f	file:
+test_ascii_decr	memcapable.cc	/^static enum test_return test_ascii_decr(void)$/;"	f	file:
+test_ascii_decr_noreply	memcapable.cc	/^static enum test_return test_ascii_decr_noreply(void)$/;"	f	file:
+test_ascii_flush_impl	memcapable.cc	/^static enum test_return test_ascii_flush_impl(const char *key, bool noreply)$/;"	f	file:
+test_ascii_flush	memcapable.cc	/^static enum test_return test_ascii_flush(void)$/;"	f	file:
+test_ascii_flush_noreply	memcapable.cc	/^static enum test_return test_ascii_flush_noreply(void)$/;"	f	file:
+test_ascii_concat_impl	memcapable.cc	/^static enum test_return test_ascii_concat_impl(const char *key,$/;"	f	file:
+test_ascii_append	memcapable.cc	/^static enum test_return test_ascii_append(void)$/;"	f	file:
+test_ascii_prepend	memcapable.cc	/^static enum test_return test_ascii_prepend(void)$/;"	f	file:
+test_ascii_append_noreply	memcapable.cc	/^static enum test_return test_ascii_append_noreply(void)$/;"	f	file:
+test_ascii_prepend_noreply	memcapable.cc	/^static enum test_return test_ascii_prepend_noreply(void)$/;"	f	file:
+test_ascii_stat	memcapable.cc	/^static enum test_return test_ascii_stat(void)$/;"	f	file:
+TEST_FUNC	memcapable.cc	/^typedef enum test_return(*TEST_FUNC)(void);$/;"	t	typeref:enum:TEST_FUNC	file:
+testcase	memcapable.cc	/^struct testcase$/;"	s	file:
+description	memcapable.cc	/^  const char *description;$/;"	m	struct:testcase	file:
+function	memcapable.cc	/^  TEST_FUNC function;$/;"	m	struct:testcase	file:
+testcases	memcapable.cc	/^struct testcase testcases[]= {$/;"	v	typeref:struct:testcase
+ascii_tests	memcapable.cc	/^const int ascii_tests = 1;$/;"	v
+binary_tests	memcapable.cc	/^const int binary_tests = 2;$/;"	v
+test_type_st	memcapable.cc	/^struct test_type_st$/;"	s	file:
+ascii	memcapable.cc	/^  bool ascii;$/;"	m	struct:test_type_st	file:
+binary	memcapable.cc	/^  bool binary;$/;"	m	struct:test_type_st	file:
+main	memcapable.cc	/^int main(int argc, char **argv)$/;"	f
+func_fallback_echo	memcat	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memcat	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memcat	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memcat	/^func_exec_program_core ()$/;"	f
+func_exec_program	memcat	/^func_exec_program ()$/;"	f
+PROGRAM_NAME	memcat.cc	24;"	d	file:
+PROGRAM_DESCRIPTION	memcat.cc	25;"	d	file:
+opt_binary	memcat.cc	/^static int opt_binary= 0;$/;"	v	file:
+opt_verbose	memcat.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_displayflag	memcat.cc	/^static int opt_displayflag= 0;$/;"	v	file:
+opt_servers	memcat.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_hash	memcat.cc	/^static char *opt_hash= NULL;$/;"	v	file:
+opt_username	memcat.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memcat.cc	/^static char *opt_passwd;$/;"	v	file:
+opt_file	memcat.cc	/^static char *opt_file;$/;"	v	file:
+main	memcat.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memcat.cc	/^void options_parse(int argc, char *argv[])$/;"	f
+func_fallback_echo	memcp	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memcp	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memcp	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memcp	/^func_exec_program_core ()$/;"	f
+func_exec_program	memcp	/^func_exec_program ()$/;"	f
+PROGRAM_NAME	memcp.cc	39;"	d	file:
+PROGRAM_DESCRIPTION	memcp.cc	40;"	d	file:
+opt_binary	memcp.cc	/^static bool opt_binary= false;$/;"	v	file:
+opt_udp	memcp.cc	/^static bool opt_udp= false;$/;"	v	file:
+opt_buffer	memcp.cc	/^static bool opt_buffer= false;$/;"	v	file:
+opt_verbose	memcp.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_servers	memcp.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_hash	memcp.cc	/^static char *opt_hash= NULL;$/;"	v	file:
+opt_method	memcp.cc	/^static int opt_method= OPT_SET;$/;"	v	file:
+opt_flags	memcp.cc	/^static uint32_t opt_flags= 0;$/;"	v	file:
+opt_expires	memcp.cc	/^static time_t opt_expires= 0;$/;"	v	file:
+opt_username	memcp.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memcp.cc	/^static char *opt_passwd;$/;"	v	file:
+strtol_wrapper	memcp.cc	/^static long strtol_wrapper(const char *nptr, int base, bool *error)$/;"	f	file:
+main	memcp.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memcp.cc	/^static void options_parse(int argc, char *argv[])$/;"	f	file:
+func_fallback_echo	memdump	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memdump	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memdump	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memdump	/^func_exec_program_core ()$/;"	f
+func_exec_program	memdump	/^func_exec_program ()$/;"	f
+PROGRAM_NAME	memdump.cc	33;"	d	file:
+PROGRAM_DESCRIPTION	memdump.cc	34;"	d	file:
+opt_binary	memdump.cc	/^static bool opt_binary=0;$/;"	v	file:
+opt_verbose	memdump.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_servers	memdump.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_hash	memdump.cc	/^static char *opt_hash= NULL;$/;"	v	file:
+opt_username	memdump.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memdump.cc	/^static char *opt_passwd;$/;"	v	file:
+key_printer	memdump.cc	/^static memcached_return_t key_printer(const memcached_st *,$/;"	f	file:
+main	memdump.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memdump.cc	/^static void options_parse(int argc, char *argv[])$/;"	f	file:
+func_fallback_echo	memerror	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memerror	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memerror	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memerror	/^func_exec_program_core ()$/;"	f
+func_exec_program	memerror	/^func_exec_program ()$/;"	f
+PROGRAM_NAME	memerror.cc	28;"	d	file:
+PROGRAM_DESCRIPTION	memerror.cc	29;"	d	file:
+main	memerror.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memerror.cc	/^void options_parse(int argc, char *argv[])$/;"	f
+func_fallback_echo	memexist	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memexist	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memexist	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memexist	/^func_exec_program_core ()$/;"	f
+func_exec_program	memexist	/^func_exec_program ()$/;"	f
+opt_binary	memexist.cc	/^static int opt_binary= 0;$/;"	v	file:
+opt_verbose	memexist.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_servers	memexist.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_hash	memexist.cc	/^static char *opt_hash= NULL;$/;"	v	file:
+opt_username	memexist.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memexist.cc	/^static char *opt_passwd;$/;"	v	file:
+PROGRAM_NAME	memexist.cc	31;"	d	file:
+PROGRAM_DESCRIPTION	memexist.cc	32;"	d	file:
+main	memexist.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memexist.cc	/^static void options_parse(int argc, char *argv[])$/;"	f	file:
+func_fallback_echo	memflush	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memflush	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memflush	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memflush	/^func_exec_program_core ()$/;"	f
+func_exec_program	memflush	/^func_exec_program ()$/;"	f
+opt_binary	memflush.cc	/^static int opt_binary= 0;$/;"	v	file:
+opt_verbose	memflush.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_expire	memflush.cc	/^static time_t opt_expire= 0;$/;"	v	file:
+opt_servers	memflush.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_username	memflush.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memflush.cc	/^static char *opt_passwd;$/;"	v	file:
+PROGRAM_NAME	memflush.cc	32;"	d	file:
+PROGRAM_DESCRIPTION	memflush.cc	33;"	d	file:
+main	memflush.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memflush.cc	/^void options_parse(int argc, char *argv[])$/;"	f
+func_fallback_echo	memparse	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memparse	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memparse	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memparse	/^func_exec_program_core ()$/;"	f
+func_exec_program	memparse	/^func_exec_program ()$/;"	f
+main	memparse.cc	/^int main(int argc, char *argv[])$/;"	f
+func_fallback_echo	memping	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memping	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memping	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memping	/^func_exec_program_core ()$/;"	f
+func_exec_program	memping	/^func_exec_program ()$/;"	f
+opt_binary	memping.cc	/^static bool opt_binary= false;$/;"	v	file:
+opt_verbose	memping.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_expire	memping.cc	/^static time_t opt_expire= 0;$/;"	v	file:
+opt_servers	memping.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_username	memping.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memping.cc	/^static char *opt_passwd;$/;"	v	file:
+PROGRAM_NAME	memping.cc	32;"	d	file:
+PROGRAM_DESCRIPTION	memping.cc	33;"	d	file:
+main	memping.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memping.cc	/^void options_parse(int argc, char *argv[])$/;"	f
+func_fallback_echo	memrm	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memrm	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memrm	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memrm	/^func_exec_program_core ()$/;"	f
+func_exec_program	memrm	/^func_exec_program ()$/;"	f
+opt_binary	memrm.cc	/^static int opt_binary= 0;$/;"	v	file:
+opt_verbose	memrm.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_expire	memrm.cc	/^static time_t opt_expire= 0;$/;"	v	file:
+opt_servers	memrm.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_hash	memrm.cc	/^static char *opt_hash= NULL;$/;"	v	file:
+opt_username	memrm.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memrm.cc	/^static char *opt_passwd;$/;"	v	file:
+PROGRAM_NAME	memrm.cc	33;"	d	file:
+PROGRAM_DESCRIPTION	memrm.cc	34;"	d	file:
+main	memrm.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memrm.cc	/^static void options_parse(int argc, char *argv[])$/;"	f	file:
+func_fallback_echo	memslap	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memslap	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memslap	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memslap	/^func_exec_program_core ()$/;"	f
+func_exec_program	memslap	/^func_exec_program ()$/;"	f
+DEFAULT_INITIAL_LOAD	memslap.cc	65;"	d	file:
+DEFAULT_EXECUTE_NUMBER	memslap.cc	66;"	d	file:
+DEFAULT_CONCURRENCY	memslap.cc	67;"	d	file:
+PROGRAM_NAME	memslap.cc	69;"	d	file:
+PROGRAM_DESCRIPTION	memslap.cc	70;"	d	file:
+master_wakeup	memslap.cc	/^volatile unsigned int master_wakeup;$/;"	v
+sleeper_mutex	memslap.cc	/^pthread_mutex_t sleeper_mutex;$/;"	v
+sleep_threshhold	memslap.cc	/^pthread_cond_t sleep_threshhold;$/;"	v
+test_t	memslap.cc	/^enum test_t {$/;"	g	file:
+SET_TEST	memslap.cc	/^  SET_TEST,$/;"	e	enum:test_t	file:
+GET_TEST	memslap.cc	/^  GET_TEST,$/;"	e	enum:test_t	file:
+MGET_TEST	memslap.cc	/^  MGET_TEST$/;"	e	enum:test_t	file:
+thread_context_st	memslap.cc	/^struct thread_context_st {$/;"	s	file:
+key_count	memslap.cc	/^  unsigned int key_count;$/;"	m	struct:thread_context_st	file:
+initial_pairs	memslap.cc	/^  pairs_st *initial_pairs;$/;"	m	struct:thread_context_st	file:
+initial_number	memslap.cc	/^  unsigned int initial_number;$/;"	m	struct:thread_context_st	file:
+execute_pairs	memslap.cc	/^  pairs_st *execute_pairs;$/;"	m	struct:thread_context_st	file:
+execute_number	memslap.cc	/^  unsigned int execute_number;$/;"	m	struct:thread_context_st	file:
+keys	memslap.cc	/^  char **keys;$/;"	m	struct:thread_context_st	file:
+key_lengths	memslap.cc	/^  size_t *key_lengths;$/;"	m	struct:thread_context_st	file:
+test	memslap.cc	/^  test_t test;$/;"	m	struct:thread_context_st	file:
+memc	memslap.cc	/^  memcached_st *memc;$/;"	m	struct:thread_context_st	file:
+root	memslap.cc	/^  const memcached_st* root;$/;"	m	struct:thread_context_st	file:
+thread_context_st	memslap.cc	/^  thread_context_st(const memcached_st* memc_arg, test_t test_arg) :$/;"	f	struct:thread_context_st
+init	memslap.cc	/^  void init()$/;"	f	struct:thread_context_st
+~thread_context_st	memslap.cc	/^  ~thread_context_st()$/;"	f	struct:thread_context_st
+conclusions_st	memslap.cc	/^struct conclusions_st {$/;"	s	file:
+load_time	memslap.cc	/^  long int load_time;$/;"	m	struct:conclusions_st	file:
+read_time	memslap.cc	/^  long int read_time;$/;"	m	struct:conclusions_st	file:
+rows_loaded	memslap.cc	/^  unsigned int rows_loaded;$/;"	m	struct:conclusions_st	file:
+rows_read	memslap.cc	/^  unsigned int rows_read;$/;"	m	struct:conclusions_st	file:
+conclusions_st	memslap.cc	/^  conclusions_st() :$/;"	f	struct:conclusions_st
+opt_binary	memslap.cc	/^static bool opt_binary= 0;$/;"	v	file:
+opt_verbose	memslap.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_flush	memslap.cc	/^static int opt_flush= 0;$/;"	v	file:
+opt_non_blocking_io	memslap.cc	/^static int opt_non_blocking_io= 0;$/;"	v	file:
+opt_tcp_nodelay	memslap.cc	/^static int opt_tcp_nodelay= 0;$/;"	v	file:
+opt_execute_number	memslap.cc	/^static unsigned int opt_execute_number= 0;$/;"	v	file:
+opt_createial_load	memslap.cc	/^static unsigned int opt_createial_load= 0;$/;"	v	file:
+opt_concurrency	memslap.cc	/^static unsigned int opt_concurrency= 0;$/;"	v	file:
+opt_displayflag	memslap.cc	/^static int opt_displayflag= 0;$/;"	v	file:
+opt_servers	memslap.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_udp_io	memslap.cc	/^static bool opt_udp_io= false;$/;"	v	file:
+opt_test	memslap.cc	/^test_t opt_test= SET_TEST;$/;"	v
+run_task	memslap.cc	/^static __attribute__((noreturn)) void *run_task(void *p)$/;"	f	file:
+main	memslap.cc	/^int main(int argc, char *argv[])$/;"	f
+scheduler	memslap.cc	/^void scheduler(memcached_server_st *servers, conclusions_st *conclusion)$/;"	f
+options_parse	memslap.cc	/^void options_parse(int argc, char *argv[])$/;"	f
+conclusions_print	memslap.cc	/^void conclusions_print(conclusions_st *conclusion)$/;"	f
+flush_all	memslap.cc	/^void flush_all(memcached_st *memc)$/;"	f
+load_create_data	memslap.cc	/^pairs_st *load_create_data(memcached_st *memc, unsigned int number_of,$/;"	f
+func_fallback_echo	memstat	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memstat	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memstat	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memstat	/^func_exec_program_core ()$/;"	f
+func_exec_program	memstat	/^func_exec_program ()$/;"	f
+PROGRAM_NAME	memstat.cc	34;"	d	file:
+PROGRAM_DESCRIPTION	memstat.cc	35;"	d	file:
+opt_binary	memstat.cc	/^static bool opt_binary= false;$/;"	v	file:
+opt_verbose	memstat.cc	/^static bool opt_verbose= false;$/;"	v	file:
+opt_server_version	memstat.cc	/^static bool opt_server_version= false;$/;"	v	file:
+opt_analyze	memstat.cc	/^static bool opt_analyze= false;$/;"	v	file:
+opt_servers	memstat.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+stat_args	memstat.cc	/^static char *stat_args= NULL;$/;"	v	file:
+analyze_mode	memstat.cc	/^static char *analyze_mode= NULL;$/;"	v	file:
+opt_username	memstat.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memstat.cc	/^static char *opt_passwd;$/;"	v	file:
+long_options	memstat.cc	/^static struct option long_options[]=$/;"	v	typeref:struct:option	file:
+stat_printer	memstat.cc	/^static memcached_return_t stat_printer(memcached_server_instance_st instance,$/;"	f	file:
+server_print_callback	memstat.cc	/^static memcached_return_t server_print_callback(const memcached_st *,$/;"	f	file:
+main	memstat.cc	/^int main(int argc, char *argv[])$/;"	f
+run_analyzer	memstat.cc	/^static void run_analyzer(memcached_st *memc, memcached_stat_st *memc_stat)$/;"	f	file:
+print_analysis_report	memstat.cc	/^static void print_analysis_report(memcached_st *memc,$/;"	f	file:
+options_parse	memstat.cc	/^static void options_parse(int argc, char *argv[])$/;"	f	file:
+func_fallback_echo	memtouch	/^func_fallback_echo ()$/;"	f
+func_parse_lt_options	memtouch	/^func_parse_lt_options ()$/;"	f
+func_lt_dump_args	memtouch	/^func_lt_dump_args ()$/;"	f
+func_exec_program_core	memtouch	/^func_exec_program_core ()$/;"	f
+func_exec_program	memtouch	/^func_exec_program ()$/;"	f
+PROGRAM_NAME	memtouch.cc	24;"	d	file:
+PROGRAM_DESCRIPTION	memtouch.cc	25;"	d	file:
+opt_binary	memtouch.cc	/^static int opt_binary= 0;$/;"	v	file:
+opt_verbose	memtouch.cc	/^static int opt_verbose= 0;$/;"	v	file:
+opt_servers	memtouch.cc	/^static char *opt_servers= NULL;$/;"	v	file:
+opt_hash	memtouch.cc	/^static char *opt_hash= NULL;$/;"	v	file:
+opt_username	memtouch.cc	/^static char *opt_username;$/;"	v	file:
+opt_passwd	memtouch.cc	/^static char *opt_passwd;$/;"	v	file:
+expiration	memtouch.cc	/^time_t expiration= 0;$/;"	v
+main	memtouch.cc	/^int main(int argc, char *argv[])$/;"	f
+options_parse	memtouch.cc	/^void options_parse(int argc, char *argv[])$/;"	f
+CLIENTS_MS_ATOMIC_H	ms_atomic.h	13;"	d
+_KERNEL	ms_atomic.h	16;"	d
+atomic_add_size	ms_atomic.h	19;"	d
+atomic_add_size_nv	ms_atomic.h	20;"	d
+atomic_dec_size	ms_atomic.h	21;"	d
+atomic_dec_size_nv	ms_atomic.h	22;"	d
+atomic_add_size	ms_atomic.h	24;"	d
+atomic_add_size_nv	ms_atomic.h	25;"	d
+atomic_dec_size	ms_atomic.h	26;"	d
+atomic_dec_size_nv	ms_atomic.h	27;"	d
+_KERNEL	ms_atomic.h	29;"	d
+atomic_add_8	ms_atomic.h	31;"	d
+atomic_add_16	ms_atomic.h	32;"	d
+atomic_add_32	ms_atomic.h	33;"	d
+atomic_add_size	ms_atomic.h	34;"	d
+atomic_dec_8	ms_atomic.h	35;"	d
+atomic_dec_16	ms_atomic.h	36;"	d
+atomic_dec_32	ms_atomic.h	37;"	d
+atomic_dec_size	ms_atomic.h	38;"	d
+atomic_add_8_nv	ms_atomic.h	40;"	d
+atomic_add_16_nv	ms_atomic.h	41;"	d
+atomic_add_32_nv	ms_atomic.h	42;"	d
+atomic_add_size_nv	ms_atomic.h	43;"	d
+atomic_dec_8_nv	ms_atomic.h	44;"	d
+atomic_dec_16_nv	ms_atomic.h	45;"	d
+atomic_dec_32_nv	ms_atomic.h	46;"	d
+atomic_dec_size_nv	ms_atomic.h	47;"	d
+atomic_add_8	ms_atomic.h	50;"	d
+atomic_add_16	ms_atomic.h	51;"	d
+atomic_add_32	ms_atomic.h	52;"	d
+atomic_add_size	ms_atomic.h	53;"	d
+atomic_dec_8	ms_atomic.h	54;"	d
+atomic_dec_16	ms_atomic.h	55;"	d
+atomic_dec_32	ms_atomic.h	56;"	d
+atomic_dec_size	ms_atomic.h	57;"	d
+atomic_add_8_nv	ms_atomic.h	59;"	d
+atomic_add_16_nv	ms_atomic.h	60;"	d
+atomic_add_32_nv	ms_atomic.h	61;"	d
+atomic_add_size_nv	ms_atomic.h	62;"	d
+atomic_dec_8_nv	ms_atomic.h	63;"	d
+atomic_dec_16_nv	ms_atomic.h	64;"	d
+atomic_dec_32_nv	ms_atomic.h	65;"	d
+atomic_dec_size_nv	ms_atomic.h	66;"	d
+ntohs	ms_conn.c	42;"	d	file:
+ntohl	ms_conn.c	43;"	d	file:
+htons	ms_conn.c	44;"	d	file:
+htonl	ms_conn.c	45;"	d	file:
+TRANSMIT_COMPLETE	ms_conn.c	49;"	d	file:
+TRANSMIT_INCOMPLETE	ms_conn.c	50;"	d	file:
+TRANSMIT_SOFT_ERROR	ms_conn.c	51;"	d	file:
+TRANSMIT_HARD_ERROR	ms_conn.c	52;"	d	file:
+KEY_PREFIX_BASE	ms_conn.c	55;"	d	file:
+KEY_PREFIX_MASK	ms_conn.c	56;"	d	file:
+KEY_TOKEN	ms_conn.c	59;"	d	file:
+VALUELEN_TOKEN	ms_conn.c	60;"	d	file:
+key_prefix_seq	ms_conn.c	/^static uint64_t key_prefix_seq= KEY_PREFIX_BASE;$/;"	v	file:
+udp_request_id	ms_conn.c	/^static volatile uint32_t udp_request_id= 0;$/;"	v	file:
+ms_get_key_prefix	ms_conn.c	/^uint64_t ms_get_key_prefix(void)$/;"	f
+ms_get_udp_request_id	ms_conn.c	/^static uint32_t ms_get_udp_request_id(void)$/;"	f	file:
+ms_task_init	ms_conn.c	/^static void ms_task_init(ms_conn_t *c)$/;"	f	file:
+ms_conn_udp_init	ms_conn.c	/^static int ms_conn_udp_init(ms_conn_t *c, const bool is_udp)$/;"	f	file:
+ms_conn_init	ms_conn.c	/^static int ms_conn_init(ms_conn_t *c,$/;"	f	file:
+ms_warmup_num_init	ms_conn.c	/^static void ms_warmup_num_init(ms_conn_t *c)$/;"	f	file:
+ms_item_win_init	ms_conn.c	/^static int ms_item_win_init(ms_conn_t *c)$/;"	f	file:
+ms_conn_sock_init	ms_conn.c	/^static int ms_conn_sock_init(ms_conn_t *c)$/;"	f	file:
+ms_conn_event_init	ms_conn.c	/^static int ms_conn_event_init(ms_conn_t *c)$/;"	f	file:
+ms_setup_conn	ms_conn.c	/^int ms_setup_conn(ms_conn_t *c)$/;"	f
+ms_conn_free	ms_conn.c	/^void ms_conn_free(ms_conn_t *c)$/;"	f
+ms_conn_close	ms_conn.c	/^static void ms_conn_close(ms_conn_t *c)$/;"	f	file:
+ms_new_socket	ms_conn.c	/^static int ms_new_socket(struct addrinfo *ai)$/;"	f	file:
+ms_maximize_sndbuf	ms_conn.c	/^static void ms_maximize_sndbuf(const int sfd)$/;"	f	file:
+ms_network_connect	ms_conn.c	/^static int ms_network_connect(ms_conn_t *c,$/;"	f	file:
+ms_reconn	ms_conn.c	/^static int ms_reconn(ms_conn_t *c)$/;"	f	file:
+ms_reconn_socks	ms_conn.c	/^int ms_reconn_socks(ms_conn_t *c)$/;"	f
+ms_tokenize_command	ms_conn.c	/^static int ms_tokenize_command(char *command,$/;"	f	file:
+ms_ascii_process_line	ms_conn.c	/^static int ms_ascii_process_line(ms_conn_t *c, char *command)$/;"	f	file:
+ms_reset_conn	ms_conn.c	/^void ms_reset_conn(ms_conn_t *c, bool timeout)$/;"	f
+ms_try_read_line	ms_conn.c	/^static int ms_try_read_line(ms_conn_t *c)$/;"	f	file:
+ms_sort_udp_packet	ms_conn.c	/^static int ms_sort_udp_packet(ms_conn_t *c, char *buf, int rbytes)$/;"	f	file:
+ms_udp_read	ms_conn.c	/^static int ms_udp_read(ms_conn_t *c, char *buf, int len)$/;"	f	file:
+ms_try_read_network	ms_conn.c	/^static int ms_try_read_network(ms_conn_t *c)$/;"	f	file:
+ms_verify_value	ms_conn.c	/^static void ms_verify_value(ms_conn_t *c,$/;"	f	file:
+ms_ascii_complete_nread	ms_conn.c	/^static void ms_ascii_complete_nread(ms_conn_t *c)$/;"	f	file:
+ms_bin_complete_nread	ms_conn.c	/^static void ms_bin_complete_nread(ms_conn_t *c)$/;"	f	file:
+ms_complete_nread	ms_conn.c	/^static void ms_complete_nread(ms_conn_t *c)$/;"	f	file:
+ms_add_msghdr	ms_conn.c	/^static int ms_add_msghdr(ms_conn_t *c)$/;"	f	file:
+ms_ensure_iov_space	ms_conn.c	/^static int ms_ensure_iov_space(ms_conn_t *c)$/;"	f	file:
+ms_add_iov	ms_conn.c	/^static int ms_add_iov(ms_conn_t *c, const void *buf, int len)$/;"	f	file:
+ms_build_udp_headers	ms_conn.c	/^static int ms_build_udp_headers(ms_conn_t *c)$/;"	f	file:
+ms_transmit	ms_conn.c	/^static int ms_transmit(ms_conn_t *c)$/;"	f	file:
+ms_conn_shrink	ms_conn.c	/^static void ms_conn_shrink(ms_conn_t *c)$/;"	f	file:
+ms_conn_set_state	ms_conn.c	/^static void ms_conn_set_state(ms_conn_t *c, int state)$/;"	f	file:
+ms_update_event	ms_conn.c	/^static bool ms_update_event(ms_conn_t *c, const int new_flags)$/;"	f	file:
+ms_need_yield	ms_conn.c	/^static bool ms_need_yield(ms_conn_t *c)$/;"	f	file:
+ms_update_start_time	ms_conn.c	/^static void ms_update_start_time(ms_conn_t *c)$/;"	f	file:
+ms_drive_machine	ms_conn.c	/^static void ms_drive_machine(ms_conn_t *c)$/;"	f	file:
+ms_event_handler	ms_conn.c	/^void ms_event_handler(const int fd, const short which, void *arg)$/;"	f
+ms_get_rep_sock_index	ms_conn.c	/^static uint32_t ms_get_rep_sock_index(ms_conn_t *c, int cmd)$/;"	f	file:
+ms_get_next_sock_index	ms_conn.c	/^static uint32_t ms_get_next_sock_index(ms_conn_t *c)$/;"	f	file:
+ms_update_conn_sock_event	ms_conn.c	/^static int ms_update_conn_sock_event(ms_conn_t *c)$/;"	f	file:
+ms_build_ascii_write_buf_set	ms_conn.c	/^static int ms_build_ascii_write_buf_set(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_mcd_set	ms_conn.c	/^int ms_mcd_set(ms_conn_t *c, ms_task_item_t *item)$/;"	f
+ms_build_ascii_write_buf_get	ms_conn.c	/^static int ms_build_ascii_write_buf_get(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_mcd_get	ms_conn.c	/^int ms_mcd_get(ms_conn_t *c, ms_task_item_t *item)$/;"	f
+ms_build_ascii_write_buf_mlget	ms_conn.c	/^static int ms_build_ascii_write_buf_mlget(ms_conn_t *c)$/;"	f	file:
+ms_mcd_mlget	ms_conn.c	/^int ms_mcd_mlget(ms_conn_t *c)$/;"	f
+ms_bin_process_response	ms_conn.c	/^static int ms_bin_process_response(ms_conn_t *c)$/;"	f	file:
+ms_add_bin_header	ms_conn.c	/^static void ms_add_bin_header(ms_conn_t *c,$/;"	f	file:
+ms_add_key_to_iov	ms_conn.c	/^static void ms_add_key_to_iov(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_build_bin_write_buf_set	ms_conn.c	/^static int ms_build_bin_write_buf_set(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_build_bin_write_buf_get	ms_conn.c	/^static int ms_build_bin_write_buf_get(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_build_bin_write_buf_mlget	ms_conn.c	/^static int ms_build_bin_write_buf_mlget(ms_conn_t *c)$/;"	f	file:
+MS_CONN_H	ms_conn.h	12;"	d
+DATA_BUFFER_SIZE	ms_conn.h	26;"	d
+WRITE_BUFFER_SIZE	ms_conn.h	27;"	d
+UDP_DATA_BUFFER_SIZE	ms_conn.h	28;"	d
+UDP_MAX_PAYLOAD_SIZE	ms_conn.h	29;"	d
+UDP_MAX_SEND_PAYLOAD_SIZE	ms_conn.h	30;"	d
+UDP_HEADER_SIZE	ms_conn.h	31;"	d
+MAX_SENDBUF_SIZE	ms_conn.h	32;"	d
+SOCK_WAIT_TIMEOUT	ms_conn.h	33;"	d
+MAX_UDP_PACKET	ms_conn.h	34;"	d
+IOV_LIST_INITIAL	ms_conn.h	37;"	d
+MSG_LIST_INITIAL	ms_conn.h	40;"	d
+READ_BUFFER_HIGHWAT	ms_conn.h	43;"	d
+UDP_DATA_BUFFER_HIGHWAT	ms_conn.h	44;"	d
+IOV_LIST_HIGHWAT	ms_conn.h	45;"	d
+MSG_LIST_HIGHWAT	ms_conn.h	46;"	d
+HEADER_TO_REQID	ms_conn.h	49;"	d
+HEADER_TO_SEQNUM	ms_conn.h	51;"	d
+HEADER_TO_PACKETS	ms_conn.h	54;"	d
+conn_states	ms_conn.h	/^enum conn_states$/;"	g
+conn_read	ms_conn.h	/^  conn_read,         \/* reading in a command line *\/$/;"	e	enum:conn_states
+conn_write	ms_conn.h	/^  conn_write,        \/* writing out a simple response *\/$/;"	e	enum:conn_states
+conn_closing	ms_conn.h	/^  conn_closing      \/* closing this connection *\/$/;"	e	enum:conn_states
+mcd_ret	ms_conn.h	/^enum mcd_ret$/;"	g
+MCD_SUCCESS	ms_conn.h	/^  MCD_SUCCESS,                      \/* command success *\/$/;"	e	enum:mcd_ret
+MCD_FAILURE	ms_conn.h	/^  MCD_FAILURE,                      \/* command failure *\/$/;"	e	enum:mcd_ret
+MCD_UNKNOWN_READ_FAILURE	ms_conn.h	/^  MCD_UNKNOWN_READ_FAILURE,         \/* unknown read failure *\/$/;"	e	enum:mcd_ret
+MCD_PROTOCOL_ERROR	ms_conn.h	/^  MCD_PROTOCOL_ERROR,               \/* protocol error *\/$/;"	e	enum:mcd_ret
+MCD_CLIENT_ERROR	ms_conn.h	/^  MCD_CLIENT_ERROR,                 \/* client error, wrong command *\/$/;"	e	enum:mcd_ret
+MCD_SERVER_ERROR	ms_conn.h	/^  MCD_SERVER_ERROR,                 \/* server error, server run command failed *\/$/;"	e	enum:mcd_ret
+MCD_DATA_EXISTS	ms_conn.h	/^  MCD_DATA_EXISTS,                  \/* object is existent in server *\/$/;"	e	enum:mcd_ret
+MCD_NOTSTORED	ms_conn.h	/^  MCD_NOTSTORED,                    \/* server doesn't set the object successfully *\/$/;"	e	enum:mcd_ret
+MCD_STORED	ms_conn.h	/^  MCD_STORED,                       \/* server set the object successfully *\/$/;"	e	enum:mcd_ret
+MCD_NOTFOUND	ms_conn.h	/^  MCD_NOTFOUND,                     \/* server not find the object *\/$/;"	e	enum:mcd_ret
+MCD_END	ms_conn.h	/^  MCD_END,                          \/* end of the response of get command *\/$/;"	e	enum:mcd_ret
+MCD_DELETED	ms_conn.h	/^  MCD_DELETED,                      \/* server delete the object successfully *\/$/;"	e	enum:mcd_ret
+MCD_STAT	ms_conn.h	/^  MCD_STAT                         \/* response of stats command *\/$/;"	e	enum:mcd_ret
+cmdstat	ms_conn.h	/^typedef struct cmdstat$/;"	s
+cmd	ms_conn.h	/^  int cmd;                  \/* command name *\/$/;"	m	struct:cmdstat
+retstat	ms_conn.h	/^  int retstat;              \/* return state of this command *\/$/;"	m	struct:cmdstat
+isfinish	ms_conn.h	/^  bool isfinish;            \/* if it read all the response data *\/$/;"	m	struct:cmdstat
+key_prefix	ms_conn.h	/^  uint64_t key_prefix;      \/* key prefix *\/$/;"	m	struct:cmdstat
+ms_cmdstat_t	ms_conn.h	/^} ms_cmdstat_t;$/;"	t	typeref:struct:cmdstat
+udppkt	ms_conn.h	/^typedef struct udppkt$/;"	s
+header	ms_conn.h	/^  uint8_t *header;          \/* udp header of the packet *\/$/;"	m	struct:udppkt
+data	ms_conn.h	/^  char *data;               \/* udp data of the packet *\/$/;"	m	struct:udppkt
+rbytes	ms_conn.h	/^  int rbytes;               \/* number of data in the packet *\/$/;"	m	struct:udppkt
+copybytes	ms_conn.h	/^  int copybytes;            \/* number of copied data in the packet *\/$/;"	m	struct:udppkt
+ms_udppkt_t	ms_conn.h	/^} ms_udppkt_t;$/;"	t	typeref:struct:udppkt
+protocol	ms_conn.h	/^enum protocol$/;"	g
+ascii_prot	ms_conn.h	/^  ascii_prot = 3,           \/* ASCII protocol *\/$/;"	e	enum:protocol
+binary_prot	ms_conn.h	/^  binary_prot              \/* binary protocol *\/$/;"	e	enum:protocol
+conn	ms_conn.h	/^typedef struct conn$/;"	s
+conn_idx	ms_conn.h	/^  uint32_t conn_idx;             \/* connection index in the thread *\/$/;"	m	struct:conn
+sfd	ms_conn.h	/^  int sfd;                  \/* current tcp sock handler of the connection structure *\/$/;"	m	struct:conn
+udpsfd	ms_conn.h	/^  int udpsfd;               \/* current udp sock handler of the connection structure*\/$/;"	m	struct:conn
+state	ms_conn.h	/^  int state;                \/* state of the connection *\/$/;"	m	struct:conn
+event	ms_conn.h	/^  struct event event;       \/* event for libevent *\/$/;"	m	struct:conn	typeref:struct:conn::event
+ev_flags	ms_conn.h	/^  short ev_flags;           \/* event flag for libevent *\/$/;"	m	struct:conn
+which	ms_conn.h	/^  short which;              \/* which events were just triggered *\/$/;"	m	struct:conn
+change_sfd	ms_conn.h	/^  bool change_sfd;          \/* whether change sfd *\/$/;"	m	struct:conn
+tcpsfd	ms_conn.h	/^  int *tcpsfd;              \/* TCP sock array *\/$/;"	m	struct:conn
+total_sfds	ms_conn.h	/^  uint32_t total_sfds;           \/* how many socks in the tcpsfd array *\/$/;"	m	struct:conn
+alive_sfds	ms_conn.h	/^  uint32_t alive_sfds;           \/* alive socks *\/$/;"	m	struct:conn
+cur_idx	ms_conn.h	/^  uint32_t cur_idx;              \/* current sock index in tcpsfd array *\/$/;"	m	struct:conn
+precmd	ms_conn.h	/^  ms_cmdstat_t precmd;      \/* previous command state *\/$/;"	m	struct:conn
+currcmd	ms_conn.h	/^  ms_cmdstat_t currcmd;     \/* current command state *\/$/;"	m	struct:conn
+rbuf	ms_conn.h	/^  char *rbuf;               \/* buffer to read commands into *\/$/;"	m	struct:conn
+rcurr	ms_conn.h	/^  char *rcurr;              \/* but if we parsed some already, this is where we stopped *\/$/;"	m	struct:conn
+rsize	ms_conn.h	/^  int rsize;                \/* total allocated size of rbuf *\/$/;"	m	struct:conn
+rbytes	ms_conn.h	/^  int rbytes;               \/* how much data, starting from rcur, do we have unparsed *\/$/;"	m	struct:conn
+readval	ms_conn.h	/^  bool readval;             \/* read value state, read known data size *\/$/;"	m	struct:conn
+rvbytes	ms_conn.h	/^  int rvbytes;              \/* total value size need to read *\/$/;"	m	struct:conn
+wbuf	ms_conn.h	/^  char *wbuf;               \/* buffer to write commands out *\/$/;"	m	struct:conn
+wcurr	ms_conn.h	/^  char *wcurr;              \/* for multi-get, where we stopped *\/$/;"	m	struct:conn
+wsize	ms_conn.h	/^  int wsize;                \/* total allocated size of wbuf *\/$/;"	m	struct:conn
+ctnwrite	ms_conn.h	/^  bool ctnwrite;            \/* continue to write *\/$/;"	m	struct:conn
+iov	ms_conn.h	/^  struct iovec *iov;$/;"	m	struct:conn	typeref:struct:conn::iovec
+iovsize	ms_conn.h	/^  int iovsize;              \/* number of elements allocated in iov[] *\/$/;"	m	struct:conn
+iovused	ms_conn.h	/^  int iovused;              \/* number of elements used in iov[] *\/$/;"	m	struct:conn
+msglist	ms_conn.h	/^  struct msghdr *msglist;$/;"	m	struct:conn	typeref:struct:conn::msghdr
+msgsize	ms_conn.h	/^  int msgsize;              \/* number of elements allocated in msglist[] *\/$/;"	m	struct:conn
+msgused	ms_conn.h	/^  int msgused;              \/* number of elements used in msglist[] *\/$/;"	m	struct:conn
+msgcurr	ms_conn.h	/^  int msgcurr;              \/* element in msglist[] being transmitted now *\/$/;"	m	struct:conn
+msgbytes	ms_conn.h	/^  int msgbytes;             \/* number of bytes in current msg *\/$/;"	m	struct:conn
+udp	ms_conn.h	/^  bool udp;                          \/* is this is a UDP "connection" *\/$/;"	m	struct:conn
+request_id	ms_conn.h	/^  uint32_t request_id;                   \/* UDP request ID of current operation, if this is a UDP "connection" *\/$/;"	m	struct:conn
+hdrbuf	ms_conn.h	/^  uint8_t *hdrbuf;                  \/* udp packet headers *\/$/;"	m	struct:conn
+hdrsize	ms_conn.h	/^  int hdrsize;                      \/* number of headers' worth of space is allocated *\/$/;"	m	struct:conn
+srv_recv_addr	ms_conn.h	/^  struct  sockaddr srv_recv_addr;   \/* Sent the most recent request to which server *\/$/;"	m	struct:conn	typeref:struct:conn::sockaddr
+srv_recv_addr_size	ms_conn.h	/^  socklen_t srv_recv_addr_size;$/;"	m	struct:conn
+rudpbuf	ms_conn.h	/^  char *rudpbuf;                    \/* buffer to read commands into for udp *\/$/;"	m	struct:conn
+rudpsize	ms_conn.h	/^  int rudpsize;                     \/* total allocated size of rudpbuf *\/$/;"	m	struct:conn
+rudpbytes	ms_conn.h	/^  int rudpbytes;                    \/* how much data, starting from rudpbuf *\/$/;"	m	struct:conn
+udppkt	ms_conn.h	/^  ms_udppkt_t *udppkt;              \/* the offset of udp packet in rudpbuf *\/$/;"	m	struct:conn
+packets	ms_conn.h	/^  int packets;                      \/* number of total packets need to read *\/$/;"	m	struct:conn
+recvpkt	ms_conn.h	/^  int recvpkt;                      \/* number of received packets *\/$/;"	m	struct:conn
+pktcurr	ms_conn.h	/^  int pktcurr;                      \/* current packet in rudpbuf being ordered *\/$/;"	m	struct:conn
+ordcurr	ms_conn.h	/^  int ordcurr;                      \/* current ordered packet *\/$/;"	m	struct:conn
+item_win	ms_conn.h	/^  ms_task_item_t *item_win;         \/* task sequence *\/$/;"	m	struct:conn
+win_size	ms_conn.h	/^  int win_size;                     \/* current task window size *\/$/;"	m	struct:conn
+set_cursor	ms_conn.h	/^  uint64_t set_cursor;              \/* current set item index in the item window *\/$/;"	m	struct:conn
+curr_task	ms_conn.h	/^  ms_task_t curr_task;              \/* current running task *\/$/;"	m	struct:conn
+mlget_task	ms_conn.h	/^  ms_mlget_task_t mlget_task;       \/* multi-get task *\/$/;"	m	struct:conn
+warmup_num	ms_conn.h	/^  int warmup_num;                   \/* to run how many warm up operations*\/$/;"	m	struct:conn
+remain_warmup_num	ms_conn.h	/^  int remain_warmup_num;            \/* left how many warm up operations to run *\/$/;"	m	struct:conn
+exec_num	ms_conn.h	/^  int64_t exec_num;                 \/* to run how many task operations *\/$/;"	m	struct:conn
+remain_exec_num	ms_conn.h	/^  int64_t remain_exec_num;          \/* how many remained task operations to run *\/$/;"	m	struct:conn
+start_time	ms_conn.h	/^  struct timeval start_time;        \/* start time of current operation(s) *\/$/;"	m	struct:conn	typeref:struct:conn::timeval
+end_time	ms_conn.h	/^  struct timeval end_time;          \/* end time of current operation(s) *\/$/;"	m	struct:conn	typeref:struct:conn::timeval
+binary_header	ms_conn.h	/^  protocol_binary_response_header binary_header;    \/* local temporary binary header *\/$/;"	m	struct:conn
+protocol	ms_conn.h	/^  enum protocol protocol;                           \/* which protocol this connection speaks *\/$/;"	m	struct:conn	typeref:enum:conn::protocol
+ms_conn_t	ms_conn.h	/^} ms_conn_t;$/;"	t	typeref:struct:conn
+MS_MEMSLAP_H	ms_memslap.h	12;"	d
+OPT_VERSION	ms_memslap.h	/^  OPT_VERSION= 'V',$/;"	e	enum:__anon3
+OPT_HELP	ms_memslap.h	/^  OPT_HELP= 'h',$/;"	e	enum:__anon3
+OPT_UDP	ms_memslap.h	/^  OPT_UDP= 'U',$/;"	e	enum:__anon3
+OPT_SERVERS	ms_memslap.h	/^  OPT_SERVERS= 's',$/;"	e	enum:__anon3
+OPT_EXECUTE_NUMBER	ms_memslap.h	/^  OPT_EXECUTE_NUMBER= 'x',$/;"	e	enum:__anon3
+OPT_THREAD_NUMBER	ms_memslap.h	/^  OPT_THREAD_NUMBER= 'T',$/;"	e	enum:__anon3
+OPT_CONCURRENCY	ms_memslap.h	/^  OPT_CONCURRENCY= 'c',$/;"	e	enum:__anon3
+OPT_FIXED_LTH	ms_memslap.h	/^  OPT_FIXED_LTH= 'X',$/;"	e	enum:__anon3
+OPT_VERIFY	ms_memslap.h	/^  OPT_VERIFY= 'v',$/;"	e	enum:__anon3
+OPT_GETS_DIVISION	ms_memslap.h	/^  OPT_GETS_DIVISION= 'd',$/;"	e	enum:__anon3
+OPT_TIME	ms_memslap.h	/^  OPT_TIME= 't',$/;"	e	enum:__anon3
+OPT_CONFIG_CMD	ms_memslap.h	/^  OPT_CONFIG_CMD= 'F',$/;"	e	enum:__anon3
+OPT_WINDOW_SIZE	ms_memslap.h	/^  OPT_WINDOW_SIZE= 'w',$/;"	e	enum:__anon3
+OPT_EXPIRE	ms_memslap.h	/^  OPT_EXPIRE= 'e',$/;"	e	enum:__anon3
+OPT_STAT_FREQ	ms_memslap.h	/^  OPT_STAT_FREQ= 'S',$/;"	e	enum:__anon3
+OPT_RECONNECT	ms_memslap.h	/^  OPT_RECONNECT= 'R',$/;"	e	enum:__anon3
+OPT_VERBOSE	ms_memslap.h	/^  OPT_VERBOSE= 'b',$/;"	e	enum:__anon3
+OPT_FACEBOOK_TEST	ms_memslap.h	/^  OPT_FACEBOOK_TEST= 'a',$/;"	e	enum:__anon3
+OPT_SOCK_PER_CONN	ms_memslap.h	/^  OPT_SOCK_PER_CONN= 'n',$/;"	e	enum:__anon3
+OPT_BINARY_PROTOCOL	ms_memslap.h	/^  OPT_BINARY_PROTOCOL= 'B',$/;"	e	enum:__anon3
+OPT_OVERWRITE	ms_memslap.h	/^  OPT_OVERWRITE= 'o',$/;"	e	enum:__anon3
+OPT_TPS	ms_memslap.h	/^  OPT_TPS= 'P',$/;"	e	enum:__anon3
+OPT_REP_WRITE_SRV	ms_memslap.h	/^  OPT_REP_WRITE_SRV= 'p'$/;"	e	enum:__anon3
+ms_options_t	ms_memslap.h	/^} ms_options_t;$/;"	t	typeref:enum:__anon3
+statistic	ms_memslap.h	/^typedef struct statistic$/;"	s
+stat_mutex	ms_memslap.h	/^  pthread_mutex_t stat_mutex;       \/* synchronize the following members *\/$/;"	m	struct:statistic
+get_stat	ms_memslap.h	/^  ms_stat_t get_stat;               \/* statistics of get command *\/$/;"	m	struct:statistic
+set_stat	ms_memslap.h	/^  ms_stat_t set_stat;               \/* statistics of set command *\/$/;"	m	struct:statistic
+total_stat	ms_memslap.h	/^  ms_stat_t total_stat;             \/* statistics of both get and set commands *\/$/;"	m	struct:statistic
+ms_statistic_t	ms_memslap.h	/^} ms_statistic_t;$/;"	t	typeref:struct:statistic
+stats	ms_memslap.h	/^typedef struct stats$/;"	s
+active_conns	ms_memslap.h	/^  volatile uint32_t active_conns;   \/* active connections *\/$/;"	m	struct:stats
+bytes_read	ms_memslap.h	/^  size_t bytes_read;              \/* read bytes *\/$/;"	m	struct:stats
+bytes_written	ms_memslap.h	/^  size_t bytes_written;           \/* written bytes *\/$/;"	m	struct:stats
+obj_bytes	ms_memslap.h	/^  size_t obj_bytes;               \/* object bytes *\/$/;"	m	struct:stats
+pre_cmd_get	ms_memslap.h	/^  size_t pre_cmd_get;             \/* previous total get command count *\/$/;"	m	struct:stats
+pre_cmd_set	ms_memslap.h	/^  size_t pre_cmd_set;             \/* previous total set command count *\/$/;"	m	struct:stats
+cmd_get	ms_memslap.h	/^  size_t cmd_get;                 \/* current total get command count *\/$/;"	m	struct:stats
+cmd_set	ms_memslap.h	/^  size_t cmd_set;                 \/* current total set command count *\/$/;"	m	struct:stats
+get_misses	ms_memslap.h	/^  size_t get_misses;              \/* total objects of get miss *\/$/;"	m	struct:stats
+vef_miss	ms_memslap.h	/^  size_t vef_miss;                \/* total objects of verification miss  *\/$/;"	m	struct:stats
+vef_failed	ms_memslap.h	/^  size_t vef_failed;              \/* total objects of verification failed  *\/$/;"	m	struct:stats
+unexp_unget	ms_memslap.h	/^  size_t unexp_unget;             \/* total objects which is unexpired but not get *\/$/;"	m	struct:stats
+exp_get	ms_memslap.h	/^  size_t exp_get;                 \/* total objects which is expired but get  *\/$/;"	m	struct:stats
+pkt_disorder	ms_memslap.h	/^  volatile size_t pkt_disorder;            \/* disorder packages of UDP *\/$/;"	m	struct:stats
+pkt_drop	ms_memslap.h	/^  size_t pkt_drop;                \/* packages dropped of UDP *\/$/;"	m	struct:stats
+udp_timeout	ms_memslap.h	/^  size_t udp_timeout;             \/* how many times timeout of UDP happens *\/$/;"	m	struct:stats
+ms_stats_t	ms_memslap.h	/^} ms_stats_t;$/;"	t	typeref:struct:stats
+sync_lock	ms_memslap.h	/^typedef struct sync_lock$/;"	s
+count	ms_memslap.h	/^  uint32_t count;$/;"	m	struct:sync_lock
+lock	ms_memslap.h	/^  pthread_mutex_t lock;$/;"	m	struct:sync_lock
+cond	ms_memslap.h	/^  pthread_cond_t cond;$/;"	m	struct:sync_lock
+ms_sync_lock_t	ms_memslap.h	/^} ms_sync_lock_t;$/;"	t	typeref:struct:sync_lock
+global	ms_memslap.h	/^typedef struct global$/;"	s
+init_lock	ms_memslap.h	/^  ms_sync_lock_t init_lock;$/;"	m	struct:global
+warmup_lock	ms_memslap.h	/^  ms_sync_lock_t warmup_lock;$/;"	m	struct:global
+run_lock	ms_memslap.h	/^  ms_sync_lock_t run_lock;$/;"	m	struct:global
+quit_mutex	ms_memslap.h	/^  pthread_mutex_t quit_mutex;$/;"	m	struct:global
+seq_mutex	ms_memslap.h	/^  pthread_mutex_t seq_mutex;$/;"	m	struct:global
+finish_warmup	ms_memslap.h	/^  bool finish_warmup;$/;"	m	struct:global
+time_out	ms_memslap.h	/^  bool time_out;$/;"	m	struct:global
+ms_global_t	ms_memslap.h	/^} ms_global_t;$/;"	t	typeref:struct:global
+ms_global	ms_memslap.h	/^ms_global_t ms_global;$/;"	v
+ms_stats	ms_memslap.h	/^ms_stats_t ms_stats;$/;"	v
+ms_statistic	ms_memslap.h	/^ms_statistic_t ms_statistic;$/;"	v
+MAX_EXEC_NUM	ms_setting.c	29;"	d	file:
+ADDR_ALIGN	ms_setting.c	30;"	d	file:
+RAND_CHAR_SIZE	ms_setting.c	31;"	d	file:
+RESERVED_RAND_CHAR_SIZE	ms_setting.c	32;"	d	file:
+DEFAULT_CONFIG_NAME	ms_setting.c	34;"	d	file:
+DEFAULT_THREADS_NUM	ms_setting.c	36;"	d	file:
+DEFAULT_CONNS_NUM	ms_setting.c	37;"	d	file:
+DEFAULT_EXE_NUM	ms_setting.c	38;"	d	file:
+DEFAULT_VERIFY_RATE	ms_setting.c	39;"	d	file:
+DEFAULT_OVERWRITE_RATE	ms_setting.c	40;"	d	file:
+DEFAULT_DIV	ms_setting.c	41;"	d	file:
+DEFAULT_RUN_TIME	ms_setting.c	42;"	d	file:
+DEFAULT_WINDOW_SIZE	ms_setting.c	43;"	d	file:
+DEFAULT_SOCK_PER_CONN	ms_setting.c	44;"	d	file:
+CHAR_COUNT	ms_setting.c	47;"	d	file:
+ALPHANUMBERICS	ms_setting.c	/^const char ALPHANUMBERICS[]=$/;"	v
+ms_setting	ms_setting.c	/^ms_setting_st ms_setting;       \/* store the settings specified by user *\/$/;"	v
+getline	ms_setting.c	/^static ssize_t getline (char **line, size_t *line_size, FILE *fp)$/;"	f	file:
+ms_get_serverlist	ms_setting.c	/^static void ms_get_serverlist(char *str)$/;"	f	file:
+ms_get_cpu_count	ms_setting.c	/^static uint32_t ms_get_cpu_count()$/;"	f	file:
+ms_get_conf_type	ms_setting.c	/^ms_conf_type_t ms_get_conf_type(char *line)$/;"	f
+ms_is_line_data	ms_setting.c	/^static int ms_is_line_data(char *line)$/;"	f	file:
+ms_read_is_data	ms_setting.c	/^static int ms_read_is_data(char *line, ssize_t nread)$/;"	f	file:
+ms_no_config_file	ms_setting.c	/^static void ms_no_config_file()$/;"	f	file:
+ms_parse_cfg_file	ms_setting.c	/^static void ms_parse_cfg_file(char *cfg_file)$/;"	f	file:
+ms_calc_avg_size	ms_setting.c	/^static void ms_calc_avg_size()$/;"	f	file:
+ms_shuffle_distr	ms_setting.c	/^static int ms_shuffle_distr(ms_distr_t *distr, int length)$/;"	f	file:
+ms_build_distr	ms_setting.c	/^static void ms_build_distr()$/;"	f	file:
+ms_init_random_block	ms_setting.c	/^static void ms_init_random_block()$/;"	f	file:
+ms_print_setting	ms_setting.c	/^static void ms_print_setting()$/;"	f	file:
+ms_setting_slapmode_init_pre	ms_setting.c	/^static void ms_setting_slapmode_init_pre()$/;"	f	file:
+ms_setting_init_pre	ms_setting.c	/^void ms_setting_init_pre()$/;"	f
+ms_setting_slapmode_init_post	ms_setting.c	/^static void ms_setting_slapmode_init_post()$/;"	f	file:
+ms_setting_init_post	ms_setting.c	/^void ms_setting_init_post()$/;"	f
+ms_setting_cleanup	ms_setting.c	/^void ms_setting_cleanup()$/;"	f
+MS_SETTING_H	ms_setting.h	12;"	d
+MCD_SRVS_NUM_INIT	ms_setting.h	20;"	d
+MCD_HOST_LENGTH	ms_setting.h	21;"	d
+KEY_RANGE_COUNT_INIT	ms_setting.h	22;"	d
+VALUE_RANGE_COUNT_INIT	ms_setting.h	23;"	d
+PROP_ERROR	ms_setting.h	24;"	d
+MIN_KEY_SIZE	ms_setting.h	26;"	d
+MAX_KEY_SIZE	ms_setting.h	27;"	d
+MAX_VALUE_SIZE	ms_setting.h	28;"	d
+DEFAULT_CONGIF_STR	ms_setting.h	31;"	d
+token_s	ms_setting.h	/^typedef struct token_s$/;"	s
+value	ms_setting.h	/^  char *value;$/;"	m	struct:token_s
+length	ms_setting.h	/^  size_t length;$/;"	m	struct:token_s
+token_t	ms_setting.h	/^} token_t;$/;"	t	typeref:struct:token_s
+MAX_TOKENS	ms_setting.h	47;"	d
+mcd_sever	ms_setting.h	/^typedef struct mcd_sever$/;"	s
+srv_host_name	ms_setting.h	/^  char srv_host_name[MCD_HOST_LENGTH];              \/* host name of server *\/$/;"	m	struct:mcd_sever
+srv_port	ms_setting.h	/^  int srv_port;                                     \/* server port *\/$/;"	m	struct:mcd_sever
+disconn_cnt	ms_setting.h	/^  volatile uint32_t disconn_cnt;                    \/* number of disconnections count *\/$/;"	m	struct:mcd_sever
+reconn_cnt	ms_setting.h	/^  volatile uint32_t reconn_cnt;                     \/* number of reconnections count *\/$/;"	m	struct:mcd_sever
+disconn_time	ms_setting.h	/^  struct timeval disconn_time;                      \/* start time of disconnection *\/$/;"	m	struct:mcd_sever	typeref:struct:mcd_sever::timeval
+reconn_time	ms_setting.h	/^  struct timeval reconn_time;                       \/* end time of reconnection *\/$/;"	m	struct:mcd_sever	typeref:struct:mcd_sever::timeval
+ms_mcd_server_t	ms_setting.h	/^} ms_mcd_server_t;$/;"	t	typeref:struct:mcd_sever
+distr	ms_setting.h	/^typedef struct distr$/;"	s
+key_size	ms_setting.h	/^  size_t key_size;                  \/* size of key *\/$/;"	m	struct:distr
+key_offset	ms_setting.h	/^  int key_offset;                   \/* offset of one key in character block *\/$/;"	m	struct:distr
+value_size	ms_setting.h	/^  size_t value_size;                \/* size of value *\/$/;"	m	struct:distr
+ms_distr_t	ms_setting.h	/^} ms_distr_t;$/;"	t	typeref:struct:distr
+key_distr	ms_setting.h	/^typedef struct key_distr$/;"	s
+start_len	ms_setting.h	/^  size_t start_len;                 \/* start of the key length range *\/$/;"	m	struct:key_distr
+end_len	ms_setting.h	/^  size_t end_len;                   \/* end of the key length range *\/$/;"	m	struct:key_distr
+key_prop	ms_setting.h	/^  double key_prop;                  \/* key proportion *\/$/;"	m	struct:key_distr
+ms_key_distr_t	ms_setting.h	/^} ms_key_distr_t;$/;"	t	typeref:struct:key_distr
+value_distr	ms_setting.h	/^typedef struct value_distr$/;"	s
+start_len	ms_setting.h	/^  size_t start_len;                 \/* start of the value length range *\/$/;"	m	struct:value_distr
+end_len	ms_setting.h	/^  size_t end_len;                   \/* end of the value length range *\/$/;"	m	struct:value_distr
+value_prop	ms_setting.h	/^  double value_prop;                \/* value proportion *\/$/;"	m	struct:value_distr
+ms_value_distr_t	ms_setting.h	/^} ms_value_distr_t;$/;"	t	typeref:struct:value_distr
+cmd_type	ms_setting.h	/^typedef enum cmd_type$/;"	g
+CMD_SET	ms_setting.h	/^  CMD_SET,$/;"	e	enum:cmd_type
+CMD_GET	ms_setting.h	/^  CMD_GET,$/;"	e	enum:cmd_type
+CMD_NULL	ms_setting.h	/^  CMD_NULL$/;"	e	enum:cmd_type
+ms_cmd_type_t	ms_setting.h	/^} ms_cmd_type_t;$/;"	t	typeref:enum:cmd_type
+conf_type	ms_setting.h	/^typedef enum conf_type$/;"	g
+CONF_KEY	ms_setting.h	/^  CONF_KEY,$/;"	e	enum:conf_type
+CONF_VALUE	ms_setting.h	/^  CONF_VALUE,$/;"	e	enum:conf_type
+CONF_CMD	ms_setting.h	/^  CONF_CMD,$/;"	e	enum:conf_type
+CONF_NULL	ms_setting.h	/^  CONF_NULL$/;"	e	enum:conf_type
+ms_conf_type_t	ms_setting.h	/^} ms_conf_type_t;$/;"	t	typeref:enum:conf_type
+cmd_distr	ms_setting.h	/^typedef struct cmd_distr$/;"	s
+cmd_type	ms_setting.h	/^  ms_cmd_type_t cmd_type;               \/* command type *\/$/;"	m	struct:cmd_distr
+cmd_prop	ms_setting.h	/^  double cmd_prop;                      \/* proportion of the command *\/$/;"	m	struct:cmd_distr
+ms_cmd_distr_t	ms_setting.h	/^} ms_cmd_distr_t;$/;"	t	typeref:struct:cmd_distr
+setting	ms_setting.h	/^typedef struct setting$/;"	s
+ncpu	ms_setting.h	/^  uint32_t ncpu;                             \/* cpu count of this system *\/$/;"	m	struct:setting
+nthreads	ms_setting.h	/^  uint32_t nthreads;                         \/* total thread count, must equal or less than cpu cores *\/$/;"	m	struct:setting
+nconns	ms_setting.h	/^  uint32_t nconns;                      \/* total conn count, must multiply by total thread count *\/$/;"	m	struct:setting
+exec_num	ms_setting.h	/^  int64_t exec_num;                     \/* total execute number *\/$/;"	m	struct:setting
+run_time	ms_setting.h	/^  int run_time;                         \/* total run time *\/$/;"	m	struct:setting
+char_blk_size	ms_setting.h	/^  uint32_t char_blk_size;               \/* global character block size *\/$/;"	m	struct:setting
+char_block	ms_setting.h	/^  char *char_block;                     \/* global character block with random character *\/$/;"	m	struct:setting
+distr	ms_setting.h	/^  ms_distr_t *distr;                    \/* distribution from configure file *\/$/;"	m	struct:setting
+srv_str	ms_setting.h	/^  char *srv_str;                        \/* string includes servers information *\/$/;"	m	struct:setting
+cfg_file	ms_setting.h	/^  char *cfg_file;                       \/* configure file name *\/$/;"	m	struct:setting
+servers	ms_setting.h	/^  ms_mcd_server_t *servers;             \/* servers array *\/$/;"	m	struct:setting
+total_srv_cnt	ms_setting.h	/^  uint32_t total_srv_cnt;                    \/* total servers count of the servers array *\/$/;"	m	struct:setting
+srv_cnt	ms_setting.h	/^  uint32_t srv_cnt;                          \/* servers count *\/$/;"	m	struct:setting
+key_distr	ms_setting.h	/^  ms_key_distr_t *key_distr;            \/* array of key distribution *\/$/;"	m	struct:setting
+total_key_rng_cnt	ms_setting.h	/^  int total_key_rng_cnt;                \/* total key range count of the array *\/$/;"	m	struct:setting
+key_rng_cnt	ms_setting.h	/^  int key_rng_cnt;                      \/* actual key range count *\/$/;"	m	struct:setting
+value_distr	ms_setting.h	/^  ms_value_distr_t *value_distr;        \/* array of value distribution *\/$/;"	m	struct:setting
+total_val_rng_cnt	ms_setting.h	/^  int total_val_rng_cnt;                \/* total value range count of the array *\/$/;"	m	struct:setting
+val_rng_cnt	ms_setting.h	/^  int val_rng_cnt;                      \/* actual value range count *\/$/;"	m	struct:setting
+cmd_distr	ms_setting.h	/^  ms_cmd_distr_t cmd_distr[CMD_NULL];   \/* total we have CMD_NULL commands *\/$/;"	m	struct:setting
+cmd_used_count	ms_setting.h	/^  int cmd_used_count;                   \/* supported command count *\/$/;"	m	struct:setting
+fixed_value_size	ms_setting.h	/^  size_t fixed_value_size;              \/* fixed value size *\/$/;"	m	struct:setting
+avg_val_size	ms_setting.h	/^  size_t avg_val_size;                  \/* average value size *\/$/;"	m	struct:setting
+avg_key_size	ms_setting.h	/^  size_t avg_key_size;                  \/* average value size *\/$/;"	m	struct:setting
+verify_percent	ms_setting.h	/^  double verify_percent;                \/* percent of data verification *\/$/;"	m	struct:setting
+exp_ver_per	ms_setting.h	/^  double exp_ver_per;                   \/* percent of data verification with expire time *\/$/;"	m	struct:setting
+overwrite_percent	ms_setting.h	/^  double overwrite_percent;             \/* percent of overwrite *\/$/;"	m	struct:setting
+mult_key_num	ms_setting.h	/^  int mult_key_num;                     \/* number of keys used by multi-get once *\/$/;"	m	struct:setting
+win_size	ms_setting.h	/^  size_t win_size;                      \/* item window size per connection *\/$/;"	m	struct:setting
+udp	ms_setting.h	/^  bool udp;                             \/* whether or not use UDP *\/$/;"	m	struct:setting
+stat_freq	ms_setting.h	/^  int stat_freq;                        \/* statistic frequency second *\/$/;"	m	struct:setting
+reconnect	ms_setting.h	/^  bool reconnect;                       \/* whether it reconnect when connection close *\/$/;"	m	struct:setting
+verbose	ms_setting.h	/^  bool verbose;                         \/* whether it outputs detailed information when verification *\/$/;"	m	struct:setting
+facebook_test	ms_setting.h	/^  bool facebook_test;                   \/* facebook test, TCP set and multi-get with UDP *\/$/;"	m	struct:setting
+sock_per_conn	ms_setting.h	/^  uint32_t sock_per_conn;                    \/* number of socks per connection structure *\/$/;"	m	struct:setting
+binary_prot_	ms_setting.h	/^  bool binary_prot_;                     \/* whether it use binary protocol *\/$/;"	m	struct:setting
+expected_tps	ms_setting.h	/^  int expected_tps;                     \/* expected throughput *\/$/;"	m	struct:setting
+rep_write_srv	ms_setting.h	/^  uint32_t rep_write_srv;                    \/* which servers are used to do replication writing *\/$/;"	m	struct:setting
+ms_setting_st	ms_setting.h	/^} ms_setting_st;$/;"	t	typeref:struct:setting
+UNUSED_ARGUMENT	ms_setting.h	175;"	d
+ms_signal_segv	ms_sigsegv.c	/^static void ms_signal_segv(int signum, siginfo_t *info, void *ptr)$/;"	f	file:
+ms_signal_int	ms_sigsegv.c	/^static void ms_signal_int(int signum, siginfo_t *info, void *ptr)$/;"	f	file:
+ms_setup_sigsegv	ms_sigsegv.c	/^int ms_setup_sigsegv(void)$/;"	f
+ms_setup_sigpipe	ms_sigsegv.c	/^int ms_setup_sigpipe(void)$/;"	f
+ms_setup_sigint	ms_sigsegv.c	/^int ms_setup_sigint(void)$/;"	f
+ms_init	ms_sigsegv.c	/^static void __attribute((constructor)) ms_init(void)$/;"	f
+MS_SIGSEGV_H	ms_sigsegv.h	12;"	d
+array_size	ms_stats.c	17;"	d	file:
+ms_local_log2	ms_stats.c	/^static int ms_local_log2(uint64_t value)$/;"	f	file:
+ms_init_stats	ms_stats.c	/^void ms_init_stats(ms_stat_t *stat, const char *name)$/;"	f
+ms_record_event	ms_stats.c	/^void ms_record_event(ms_stat_t *stat, uint64_t total_time, int get_miss)$/;"	f
+ms_get_events	ms_stats.c	/^static uint64_t ms_get_events(ms_stat_t *stat)$/;"	f	file:
+ms_dump_stats	ms_stats.c	/^void ms_dump_stats(ms_stat_t *stat)$/;"	f
+ms_dump_format_stats	ms_stats.c	/^void ms_dump_format_stats(ms_stat_t *stat,$/;"	f
+MS_STAT_H	ms_stats.h	12;"	d
+name	ms_stats.h	/^  char *name;$/;"	m	struct:__anon4
+total_time	ms_stats.h	/^  uint64_t total_time;$/;"	m	struct:__anon4
+min_time	ms_stats.h	/^  uint64_t min_time;$/;"	m	struct:__anon4
+max_time	ms_stats.h	/^  uint64_t max_time;$/;"	m	struct:__anon4
+get_miss	ms_stats.h	/^  uint64_t get_miss;$/;"	m	struct:__anon4
+dist	ms_stats.h	/^  uint64_t dist[65];$/;"	m	struct:__anon4
+squares	ms_stats.h	/^  double squares;$/;"	m	struct:__anon4
+log_product	ms_stats.h	/^  double log_product;$/;"	m	struct:__anon4
+period_min_time	ms_stats.h	/^  uint64_t period_min_time;$/;"	m	struct:__anon4
+period_max_time	ms_stats.h	/^  uint64_t period_max_time;$/;"	m	struct:__anon4
+pre_get_miss	ms_stats.h	/^  uint64_t pre_get_miss;$/;"	m	struct:__anon4
+pre_events	ms_stats.h	/^  uint64_t pre_events;$/;"	m	struct:__anon4
+pre_total_time	ms_stats.h	/^  uint64_t pre_total_time;$/;"	m	struct:__anon4
+pre_squares	ms_stats.h	/^  uint64_t pre_squares;$/;"	m	struct:__anon4
+pre_log_product	ms_stats.h	/^  double pre_log_product;$/;"	m	struct:__anon4
+ms_stat_t	ms_stats.h	/^} ms_stat_t;$/;"	t	typeref:struct:__anon4
+CMD_DISTR_ADJUST_CYCLE	ms_task.c	27;"	d	file:
+DISADJUST_FACTOR	ms_task.c	28;"	d	file:
+ms_get_cur_opt_item	ms_task.c	/^static ms_task_item_t *ms_get_cur_opt_item(ms_conn_t *c)$/;"	f	file:
+ms_get_next_get_item	ms_task.c	/^static ms_task_item_t *ms_get_next_get_item(ms_conn_t *c)$/;"	f	file:
+ms_get_next_set_item	ms_task.c	/^static ms_task_item_t *ms_get_next_set_item(ms_conn_t *c)$/;"	f	file:
+ms_get_random_overwrite_item	ms_task.c	/^static ms_task_item_t *ms_get_random_overwrite_item(ms_conn_t *c)$/;"	f	file:
+ms_select_opt	ms_task.c	/^static void ms_select_opt(ms_conn_t *c, ms_task_t *task)$/;"	f	file:
+ms_is_get_too_fast	ms_task.c	/^static bool ms_is_get_too_fast(ms_task_t *task)$/;"	f	file:
+ms_is_set_too_fast	ms_task.c	/^static bool ms_is_set_too_fast(ms_task_t *task)$/;"	f	file:
+ms_kick_out_item	ms_task.c	/^static void ms_kick_out_item(ms_task_item_t *item)$/;"	f	file:
+ms_need_overwrite_item	ms_task.c	/^static bool ms_need_overwrite_item(ms_task_t *task)$/;"	f	file:
+ms_adjust_opt	ms_task.c	/^static bool ms_adjust_opt(ms_conn_t *c, ms_task_t *task)$/;"	f	file:
+ms_task_data_verify_init	ms_task.c	/^static void ms_task_data_verify_init(ms_task_t *task)$/;"	f	file:
+ms_task_expire_verify_init	ms_task.c	/^static void ms_task_expire_verify_init(ms_task_t *task)$/;"	f	file:
+ms_get_task	ms_task.c	/^static ms_task_t *ms_get_task(ms_conn_t *c, bool warmup)$/;"	f	file:
+ms_send_signal	ms_task.c	/^static void ms_send_signal(ms_sync_lock_t *sync_lock)$/;"	f	file:
+ms_warmup_server	ms_task.c	/^static void ms_warmup_server(ms_conn_t *c)$/;"	f	file:
+ms_single_getset_task_sch	ms_task.c	/^static void ms_single_getset_task_sch(ms_conn_t *c)$/;"	f	file:
+ms_multi_getset_task_sch	ms_task.c	/^static void ms_multi_getset_task_sch(ms_conn_t *c)$/;"	f	file:
+ms_time_diff	ms_task.c	/^int64_t ms_time_diff(struct timeval *start_time, struct timeval *end_time)$/;"	f
+ms_update_multi_get_result	ms_task.c	/^static void ms_update_multi_get_result(ms_conn_t *c)$/;"	f	file:
+ms_update_single_get_result	ms_task.c	/^static void ms_update_single_get_result(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_update_set_result	ms_task.c	/^static void ms_update_set_result(ms_conn_t *c, ms_task_item_t *item)$/;"	f	file:
+ms_update_stat_result	ms_task.c	/^static void ms_update_stat_result(ms_conn_t *c)$/;"	f	file:
+ms_update_task_result	ms_task.c	/^static void ms_update_task_result(ms_conn_t *c)$/;"	f	file:
+ms_run_getset_task	ms_task.c	/^static int ms_run_getset_task(ms_conn_t *c)$/;"	f	file:
+ms_exec_task	ms_task.c	/^int ms_exec_task(struct conn *c)$/;"	f
+MS_TASK_H	ms_task.h	12;"	d
+UNIT_ITEMS_COUNT	ms_task.h	25;"	d
+KEY_PREFIX_SIZE	ms_task.h	26;"	d
+INVALID_OFFSET	ms_task.h	27;"	d
+FIXED_EXPIRE_TIME	ms_task.h	28;"	d
+EXPIRE_TIME_ERROR	ms_task.h	29;"	d
+task_item	ms_task.h	/^typedef struct task_item$/;"	s
+key_prefix	ms_task.h	/^  uint64_t key_prefix;                  \/* prefix of the key, 8 bytes, binary *\/$/;"	m	struct:task_item
+key_size	ms_task.h	/^  int key_size;                         \/* key size *\/$/;"	m	struct:task_item
+key_suffix_offset	ms_task.h	/^  int key_suffix_offset;                \/* suffix offset in the global character table *\/$/;"	m	struct:task_item
+value_size	ms_task.h	/^  int value_size;                       \/* data size *\/$/;"	m	struct:task_item
+value_offset	ms_task.h	/^  int value_offset;                     \/* data offset in the global character table *\/$/;"	m	struct:task_item
+client_time	ms_task.h	/^  time_t client_time;                   \/* the current client time *\/$/;"	m	struct:task_item
+exp_time	ms_task.h	/^  int exp_time;                         \/* expire time *\/$/;"	m	struct:task_item
+ms_task_item_t	ms_task.h	/^} ms_task_item_t;$/;"	t	typeref:struct:task_item
+mlget_task_item	ms_task.h	/^typedef struct mlget_task_item$/;"	s
+item	ms_task.h	/^  ms_task_item_t *item;                 \/* task item *\/$/;"	m	struct:mlget_task_item
+verify	ms_task.h	/^  bool verify;                          \/* whether verify data or not *\/$/;"	m	struct:mlget_task_item
+finish_verify	ms_task.h	/^  bool finish_verify;                   \/* whether finish data verify or not *\/$/;"	m	struct:mlget_task_item
+get_miss	ms_task.h	/^  bool get_miss;                        \/* whether get miss or not *\/$/;"	m	struct:mlget_task_item
+ms_mlget_task_item_t	ms_task.h	/^} ms_mlget_task_item_t;$/;"	t	typeref:struct:mlget_task_item
+mlget_task	ms_task.h	/^typedef struct mlget_task$/;"	s
+mlget_item	ms_task.h	/^  ms_mlget_task_item_t *mlget_item;        \/* multi-get task array *\/$/;"	m	struct:mlget_task
+mlget_num	ms_task.h	/^  int mlget_num;                           \/* how many tasks in mlget_task array *\/$/;"	m	struct:mlget_task
+value_index	ms_task.h	/^  int value_index;                         \/* the nth value received by the connect, for multi-get *\/$/;"	m	struct:mlget_task
+ms_mlget_task_t	ms_task.h	/^} ms_mlget_task_t;$/;"	t	typeref:struct:mlget_task
+task	ms_task.h	/^typedef struct task$/;"	s
+cmd	ms_task.h	/^  int cmd;                              \/* command name *\/$/;"	m	struct:task
+verify	ms_task.h	/^  bool verify;                          \/* whether verify data or not *\/$/;"	m	struct:task
+finish_verify	ms_task.h	/^  bool finish_verify;                   \/* whether finish data verify or not *\/$/;"	m	struct:task
+get_miss	ms_task.h	/^  bool get_miss;                        \/* whether get miss or not *\/$/;"	m	struct:task
+item	ms_task.h	/^  ms_task_item_t *item;                 \/* task item *\/$/;"	m	struct:task
+get_opt	ms_task.h	/^  uint64_t get_opt;                     \/* number of total get operations *\/$/;"	m	struct:task
+set_opt	ms_task.h	/^  uint64_t set_opt;                     \/* number of total set operations, no including warmup set count *\/$/;"	m	struct:task
+cycle_undo_get	ms_task.h	/^  int cycle_undo_get;                   \/* number of undo get in an adjustment cycle *\/$/;"	m	struct:task
+cycle_undo_set	ms_task.h	/^  int cycle_undo_set;                   \/* number of undo set in an adjustment cycle *\/$/;"	m	struct:task
+verified_get	ms_task.h	/^  uint64_t verified_get;                \/* number of total verified get operations *\/$/;"	m	struct:task
+overwrite_set	ms_task.h	/^  uint64_t overwrite_set;               \/* number of total overwrite set operations *\/$/;"	m	struct:task
+ms_task_t	ms_task.h	/^} ms_task_t;$/;"	t	typeref:struct:task
+ms_thread_key	ms_thread.c	/^pthread_key_t ms_thread_key;$/;"	v
+ms_thread_ctx	ms_thread.c	/^static ms_thread_ctx_t *ms_thread_ctx;$/;"	v	file:
+ms_set_current_time	ms_thread.c	/^static void ms_set_current_time()$/;"	f	file:
+ms_check_sock_timeout	ms_thread.c	/^static void ms_check_sock_timeout(void)$/;"	f	file:
+ms_reconn_thread_socks	ms_thread.c	/^static void ms_reconn_thread_socks(void)$/;"	f	file:
+ms_clock_handler	ms_thread.c	/^static void ms_clock_handler(const int fd, const short which, void *arg)$/;"	f	file:
+ms_set_thread_cpu_affinity	ms_thread.c	/^static uint32_t ms_set_thread_cpu_affinity(uint32_t cpu)$/;"	f	file:
+ms_setup_thread	ms_thread.c	/^static int ms_setup_thread(ms_thread_ctx_t *thread_ctx)$/;"	f	file:
+ms_worker_libevent	ms_thread.c	/^static void *ms_worker_libevent(void *arg)$/;"	f	file:
+ms_create_worker	ms_thread.c	/^static void ms_create_worker(void *(*func)(void *), void *arg)$/;"	f	file:
+ms_thread_init	ms_thread.c	/^void ms_thread_init()$/;"	f
+ms_thread_cleanup	ms_thread.c	/^void ms_thread_cleanup()$/;"	f
+MS_THREAD_H	ms_thread.h	28;"	d
+rel_time_t	ms_thread.h	/^typedef unsigned int   rel_time_t;$/;"	t
+thread_ctx	ms_thread.h	/^typedef struct thread_ctx$/;"	s
+thd_idx	ms_thread.h	/^  uint32_t thd_idx;                          \/* the thread index *\/$/;"	m	struct:thread_ctx
+nconns	ms_thread.h	/^  uint32_t nconns;                           \/* how many connections included by the thread *\/$/;"	m	struct:thread_ctx
+srv_idx	ms_thread.h	/^  uint32_t srv_idx;                          \/* index of the thread *\/$/;"	m	struct:thread_ctx
+tps_perconn	ms_thread.h	/^  int tps_perconn;                      \/* expected throughput per connection *\/$/;"	m	struct:thread_ctx
+exec_num_perconn	ms_thread.h	/^  int64_t exec_num_perconn;             \/* execute number per connection *\/$/;"	m	struct:thread_ctx
+ms_thread_ctx_t	ms_thread.h	/^} ms_thread_ctx_t;$/;"	t	typeref:struct:thread_ctx
+thread	ms_thread.h	/^typedef struct thread$/;"	s
+conn	ms_thread.h	/^  ms_conn_t *conn;                      \/* conn array to store all the conn in the thread *\/$/;"	m	struct:thread
+nactive_conn	ms_thread.h	/^  uint32_t nactive_conn;                     \/* how many connects are active *\/$/;"	m	struct:thread
+thread_ctx	ms_thread.h	/^  ms_thread_ctx_t *thread_ctx;          \/* thread context from the caller *\/$/;"	m	struct:thread
+base	ms_thread.h	/^  struct event_base *base;              \/* libevent handler created by this thread *\/$/;"	m	struct:thread	typeref:struct:thread::event_base
+curr_time	ms_thread.h	/^  rel_time_t curr_time;                 \/* current time *\/$/;"	m	struct:thread
+clock_event	ms_thread.h	/^  struct event clock_event;             \/* clock event to time each one second *\/$/;"	m	struct:thread	typeref:struct:thread::event
+initialized	ms_thread.h	/^  bool initialized;                     \/* whether clock_event has been initialized *\/$/;"	m	struct:thread
+startup_time	ms_thread.h	/^  struct timeval startup_time;          \/* start time of the thread *\/$/;"	m	struct:thread	typeref:struct:thread::timeval
+ms_thread_t	ms_thread.h	/^} ms_thread_t;$/;"	t	typeref:struct:thread
+timedif	utilities.cc	/^long int timedif(struct timeval a, struct timeval b)$/;"	f
+version_command	utilities.cc	/^void version_command(const char *command_name)$/;"	f
+close_stdio	utilities.cc	/^void close_stdio(void)$/;"	f
+lookup_help	utilities.cc	/^static const char *lookup_help(memcached_options option)$/;"	f	file:
+help_command	utilities.cc	/^void help_command(const char *command_name, const char *description,$/;"	f
+process_hash_option	utilities.cc	/^void process_hash_option(memcached_st *memc, char *opt_hash)$/;"	f
+initialize_sockets	utilities.cc	/^void initialize_sockets(void)$/;"	f
+OPTIONSTRING	utilities.h	31;"	d
+OPTIONSTRING	utilities.h	33;"	d
+memcached_programs_help_st	utilities.h	/^typedef struct memcached_programs_help_st memcached_programs_help_st;$/;"	t	typeref:struct:memcached_programs_help_st
+memcached_programs_help_st	utilities.h	/^struct memcached_programs_help_st$/;"	s
+not_used_yet	utilities.h	/^  char *not_used_yet;$/;"	m	struct:memcached_programs_help_st
