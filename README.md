@@ -41,6 +41,8 @@ For scalability, I built a simple application. It basically sets and gets in a l
 
 10 instances 2000 get/set pairs: 2.354s, 2.310s, 2.258s, 2.532s, 2.424s
 
+All numbers are from Wireshark.
+
 
 Instructions for Use
 --------------------
@@ -51,7 +53,7 @@ Once the source has been obtained, use make in the memstashed directory to make 
 
 bin/memstashed is the server executable and can be used directly.
 
-To make the tests, give “make test” in the memstashed directory. The correctness tests can be run by going into memstashed/libmemcached/clients and running “./memcapable –a”. For the scalability test, , execute “./scalability.sh $1 $2” in the memstashed/tests folder. First option is the number of get/set pairs, and the second option is the number of instances. Of course, bin/memstashed should be running while the tests are being performed.
+To make the tests, give “make test” in the memstashed directory. The correctness tests can be run by going into memstashed/libmemcached/clients and running “./memcapable –a”. For the scalability test, execute “./scalability.sh $1 $2” in the memstashed/tests folder. First option is the number of get/set pairs, and the second option is the number of instances. Of course, bin/memstashed should be running while the tests are being performed.
 
 Note that the stats command has very limited support. A few of the stats are sent back, but not all of them. I haven’t filled up the remaining places with dummy values because the memcapable test suite does not test stats too much.
 
