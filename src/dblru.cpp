@@ -329,13 +329,12 @@ int dbInsertElement (const string &key, const string &flags,
     valueStr.expiry = ULONG_MAX;
   }
   bool casCheck = true;
+  static unsigned seed = curSystemTime;
+  static mt19937_64 generator (seed);// mt19937_64 is a mersenne_twister_engine
+  valueStr.casUniq.assign (to_string(generator()));
   if (casUniq.empty())
   {
-    unsigned seed = curSystemTime;
     casCheck = false;
-
-    mt19937_64 generator (seed);// mt19937_64 is a mersenne_twister_engine
-    valueStr.casUniq.assign (to_string(generator()));
   }
   valueStr.flags.assign(flags);
   
@@ -402,7 +401,7 @@ int dbInsertElement (const string &key, const string &flags,
       value.size();
     if (casCheck == true)
     {
-      if ((getCasFromMap(get<0>(notAlreadyExists)).compare(valueStr.casUniq) 
+      if ((getCasFromMap(get<0>(notAlreadyExists)).compare(casUniq) 
             != 0))
       {
         gKeyToValueMutex[hashTblNum].unlock();
