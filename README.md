@@ -4,8 +4,10 @@ memstashed
 A multithreaded memcached server
 
 Memstashed Design
+-----------------
 
 Salient Features
+----------------
 
 An unordered-map stores the entries according to the key. This allows constant time retrieval of entries using the key on average. A set of keys, ordered according to the timestamp of the entries, allows constant time retrieval of the least recently used entry.
 
@@ -15,11 +17,15 @@ Within a bucket, eviction is based on LRU. A slight modification has been done t
 
 A feature of the design is that a live entry may get pushed out of the cache even though the same bucket contains an expired entry. Eviction depends on the timestamps, and so, if an expired entry has been accessed/ modified recently, it will have a newer timestamp. It is not possible to get expired entries from the timestamp-key pair because that will not be constant time. This is not as bad as it sounds because frequently accessed items will have new timestamps, and a deleted element will get to the end of the queue very quickly.
 
+
 Tests Performed
+---------------
 
 The memcapable suite from libmemcached is used for verifying correctness. All the ascii test cases of the test suite have been run and they all pass. Only one test case needed to be modified – the cas value received by the test suite was changed into an unsigned long long int from an unsigned long int in order for it to work properly on x86 machines.
 
+
 Instructions for Use
+--------------------
 
 The source can be found at https://github.com/guptha-/memstashed.
 
