@@ -288,6 +288,10 @@ static void removeLRUElement (unsigned int hashTblNum)
     valueIter = valueOne;
     timestampKeyIter = timestampKeyOne;
   }
+  if (valueIter == gKeyToValueHashMap[hashTblNum].end())
+  {
+    return;
+  }
   gStoredSize -= 2 * (*timestampKeyIter).key.size() + 
     2 * sizeof((*timestampKeyIter).timestamp) + 
     (getCasFromMap(valueIter)).size() + 
@@ -366,6 +370,7 @@ int dbInsertElement (const string &key, const string &flags,
         cout<<"Not enough memory to store even one element"<<endl;
         return MEMORY_FULL;
       }
+      continue;
     }
     else
     {
