@@ -33,8 +33,11 @@ void sockHandleIncomingConn (int sockFd)
   char   buffer[80];
   int close_conn = FALSE;
   int readMore = 0;
+  unsigned int pos = 0;
   string data;
   string output;
+  string persistentData;
+  bool persistFlag = false;
   /*************************************************/
   /* Receive all incoming data on this socket      */
   /* before we loop back and call select again.    */
@@ -47,33 +50,59 @@ void sockHandleIncomingConn (int sockFd)
     /* failure occurs, we will close the          */
     /* connection.                                */
     /**********************************************/
-    int rc = recv(sockFd, buffer, sizeof(buffer), 0);
-    if (rc < 0)
+    int rc;
+    if (!persistentData.empty())
     {
-      if (errno != EWOULDBLOCK)
+      persistFlag = true;
+      data.append(persistentData);
+      persistentData.clear();
+    }
+    else
+    {
+      rc = recv(sockFd, buffer, sizeof(buffer), 0);
+      if (rc < 0)
       {
-        perror("  recv() failed");
-        close_conn = TRUE;
+        if (errno != EWOULDBLOCK)
+        {
+          perror("  recv() failed");
+          close_conn = TRUE;
+        }
+        break;
       }
-      break;
-    }
 
-    /**********************************************/
-    /* Check to see if the connection has been    */
-    /* closed by the client                       */
-    /**********************************************/
-    if (rc == 0)
+      /**********************************************/
+      /* Check to see if the connection has been    */
+      /* closed by the client                       */
+      /**********************************************/
+      if (rc == 0)
+      {
+        close_conn = TRUE;
+        break;
+      }
+
+      /**********************************************/
+      /* Data was received                          */
+      /**********************************************/
+
+      data.append(buffer, rc);
+      readMore -= rc; // If readMore was initially 0, it will now be -ve
+    }
+    unsigned int oldPos = pos + 2;
+    pos = data.find("\r\n", oldPos);
+    if (pos == string::npos)
     {
-      close_conn = TRUE;
-      break;
+      // Cannot find an endline, have to read more from the input stream
+      pos = oldPos - 2;
+      continue;
     }
-
-    /**********************************************/
-    /* Data was received                          */
-    /**********************************************/
-
-    data.append(buffer, rc);
-    readMore -= rc; // If readMore was initially 0, it will now be -ve
+    persistentData.assign(data, pos + 2, string::npos);
+    data.erase(pos + 2, string::npos);
+    if (persistFlag == true)
+    {
+      readMore -= (pos - oldPos + 2);
+      persistFlag = false;
+    }
+    // If readMore was initially 0, it will now be -ve
     if (readMore > 0)
     {
       // We have to receive more information
@@ -87,7 +116,7 @@ void sockHandleIncomingConn (int sockFd)
     // requested. If the client doesn't supply the full data soon, the 
     // connection remains hanging till the client goes away. One solution is to
     // use setsockopt to specify a timeout for recv
-    if ((buffer[rc - 2] == '\r') && (buffer[rc - 1] == '\n'))
+    if ((*(data.end() - 2) == '\r') && (*(data.end() - 1) == '\n'))
     {
       // End of command string
       
@@ -108,6 +137,7 @@ void sockHandleIncomingConn (int sockFd)
       char *sendbuf = (char *)output.c_str();
       int sd = send(sockFd, sendbuf, output.length(), 0);
       output.clear();
+      pos = 0;
     }
     // If the read string doesn't end with a \r\n, continue looking for i/p
   } while (TRUE);
