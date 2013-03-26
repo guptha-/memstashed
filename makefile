@@ -27,7 +27,7 @@ INC = $(patsubst %,$(INCDIR)/%,$(INCF))
 
 CREATEDIR = mkdir -p obj bin
 
-all: hoard memstashed test
+all: hoard memstashed
 
 hoard: hoard/src/libhoard.so
 
