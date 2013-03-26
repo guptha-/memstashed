@@ -17,6 +17,8 @@ Within a bucket, eviction is based on LRU. A slight modification has been done t
 
 A feature of the design is that a live entry may get pushed out of the cache even though the same bucket contains an expired entry. Eviction depends on the timestamps, and so, if an expired entry has been accessed/ modified recently, it will have a newer timestamp. It is not possible to get expired entries from the timestamp-key pair because that will not be constant time. This is not as bad as it sounds because frequently accessed items will have new timestamps, and a deleted element will get to the end of the queue very quickly.
 
+The server can optionally use Hoard, a high performance memory allocator that scales well. Please see the documentation on the Hoard github page for how to use this.
+
 
 Tests Performed
 ---------------
