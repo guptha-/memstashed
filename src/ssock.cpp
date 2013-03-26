@@ -135,7 +135,7 @@ void sockHandleIncomingConn (int sockFd)
       // Done processing this command
       data.clear();
       char *sendbuf = (char *)output.c_str();
-      int sd = send(sockFd, sendbuf, output.length(), 0);
+      send(sockFd, sendbuf, output.length(), 0);
       output.clear();
       pos = 0;
     }

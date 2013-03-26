@@ -1099,6 +1099,7 @@ int cmdProcessVerbosity (const string &input, string &output)
 
   // We have everything to do the actual processing.
   // We don't actually have anything for verbosity. Just a mockup
+  verb = verb + 1;
   if (noreply == false)
   {
     output.assign("OK\r\n");
@@ -1134,6 +1135,26 @@ int cmdProcessStats (const string &input, string &output)
     output.assign("CLIENT_ERROR quit has no options\r\n");
     return 0;
   }
+  output.assign("STAT ");
+  output.assign("pid ");
+  output.assign(to_string(getpid()));
+  output.assign("\r\n");
+
+  output.assign("STAT ");
+  output.assign("time ");
+  time_t curSystemTime;
+  time(&curSystemTime);
+  output.assign(to_string(curSystemTime));
+  output.assign("\r\n");
+
+  output.assign("STAT ");
+  output.assign("version ");
+  output.assign(VERSION_STRING);
+
+  output.assign("STAT ");
+  output.assign("threads ");
+  output.assign(to_string(gServWorkerThreads));
+  output.assign("\r\n");
   output.assign("END\r\n");
   return 0;
 }		/* -----  end of function cmdProcessStats  ----- */
